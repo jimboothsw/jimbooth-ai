@@ -1,0 +1,160 @@
+<svg viewBox="0 0 1200 1220" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="na" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+    <marker id="nas" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#9095A0"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="600" y="42" text-anchor="middle" font-size="22" font-weight="500" fill="#0E1014">The network fabric under an AI cluster</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Not enterprise networking — a fabric whose job is keeping thousands of GPUs in lockstep</text>
+
+  <!-- ============ TWO SCALES BANNER ============ -->
+  <rect x="40" y="92" width="1120" height="64" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="300" y="118" text-anchor="middle" font-size="13" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">SCALE-UP  (inside the node / rack)</text>
+  <text x="300" y="140" text-anchor="middle" font-size="11.5" font-style="italic" fill="#545963">NVLink + NVSwitch — GPUs talk as one big GPU</text>
+  <line x1="600" y1="104" x2="600" y2="144" stroke="#DFE2E7"/>
+  <text x="880" y="118" text-anchor="middle" font-size="13" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">SCALE-OUT  (node to node, across the cluster)</text>
+  <text x="880" y="140" text-anchor="middle" font-size="11.5" font-style="italic" fill="#545963">InfiniBand or RoCE/Spectrum-X — the RDMA fabric</text>
+
+  <!-- ============ COLUMN 1: SCALE-UP ============ -->
+  <rect x="40" y="172" width="360" height="470" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="220" y="204" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">SCALE-UP FABRIC</text>
+  <text x="220" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">NVLink domain</text>
+  <line x1="70" y1="238" x2="370" y2="238" stroke="#DFE2E7"/>
+
+  <text x="62" y="264" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">NVLink</text>
+  <text x="62" y="286" font-size="12" fill="#0E1014">GPU-to-GPU direct interconnect</text>
+  <text x="62" y="304" font-size="11" font-style="italic" fill="#545963">far faster than PCIe; coherent</text>
+  <text x="62" y="320" font-size="11" font-style="italic" fill="#545963">memory access across GPUs</text>
+
+  <text x="62" y="350" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">NVSwitch</text>
+  <text x="62" y="372" font-size="12" fill="#0E1014">crossbar tying all GPUs together</text>
+  <text x="62" y="390" font-size="11" font-style="italic" fill="#545963">every GPU talks to every other at</text>
+  <text x="62" y="406" font-size="11" font-style="italic" fill="#545963">full NVLink bandwidth, non-blocking</text>
+
+  <text x="62" y="436" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">THE DOMAIN</text>
+  <text x="62" y="458" font-size="12" fill="#0E1014">GB200 NVL72 = 72 GPUs in one</text>
+  <text x="62" y="476" font-size="12" fill="#0E1014">NVLink domain = "one big GPU"</text>
+  <text x="62" y="494" font-size="11" font-style="italic" fill="#545963">a rack-scale coherent compute unit;</text>
+  <text x="62" y="510" font-size="11" font-style="italic" fill="#545963">this is why the rack pulls ~120kW+</text>
+
+  <text x="62" y="540" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">your lane: that power -&gt; the heat</text>
+  <text x="62" y="556" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">you were cooling at Accelsius</text>
+
+  <rect x="56" y="600" width="328" height="28" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="64" y="618" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: NVLink degraded -&gt; intra-rack collectives slow</text>
+
+  <!-- ============ COLUMN 2: SCALE-OUT ============ -->
+  <rect x="420" y="172" width="360" height="470" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="204" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">SCALE-OUT FABRIC</text>
+  <text x="600" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">the RDMA network between nodes</text>
+  <line x1="450" y1="238" x2="750" y2="238" stroke="#DFE2E7"/>
+
+  <text x="442" y="264" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">INFINIBAND</text>
+  <text x="442" y="286" font-size="12" fill="#0E1014">lossless by design; UFM manages</text>
+  <text x="442" y="302" font-size="11" font-style="italic" fill="#545963">subnet mgr, credit-based flow ctrl;</text>
+  <text x="442" y="318" font-size="11" font-style="italic" fill="#545963">default for highest-end training</text>
+
+  <text x="442" y="348" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">RoCE / SPECTRUM-X</text>
+  <text x="442" y="370" font-size="12" fill="#0E1014">RDMA over Ethernet</text>
+  <text x="442" y="388" font-size="11" font-style="italic" fill="#545963">needs PFC + ECN to be lossless;</text>
+  <text x="442" y="404" font-size="11" font-style="italic" fill="#545963">Spectrum-X = NVIDIA's tuned stack</text>
+
+  <text x="442" y="434" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">TOPOLOGY</text>
+  <text x="442" y="456" font-size="12" fill="#0E1014">rail-optimized fat-tree</text>
+  <text x="442" y="474" font-size="11" font-style="italic" fill="#545963">each GPU's NIC on its own "rail";</text>
+  <text x="442" y="490" font-size="11" font-style="italic" fill="#545963">non-blocking, full bisection BW</text>
+  <text x="442" y="512" font-size="12" fill="#0E1014">ConnectX NICs · Quantum (IB) /</text>
+  <text x="442" y="528" font-size="12" fill="#0E1014">Spectrum (Eth) switches · BlueField</text>
+
+  <text x="442" y="558" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">lossless is the whole game:</text>
+  <text x="442" y="574" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">RDMA can't tolerate packet loss</text>
+
+  <rect x="436" y="600" width="328" height="28" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="444" y="618" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: RoCE w/o PFC/ECN -&gt; loss -&gt; collective collapse</text>
+
+  <!-- ============ COLUMN 3: WHAT RUNS ON TOP ============ -->
+  <rect x="800" y="172" width="360" height="470" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="980" y="204" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">WHAT RUNS ON TOP</text>
+  <text x="980" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">why the fabric exists: collectives</text>
+  <line x1="830" y1="238" x2="1130" y2="238" stroke="#DFE2E7"/>
+
+  <text x="822" y="264" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">NCCL</text>
+  <text x="822" y="286" font-size="12" fill="#0E1014">the collective comms library</text>
+  <text x="822" y="304" font-size="11" font-style="italic" fill="#545963">all-reduce, all-gather, reduce-</text>
+  <text x="822" y="320" font-size="11" font-style="italic" fill="#545963">scatter — how GPUs sync gradients</text>
+  <text x="822" y="338" font-size="11" font-style="italic" fill="#545963">picks NVLink intra-node, RDMA inter</text>
+
+  <text x="822" y="368" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">WHY IT'S LOCKSTEP</text>
+  <text x="822" y="390" font-size="11" font-style="italic" fill="#545963">an all-reduce waits for the slowest</text>
+  <text x="822" y="406" font-size="11" font-style="italic" fill="#545963">GPU — one slow link stalls the</text>
+  <text x="822" y="422" font-size="11" font-style="italic" fill="#545963">whole training step. tail latency</text>
+  <text x="822" y="438" font-size="11" font-style="italic" fill="#545963">is what kills throughput, not avg.</text>
+
+  <text x="822" y="468" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">PARALLELISM MAPS TO FABRIC</text>
+  <text x="822" y="490" font-size="12" fill="#0E1014">tensor parallel -&gt; NVLink (intra)</text>
+  <text x="822" y="508" font-size="12" fill="#0E1014">pipeline / data parallel -&gt; RDMA</text>
+  <text x="822" y="524" font-size="11" font-style="italic" fill="#545963">put the chattiest parallelism on</text>
+  <text x="822" y="540" font-size="11" font-style="italic" fill="#545963">the fastest link — that's the art</text>
+
+  <text x="822" y="570" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">observability: DCGM (GPU),</text>
+  <text x="822" y="586" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">UFM (IB fabric)</text>
+
+  <rect x="816" y="600" width="328" height="28" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="824" y="618" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: one slow link -&gt; tail latency -&gt; cluster idles</text>
+
+  <!-- ============ SPINE ============ -->
+  <line x1="40" y1="672" x2="1160" y2="672" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="704" text-anchor="middle" font-size="15" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">THE SPINE: THE FABRIC EXISTS TO MAKE MANY GPUs ACT LIKE ONE</text>
+  <text x="600" y="728" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Scale-up (NVLink) inside the rack, scale-out (RDMA) across racks — and a collective is only as fast as the slowest link in it.</text>
+
+  <!-- the hierarchy visual: GPU -> node -> rack -> cluster -->
+  <text x="600" y="772" text-anchor="middle" font-size="13" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">THE BANDWIDTH HIERARCHY  (fastest / nearest  →  slowest / farthest)</text>
+
+  <rect x="120" y="792" width="220" height="74" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="2.5"/>
+  <text x="230" y="820" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Within a GPU</text>
+  <text x="230" y="840" text-anchor="middle" font-size="11" fill="#545963">HBM · on-die SRAM</text>
+  <text x="230" y="856" text-anchor="middle" font-size="10.5" font-style="italic" fill="#9095A0">TB/s, nanoseconds</text>
+
+  <line x1="340" y1="829" x2="372" y2="829" stroke="#0E1014" stroke-width="1.5" marker-end="url(#na)"/>
+
+  <rect x="374" y="792" width="220" height="74" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="484" y="820" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">GPU ↔ GPU (rack)</text>
+  <text x="484" y="840" text-anchor="middle" font-size="11" fill="#545963">NVLink / NVSwitch</text>
+  <text x="484" y="856" text-anchor="middle" font-size="10.5" font-style="italic" fill="#9095A0">scale-up, non-blocking</text>
+
+  <line x1="594" y1="829" x2="626" y2="829" stroke="#0E1014" stroke-width="1.5" marker-end="url(#na)"/>
+
+  <rect x="628" y="792" width="220" height="74" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="738" y="820" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Node ↔ Node</text>
+  <text x="738" y="840" text-anchor="middle" font-size="11" fill="#545963">InfiniBand / RoCE</text>
+  <text x="738" y="856" text-anchor="middle" font-size="10.5" font-style="italic" fill="#9095A0">scale-out, RDMA</text>
+
+  <line x1="848" y1="829" x2="880" y2="829" stroke="#0E1014" stroke-width="1.5" marker-end="url(#na)"/>
+
+  <rect x="882" y="792" width="200" height="74" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="982" y="820" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Cluster</text>
+  <text x="982" y="840" text-anchor="middle" font-size="11" fill="#545963">spine / core switches</text>
+  <text x="982" y="856" text-anchor="middle" font-size="10.5" font-style="italic" fill="#9095A0">fat-tree, bisection BW</text>
+
+  <text x="600" y="900" text-anchor="middle" font-size="11.5" font-style="italic" fill="#545963">The architect's job: keep the chattiest communication on the fastest tier. Tensor-parallel on NVLink; data-parallel can cross the RDMA fabric.</text>
+
+  <!-- ============ FRAMING FOOTER ============ -->
+  <line x1="40" y1="936" x2="1160" y2="936" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="966" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">The framing: a 4,096-GPU cluster is a networking problem wearing a compute costume.</text>
+  <text x="600" y="990" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Customers buy GPUs but they live or die on the fabric. Idle GPUs waiting on a collective are the most expensive thing in the building.</text>
+
+  <text x="600" y="1026" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">THE THREE NUMBERS THAT MATTER</text>
+  <text x="300" y="1058" text-anchor="middle" font-size="12" fill="#0E1014">bisection bandwidth</text>
+  <text x="300" y="1076" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">can every node talk at full rate at once?</text>
+  <text x="600" y="1058" text-anchor="middle" font-size="12" fill="#0E1014">tail latency</text>
+  <text x="600" y="1076" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">the slowest link sets the collective's pace</text>
+  <text x="900" y="1058" text-anchor="middle" font-size="12" fill="#0E1014">oversubscription ratio</text>
+  <text x="900" y="1076" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">how much the topology cheats on bandwidth</text>
+
+  <text x="600" y="1116" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.04em" fill="#9095A0">commands / tools:  ibstat · ibv_devinfo · rdma link show · nccl-tests (all_reduce_perf) · ibping · show_gids · UFM · DCGM</text>
+</svg>

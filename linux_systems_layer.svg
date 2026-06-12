@@ -1,0 +1,157 @@
+<svg viewBox="0 0 1200 1180" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="la" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="600" y="42" text-anchor="middle" font-size="22" font-weight="500" fill="#0E1014">The Linux systems layer under a GPU node</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">What the OS is doing beneath the containers — and where partner clusters break</text>
+
+  <!-- ============ COLUMN 1: NETWORKING ============ -->
+  <rect x="40" y="96" width="360" height="520" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="220" y="128" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">NETWORKING</text>
+  <text x="220" y="148" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">moving bytes between nodes</text>
+  <line x1="70" y1="162" x2="370" y2="162" stroke="#DFE2E7"/>
+
+  <!-- transport -->
+  <text x="62" y="188" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">RDMA TRANSPORT</text>
+  <text x="62" y="210" font-size="13" font-weight="500" fill="#0E1014">InfiniBand</text>
+  <text x="62" y="228" font-size="11" font-style="italic" fill="#545963">purpose-built lossless fabric;</text>
+  <text x="62" y="244" font-size="11" font-style="italic" fill="#545963">own link layer + subnet mgr (UFM)</text>
+  <text x="62" y="268" font-size="13" font-weight="500" fill="#0E1014">RoCE / Spectrum-X</text>
+  <text x="62" y="286" font-size="11" font-style="italic" fill="#545963">RDMA over Ethernet; needs PFC</text>
+  <text x="62" y="302" font-size="11" font-style="italic" fill="#545963">+ ECN to stay lossless</text>
+  <text x="62" y="324" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">both -&gt; verbs API (libibverbs)</text>
+
+  <line x1="70" y1="342" x2="370" y2="342" stroke="#E8EAEE"/>
+
+  <!-- what the NIC presents -->
+  <text x="62" y="368" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">WHAT THE NIC PRESENTS</text>
+  <text x="62" y="390" font-size="12" fill="#0E1014">NIC -&gt; eth0 + RDMA dev (mlx5_0)</text>
+  <text x="62" y="408" font-size="12" fill="#0E1014">BlueField DPU -&gt; own Arm + OS,</text>
+  <text x="62" y="424" font-size="11" font-style="italic" fill="#545963">offloads net/storage/security;</text>
+  <text x="62" y="440" font-size="11" font-style="italic" fill="#545963">SR-IOV: 1 NIC -&gt; many virtual NICs</text>
+
+  <line x1="70" y1="458" x2="370" y2="458" stroke="#E8EAEE"/>
+
+  <!-- isolation/overlays -->
+  <text x="62" y="484" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">TENANT ISOLATION</text>
+  <text x="62" y="506" font-size="12" fill="#0E1014">bridges -&gt; software L2 switch</text>
+  <text x="62" y="524" font-size="11" font-style="italic" fill="#545963">(docker0; container-to-container)</text>
+  <text x="62" y="546" font-size="12" fill="#0E1014">VXLAN overlays -&gt; L2 across hosts</text>
+  <text x="62" y="564" font-size="11" font-style="italic" fill="#545963">VNI tags each tenant's traffic</text>
+
+  <!-- failure mode -->
+  <rect x="56" y="578" width="328" height="28" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="64" y="596" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: RoCE w/o PFC -&gt; loss -&gt; NCCL stalls</text>
+
+  <!-- ============ COLUMN 2: STORAGE ============ -->
+  <rect x="420" y="96" width="360" height="520" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="128" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">STORAGE</text>
+  <text x="600" y="148" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">feeding the dataset to the GPUs</text>
+  <line x1="450" y1="162" x2="750" y2="162" stroke="#DFE2E7"/>
+
+  <!-- what the OS sees -->
+  <text x="442" y="188" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">WHAT THE OS SEES</text>
+  <text x="442" y="210" font-size="12" fill="#0E1014">filesystem = abstraction over block dev</text>
+  <text x="442" y="228" font-size="12" fill="#0E1014">mount attaches it; fstab persists</text>
+  <text x="442" y="250" font-size="12" fill="#0E1014">local: ext4 / xfs on NVMe (scratch)</text>
+  <text x="442" y="268" font-size="12" fill="#0E1014">shared: NFS / Lustre / VAST / WEKA</text>
+  <text x="442" y="284" font-size="11" font-style="italic" fill="#545963">training reads same data from 100s</text>
+  <text x="442" y="300" font-size="11" font-style="italic" fill="#545963">of nodes -&gt; needs 100s of GB/s</text>
+
+  <line x1="450" y1="318" x2="750" y2="318" stroke="#E8EAEE"/>
+
+  <!-- NVMe -->
+  <text x="442" y="344" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">NVMe &amp; NVMe-oF</text>
+  <text x="442" y="366" font-size="12" fill="#0E1014">NVMe -&gt; /dev/nvme0n1, deep queues</text>
+  <text x="442" y="384" font-size="12" fill="#0E1014">NVMe-oF -&gt; remote SSD appears local</text>
+  <text x="442" y="400" font-size="11" font-style="italic" fill="#545963">over RDMA or TCP; disaggregation</text>
+  <text x="442" y="416" font-size="11" font-style="italic" fill="#545963">= compute nodes carry no capacity</text>
+
+  <line x1="450" y1="434" x2="750" y2="434" stroke="#E8EAEE"/>
+
+  <!-- GDS -->
+  <text x="442" y="460" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">GPUDIRECT STORAGE</text>
+  <text x="442" y="482" font-size="12" fill="#0E1014">DMA straight to HBM</text>
+  <text x="442" y="500" font-size="11" font-style="italic" fill="#545963">skips page cache + bounce buffer;</text>
+  <text x="442" y="516" font-size="11" font-style="italic" fill="#545963">nvidia-fs driver + cuFile API</text>
+  <text x="442" y="538" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">your lane: storage x GPU</text>
+
+  <!-- failure mode -->
+  <rect x="436" y="578" width="328" height="28" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="444" y="596" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: NFS w/o RDMA -&gt; CPU-bound -&gt; GPUs starve</text>
+
+  <!-- ============ COLUMN 3: ISOLATION ============ -->
+  <rect x="800" y="96" width="360" height="520" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="980" y="128" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">ISOLATION</text>
+  <text x="980" y="148" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">under containers &amp; GPU scheduling</text>
+  <line x1="830" y1="162" x2="1130" y2="162" stroke="#DFE2E7"/>
+
+  <!-- what a container is -->
+  <text x="822" y="188" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">WHAT A CONTAINER IS</text>
+  <text x="822" y="210" font-size="12" fill="#0E1014">a normal process + 2 kernel features</text>
+  <text x="822" y="232" font-size="13" font-weight="500" fill="#0E1014">namespaces = what it can SEE</text>
+  <text x="822" y="248" font-size="11" font-style="italic" fill="#545963">PID, net, mount, user — own view</text>
+  <text x="822" y="270" font-size="13" font-weight="500" fill="#0E1014">cgroups = what it can USE</text>
+  <text x="822" y="286" font-size="11" font-style="italic" fill="#545963">CPU, mem, I/O, device limits</text>
+  <text x="822" y="310" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">not a VM — shared kernel</text>
+
+  <line x1="830" y1="328" x2="1130" y2="328" stroke="#E8EAEE"/>
+
+  <!-- GPU into a container -->
+  <text x="822" y="354" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">GPU INTO A CONTAINER</text>
+  <text x="822" y="376" font-size="12" fill="#0E1014">GPU = device (/dev/nvidia0 ...)</text>
+  <text x="822" y="394" font-size="12" fill="#0E1014">NVIDIA Container Toolkit injects</text>
+  <text x="822" y="410" font-size="11" font-style="italic" fill="#545963">device nodes + driver libs + CUDA</text>
+  <text x="822" y="426" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">= why --gpus all works</text>
+
+  <line x1="830" y1="444" x2="1130" y2="444" stroke="#E8EAEE"/>
+
+  <!-- k8s + sharing -->
+  <text x="822" y="470" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">SCHEDULING &amp; SHARING</text>
+  <text x="822" y="492" font-size="12" fill="#0E1014">K8s device plugin -&gt; nvidia.com/gpu</text>
+  <text x="822" y="510" font-size="12" fill="#0E1014">GPU Operator -&gt; driver/toolkit/DCGM</text>
+  <text x="822" y="532" font-size="12" fill="#0E1014">MIG -&gt; HW partition of 1 GPU</text>
+  <text x="822" y="548" font-size="11" font-style="italic" fill="#545963">MPS / time-slice -&gt; softer sharing</text>
+
+  <!-- failure mode -->
+  <rect x="816" y="578" width="328" height="28" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="824" y="596" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: driver/toolkit drift across nodes</text>
+
+  <!-- ============ UNIFYING SPINE ============ -->
+  <line x1="40" y1="650" x2="1160" y2="650" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="682" text-anchor="middle" font-size="15" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">THE SPINE: THE CPU IS BEING PUSHED OUT OF THE DATA PATH</text>
+  <text x="600" y="706" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Networking, storage, and GPU-to-GPU all bypass the CPU; it becomes a control-plane orchestrator, not a data-plane participant.</text>
+
+  <!-- the stack visual -->
+  <text x="600" y="752" text-anchor="middle" font-size="13" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">HOW THE LAYERS STACK ON ONE NODE</text>
+
+  <!-- stack boxes bottom-up -->
+  <rect x="300" y="772" width="600" height="40" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="797" text-anchor="middle" font-size="12.5" fill="#0E1014">Hardware: GPUs · NVLink/NVSwitch · NIC/DPU · NVMe</text>
+
+  <rect x="300" y="818" width="600" height="40" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="843" text-anchor="middle" font-size="12.5" fill="#0E1014">Kernel: drivers · RDMA verbs · nvidia-fs · block layer · cgroups + namespaces</text>
+
+  <rect x="300" y="864" width="600" height="40" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="889" text-anchor="middle" font-size="12.5" fill="#0E1014">Runtime: containerd + NVIDIA Container Toolkit · CUDA · NCCL</text>
+
+  <rect x="300" y="910" width="600" height="40" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="935" text-anchor="middle" font-size="12.5" fill="#0E1014">Orchestration: Kubernetes + GPU Operator   /   Slurm + BCM</text>
+
+  <rect x="300" y="956" width="600" height="40" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="981" text-anchor="middle" font-size="12.5" fill="#0E1014">Workload: training (NeMo) · inference (Triton / NIM / Dynamo)</text>
+
+  <!-- up arrow spanning the stack -->
+  <line x1="270" y1="996" x2="270" y2="772" stroke="#9095A0" stroke-width="1.2" marker-end="url(#la)"/>
+  <text x="258" y="890" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0" transform="rotate(-90 258 890)">abstraction rises</text>
+
+  <!-- ============ FRAMING FOOTER ============ -->
+  <line x1="40" y1="1024" x2="1160" y2="1024" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="1054" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">The right mindset: know each layer as "here's what it does, and here's what breaks when it's wrong."</text>
+  <text x="600" y="1078" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Partners don't pay for a recitation of the stack — they pay for someone who knows which layer is starving their GPUs at 2am.</text>
+  <text x="600" y="1110" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.04em" fill="#9095A0">commands worth knowing:  lsblk · nvme list · findmnt · ip link · ibstat · ibv_devinfo · rdma link show · lsns · nvidia-smi · nvidia-smi mig -lgip</text>
+</svg>

@@ -1,0 +1,67 @@
+<svg viewBox="0 0 820 740" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <!-- title -->
+  <text x="410" y="36" text-anchor="middle" font-size="20" font-weight="500" fill="#0E1014">Where the tools sit</text>
+  <text x="410" y="58" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">What I used vs where NCP customers operate at scale</text>
+
+  <!-- quadrant grid -->
+  <line x1="110" y1="110" x2="110" y2="610" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="110" y1="610" x2="710" y2="610" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="410" y1="110" x2="410" y2="610" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="110" y1="360" x2="710" y2="360" stroke="#DFE2E7" stroke-width="1"/>
+
+  <!-- axis labels -->
+  <text x="98" y="360" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963" transform="rotate(-90 98 360)">PROTOTYPE  &lt;-  -&gt;  ENTERPRISE</text>
+  <text x="410" y="645" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">SINGLE-GPU ITERATION  &lt;-  -&gt;  MULTI-NODE PRODUCTION</text>
+
+  <!-- corner labels -->
+  <text x="124" y="128" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">ENTERPRISE / SINGLE-NODE</text>
+  <text x="696" y="128" text-anchor="end" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">ENTERPRISE / MULTI-NODE</text>
+  <text x="124" y="598" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">RESEARCH / SINGLE-GPU</text>
+  <text x="696" y="598" text-anchor="end" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">RESEARCH / MULTI-NODE</text>
+
+  <!-- top-left: enterprise single-node -->
+  <circle cx="180" cy="230" r="6" fill="#0E1014"/>
+  <text x="194" y="234" font-size="13" font-weight="500" fill="#0E1014">NVIDIA NIM</text>
+  <text x="194" y="252" font-size="11" font-style="italic" fill="#545963">packaged microservice</text>
+
+  <!-- top-right: enterprise multi-node (where NCPs live) -->
+  <!-- annotation sits in clear gap below corner label, above dots -->
+  <text x="500" y="175" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#0E1014">WHERE NCPs OPERATE</text>
+  <text x="500" y="192" font-size="11" font-style="italic" fill="#545963">100s-1000s of GPUs, multi-tenant</text>
+
+  <circle cx="500" cy="230" r="6" fill="#0E1014"/>
+  <text x="514" y="234" font-size="13" font-weight="500" fill="#0E1014">NeMo Framework</text>
+
+  <circle cx="500" cy="262" r="6" fill="#0E1014"/>
+  <text x="514" y="266" font-size="13" font-weight="500" fill="#0E1014">Dynamo</text>
+
+  <circle cx="500" cy="294" r="6" fill="#0E1014"/>
+  <text x="514" y="298" font-size="13" font-weight="500" fill="#0E1014">Triton (clusters)</text>
+
+  <circle cx="500" cy="326" r="6" fill="#0E1014"/>
+  <text x="514" y="330" font-size="13" font-weight="500" fill="#0E1014">BCM + Slurm</text>
+
+  <!-- bottom-left: what Jim used -->
+  <circle cx="180" cy="470" r="6" fill="#0E1014"/>
+  <text x="194" y="474" font-size="13" font-weight="500" fill="#0E1014">Unsloth</text>
+
+  <circle cx="180" cy="502" r="6" fill="#0E1014"/>
+  <text x="194" y="506" font-size="13" font-weight="500" fill="#0E1014">PEFT / TRL</text>
+
+  <circle cx="180" cy="534" r="6" fill="#0E1014"/>
+  <text x="194" y="538" font-size="13" font-weight="500" fill="#0E1014">vLLM (standalone)</text>
+
+  <!-- "we are here" annotation in open center-bottom space -->
+  <text x="330" y="500" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#0E1014">&lt;- WE ARE HERE</text>
+  <text x="330" y="518" font-size="11" font-style="italic" fill="#545963">single H100, fast iteration</text>
+
+  <!-- bottom-right: scaled research -->
+  <circle cx="500" cy="490" r="6" fill="#0E1014" fill-opacity="0.5"/>
+  <text x="514" y="494" font-size="13" fill="#545963">DeepSpeed / FSDP</text>
+
+  <circle cx="500" cy="522" r="6" fill="#0E1014" fill-opacity="0.5"/>
+  <text x="514" y="526" font-size="13" fill="#545963">Ray / Ray Train</text>
+
+  <!-- caption -->
+  <text x="410" y="690" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Same problems, different tools. The conversation is which to use when.</text>
+</svg>

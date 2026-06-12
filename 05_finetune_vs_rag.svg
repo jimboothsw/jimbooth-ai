@@ -1,0 +1,75 @@
+<svg viewBox="0 0 1000 820" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <!-- title -->
+  <text x="500" y="48" text-anchor="middle" font-size="24" font-weight="500" fill="#0E1014">Fine-tune vs RAG — when to use which</text>
+  <text x="500" y="72" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Two different things, often confused as alternatives</text>
+
+  <!-- LEFT COLUMN: Fine-tune -->
+  <rect x="60" y="110" width="420" height="500" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="270" y="148" text-anchor="middle" font-size="22" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">Fine-tune</text>
+  <text x="270" y="170" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">LORA · PEFT · MODIFIES WEIGHTS</text>
+  <line x1="100" y1="186" x2="440" y2="186" stroke="#DFE2E7"/>
+
+  <!-- Use for -->
+  <text x="80" y="218" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.12em" fill="#0E1014">USE FOR</text>
+
+  <g font-size="15" fill="#0E1014">
+    <text x="80" y="248">+  Style, tone, voice</text>
+    <text x="80" y="275">+  Output format (JSON, structured)</text>
+    <text x="80" y="302">+  Domain fluency / terminology</text>
+    <text x="80" y="329">+  Task specialization</text>
+    <text x="80" y="356">+  Behavior shaping</text>
+  </g>
+
+  <!-- Avoid for -->
+  <text x="80" y="408" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.12em" fill="#0E1014">AVOID FOR</text>
+
+  <g font-size="15" fill="#545963">
+    <text x="80" y="438">−  Facts that must be correct</text>
+    <text x="80" y="465">−  Knowledge that changes</text>
+    <text x="80" y="492">−  Citations / provenance</text>
+    <text x="80" y="519">−  Large knowledge bases</text>
+  </g>
+
+  <text x="270" y="582" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">teaches the model how to behave</text>
+
+  <!-- RIGHT COLUMN: RAG -->
+  <rect x="520" y="110" width="420" height="500" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="730" y="148" text-anchor="middle" font-size="22" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">RAG</text>
+  <text x="730" y="170" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">RETRIEVAL · MODIFIES CONTEXT</text>
+  <line x1="560" y1="186" x2="900" y2="186" stroke="#DFE2E7"/>
+
+  <!-- Use for -->
+  <text x="540" y="218" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.12em" fill="#0E1014">USE FOR</text>
+
+  <g font-size="15" fill="#0E1014">
+    <text x="540" y="248">+  Facts, policies, specs</text>
+    <text x="540" y="275">+  Knowledge that changes</text>
+    <text x="540" y="302">+  Citation &amp; provenance</text>
+    <text x="540" y="329">+  Private / proprietary data</text>
+    <text x="540" y="356">+  Large knowledge bases</text>
+  </g>
+
+  <!-- Avoid for -->
+  <text x="540" y="408" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.12em" fill="#0E1014">AVOID FOR</text>
+
+  <g font-size="15" fill="#545963">
+    <text x="540" y="438">−  Style or format shaping</text>
+    <text x="540" y="465">−  Behavior changes</text>
+    <text x="540" y="492">−  Latency-critical paths</text>
+    <text x="540" y="519">−  Tight context budgets</text>
+  </g>
+
+  <text x="730" y="582" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">teaches the model what's true right now</text>
+
+  <!-- bottom synthesis bar -->
+  <rect x="60" y="640" width="880" height="90" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="500" y="675" text-anchor="middle" font-size="16" font-weight="500" fill="#0E1014">Production reality: usually both.</text>
+  <text x="500" y="702" text-anchor="middle" font-size="14" fill="#545963">NVIDIA's NeMo Framework + NeMo Retriever stack is designed for the combination.</text>
+
+  <!-- sticky note rule of thumb -->
+  <g transform="rotate(-3 820 780)">
+    <rect x="690" y="745" width="260" height="62" rx="1" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+    <text x="820" y="773" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" font-style="italic" fill="#7A5F1E">RULE OF THUMB</text>
+    <text x="820" y="796" text-anchor="middle" font-size="14" font-weight="500" fill="#0E1014">fine-tune for form, RAG for facts</text>
+  </g>
+</svg>

@@ -1,0 +1,177 @@
+<svg viewBox="0 0 1200 1240" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="pa" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+    <marker id="pas" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#9095A0"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="600" y="42" text-anchor="middle" font-size="22" font-weight="500" fill="#0E1014">Mapping parallelism to the fabric</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Why a cluster is laid out the way it is: put the chattiest parallelism on the fastest link</text>
+
+  <!-- core principle banner -->
+  <rect x="40" y="92" width="1120" height="58" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="118" text-anchor="middle" font-size="13.5" font-weight="500" fill="#0E1014">A model too big for one GPU is split four ways at once. Each split has a different communication cost —</text>
+  <text x="600" y="138" text-anchor="middle" font-size="13.5" font-weight="500" fill="#0E1014">and the layout rule is: match the most bandwidth-hungry split to the highest-bandwidth tier.</text>
+
+  <!-- ============ FOUR PARALLELISM TYPES ============ -->
+  <!-- TENSOR PARALLEL -->
+  <rect x="40" y="172" width="270" height="330" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="175" y="202" text-anchor="middle" font-size="15" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">TENSOR</text>
+  <text x="175" y="220" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">split one layer's math</text>
+  <line x1="64" y1="234" x2="286" y2="234" stroke="#DFE2E7"/>
+
+  <text x="56" y="260" font-size="11.5" fill="#0E1014">A single matrix multiply is</text>
+  <text x="56" y="277" font-size="11.5" fill="#0E1014">split across GPUs; each does</text>
+  <text x="56" y="294" font-size="11.5" fill="#0E1014">a slice of the same layer.</text>
+
+  <text x="56" y="324" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">CHATTER</text>
+  <text x="56" y="344" font-size="11.5" font-weight="500" fill="#0E1014">extreme — every layer,</text>
+  <text x="56" y="360" font-size="11.5" font-weight="500" fill="#0E1014">every forward + backward</text>
+  <text x="56" y="378" font-size="11" font-style="italic" fill="#545963">all-reduce inside each layer</text>
+
+  <text x="56" y="408" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">MAPS TO</text>
+  <rect x="56" y="420" width="198" height="32" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="155" y="441" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">NVLink (scale-up)</text>
+  <text x="56" y="474" font-size="11" font-style="italic" fill="#545963">keep it inside one NVLink</text>
+  <text x="56" y="490" font-size="11" font-style="italic" fill="#545963">domain — never cross nodes</text>
+
+  <!-- PIPELINE PARALLEL -->
+  <rect x="325" y="172" width="270" height="330" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="460" y="202" text-anchor="middle" font-size="15" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">PIPELINE</text>
+  <text x="460" y="220" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">split the layers into stages</text>
+  <line x1="349" y1="234" x2="571" y2="234" stroke="#DFE2E7"/>
+
+  <text x="341" y="260" font-size="11.5" fill="#0E1014">Different GPUs hold different</text>
+  <text x="341" y="277" font-size="11.5" fill="#0E1014">layers; activations flow stage</text>
+  <text x="341" y="294" font-size="11.5" fill="#0E1014">to stage like an assembly line.</text>
+
+  <text x="341" y="324" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">CHATTER</text>
+  <text x="341" y="344" font-size="11.5" font-weight="500" fill="#0E1014">moderate — pass activations</text>
+  <text x="341" y="360" font-size="11.5" font-weight="500" fill="#0E1014">at stage boundaries only</text>
+  <text x="341" y="378" font-size="11" font-style="italic" fill="#545963">point-to-point, not all-reduce</text>
+
+  <text x="341" y="408" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">MAPS TO</text>
+  <rect x="341" y="420" width="198" height="32" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="440" y="441" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">RDMA (scale-out)</text>
+  <text x="341" y="474" font-size="11" font-style="italic" fill="#545963">can cross nodes; watch for</text>
+  <text x="341" y="490" font-size="11" font-style="italic" fill="#545963">"bubbles" — idle stages</text>
+
+  <!-- DATA PARALLEL -->
+  <rect x="610" y="172" width="270" height="330" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="745" y="202" text-anchor="middle" font-size="15" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">DATA</text>
+  <text x="745" y="220" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">replicate model, split batch</text>
+  <line x1="634" y1="234" x2="856" y2="234" stroke="#DFE2E7"/>
+
+  <text x="626" y="260" font-size="11.5" fill="#0E1014">Every GPU has a full copy of</text>
+  <text x="626" y="277" font-size="11.5" fill="#0E1014">the model; each trains on a</text>
+  <text x="626" y="294" font-size="11.5" fill="#0E1014">different slice of the batch.</text>
+
+  <text x="626" y="324" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">CHATTER</text>
+  <text x="626" y="344" font-size="11.5" font-weight="500" fill="#0E1014">periodic — one all-reduce</text>
+  <text x="626" y="360" font-size="11.5" font-weight="500" fill="#0E1014">of gradients per step</text>
+  <text x="626" y="378" font-size="11" font-style="italic" fill="#545963">big, but once per step</text>
+
+  <text x="626" y="408" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">MAPS TO</text>
+  <rect x="626" y="420" width="198" height="32" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="725" y="441" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">RDMA (scale-out)</text>
+  <text x="626" y="474" font-size="11" font-style="italic" fill="#545963">tolerates the fabric; FSDP /</text>
+  <text x="626" y="490" font-size="11" font-style="italic" fill="#545963">ZeRO shard to save memory</text>
+
+  <!-- EXPERT PARALLEL -->
+  <rect x="895" y="172" width="265" height="330" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="1027" y="202" text-anchor="middle" font-size="15" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">EXPERT (MoE)</text>
+  <text x="1027" y="220" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">route tokens to experts</text>
+  <line x1="919" y1="234" x2="1136" y2="234" stroke="#DFE2E7"/>
+
+  <text x="911" y="260" font-size="11.5" fill="#0E1014">Each GPU holds different</text>
+  <text x="911" y="277" font-size="11.5" fill="#0E1014">"experts"; a router sends each</text>
+  <text x="911" y="294" font-size="11.5" fill="#0E1014">token to the right ones.</text>
+
+  <text x="911" y="324" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">CHATTER</text>
+  <text x="911" y="344" font-size="11.5" font-weight="500" fill="#0E1014">bursty all-to-all — every</text>
+  <text x="911" y="360" font-size="11.5" font-weight="500" fill="#0E1014">token shuffles to its expert</text>
+  <text x="911" y="378" font-size="11" font-style="italic" fill="#545963">all-to-all is the hard pattern</text>
+
+  <text x="911" y="408" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">MAPS TO</text>
+  <rect x="911" y="420" width="198" height="32" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="1010" y="441" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">NVLink within domain</text>
+  <text x="911" y="472" font-size="11" font-style="italic" fill="#545963">spills to RDMA at frontier scale;</text>
+  <text x="911" y="487" font-size="11" font-style="italic" fill="#545963">the data-dependent all-to-all is</text>
+  <text x="911" y="502" font-size="11" font-style="italic" fill="#545963">why EP is hardest to tune</text>
+
+  <!-- ============ THE COMBINED PICTURE ============ -->
+  <line x1="40" y1="532" x2="1160" y2="532" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="564" text-anchor="middle" font-size="15" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">3D PARALLELISM: ALL THREE AT ONCE ON A REAL CLUSTER</text>
+  <text x="600" y="588" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">A frontier model is split tensor + pipeline + data simultaneously. The layout nests them by communication cost.</text>
+
+  <!-- nested layout visual -->
+  <!-- data parallel: outermost, spans cluster -->
+  <rect x="120" y="610" width="960" height="220" rx="2" fill="none" stroke="#9095A0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="140" y="630" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#545963">DATA PARALLEL — replicas across the cluster (RDMA, once per step)</text>
+
+  <!-- replica 1 -->
+  <rect x="150" y="644" width="430" height="168" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.2"/>
+  <text x="365" y="664" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">REPLICA 1 — pipeline stages across nodes (RDMA)</text>
+
+  <!-- pipeline stage A (node 1) with tensor-parallel GPUs -->
+  <rect x="164" y="676" width="190" height="124" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.2"/>
+  <text x="259" y="694" text-anchor="middle" font-size="10.5" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">NODE / NVLink domain</text>
+  <text x="259" y="708" text-anchor="middle" font-size="9.5" font-style="italic" fill="#545963">pipeline stage A</text>
+  <rect x="178" y="718" width="74" height="32" rx="1" fill="#FAFBFC" stroke="#0E1014" stroke-width="1"/>
+  <text x="215" y="738" text-anchor="middle" font-size="9.5" fill="#0E1014">GPU (TP)</text>
+  <rect x="266" y="718" width="74" height="32" rx="1" fill="#FAFBFC" stroke="#0E1014" stroke-width="1"/>
+  <text x="303" y="738" text-anchor="middle" font-size="9.5" fill="#0E1014">GPU (TP)</text>
+  <text x="259" y="768" text-anchor="middle" font-size="9" font-style="italic" fill="#9095A0">tensor-parallel on NVLink</text>
+  <text x="259" y="782" text-anchor="middle" font-size="9" font-style="italic" fill="#9095A0">(extreme chatter, fastest link)</text>
+
+  <!-- arrow pipeline -->
+  <line x1="356" y1="738" x2="386" y2="738" stroke="#0E1014" stroke-width="1.5" marker-end="url(#pa)"/>
+  <text x="371" y="730" text-anchor="middle" font-size="8" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">RDMA</text>
+
+  <!-- pipeline stage B (node 2) -->
+  <rect x="388" y="676" width="178" height="124" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.2"/>
+  <text x="477" y="694" text-anchor="middle" font-size="10.5" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">NODE / NVLink domain</text>
+  <text x="477" y="708" text-anchor="middle" font-size="9.5" font-style="italic" fill="#545963">pipeline stage B</text>
+  <rect x="402" y="718" width="70" height="32" rx="1" fill="#FAFBFC" stroke="#0E1014" stroke-width="1"/>
+  <text x="437" y="738" text-anchor="middle" font-size="9.5" fill="#0E1014">GPU (TP)</text>
+  <rect x="484" y="718" width="70" height="32" rx="1" fill="#FAFBFC" stroke="#0E1014" stroke-width="1"/>
+  <text x="519" y="738" text-anchor="middle" font-size="9.5" fill="#0E1014">GPU (TP)</text>
+  <text x="477" y="768" text-anchor="middle" font-size="9" font-style="italic" fill="#9095A0">tensor-parallel on NVLink</text>
+  <text x="477" y="782" text-anchor="middle" font-size="9" font-style="italic" fill="#9095A0">(extreme chatter, fastest link)</text>
+
+  <!-- replica 2 (ghosted, shows it repeats) -->
+  <rect x="620" y="644" width="430" height="168" rx="2" fill="#FAFBFC" stroke="#9095A0" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="835" y="664" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">REPLICA 2 — same structure, full model copy</text>
+  <text x="835" y="730" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">...and N more replicas across the cluster.</text>
+  <text x="835" y="750" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">Gradients all-reduce across replicas</text>
+  <text x="835" y="766" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">once per step over the RDMA fabric.</text>
+
+  <!-- nesting key -->
+  <text x="600" y="858" text-anchor="middle" font-size="11.5" font-style="italic" fill="#545963">Innermost = tensor parallel (NVLink). Middle = pipeline (RDMA). Outermost = data parallel (RDMA). Chattiest is nested deepest, on the fastest link.</text>
+
+  <!-- ============ FRAMING ============ -->
+  <line x1="40" y1="894" x2="1160" y2="894" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="924" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">The framing: "how many GPUs?" is the wrong first question. "How is the model split, and does the topology match?" is the right one.</text>
+  <text x="600" y="948" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">A customer with tensor-parallel spilling across nodes has a misconfigured cluster — the NVLink domain size dictates the TP degree.</text>
+
+  <text x="600" y="986" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">THE RULES OF THUMB</text>
+
+  <rect x="120" y="1006" width="460" height="120" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="140" y="1032" font-size="12" fill="#0E1014">- Tensor-parallel degree &lt;= NVLink domain size</text>
+  <text x="140" y="1056" font-size="12" fill="#0E1014">- Never let TP cross the RDMA boundary</text>
+  <text x="140" y="1080" font-size="12" fill="#0E1014">- Pipeline depth trades bubbles vs cross-node hops</text>
+  <text x="140" y="1104" font-size="12" fill="#0E1014">- Data-parallel is the most fabric-tolerant — scale it widest</text>
+
+  <rect x="620" y="1006" width="460" height="120" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="640" y="1032" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">WHY GB200 NVL72 MATTERS</text>
+  <text x="640" y="1056" font-size="11.5" font-style="italic" fill="#545963">72 GPUs in one NVLink domain = a huge TP+EP budget.</text>
+  <text x="640" y="1076" font-size="11.5" font-style="italic" fill="#545963">The point: NVL72's domain size makes frontier MoE</text>
+  <text x="640" y="1096" font-size="11.5" font-style="italic" fill="#545963">all-to-all affordable on scale-up — the expert shuffle</text>
+  <text x="640" y="1112" font-size="11.5" font-style="italic" fill="#545963">that used to spill to slower RDMA now fits on the fast link.</text>
+
+  <text x="600" y="1164" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.04em" fill="#9095A0">terms to have ready:  TP · PP · DP · EP · 3D parallelism · FSDP · ZeRO · all-reduce · all-to-all · pipeline bubble · activation checkpointing</text>
+</svg>

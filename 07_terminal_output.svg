@@ -1,0 +1,43 @@
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <!-- title above terminal -->
+  <text x="450" y="30" text-anchor="middle" font-size="14" font-weight="500" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif" fill="#0E1014">Training run receipts</text>
+  <text x="450" y="50" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#9095A0">SINGLE H100 80GB · BREV.DEV</text>
+
+  <!-- terminal frame -->
+  <rect x="40" y="70" width="820" height="370" rx="4" fill="#0E1014"/>
+
+  <!-- title bar -->
+  <rect x="40" y="70" width="820" height="26" rx="4" fill="#1a1d22"/>
+  <circle cx="60" cy="83" r="5" fill="#545963"/>
+  <circle cx="78" cy="83" r="5" fill="#545963"/>
+  <circle cx="96" cy="83" r="5" fill="#545963"/>
+  <text x="450" y="87" text-anchor="middle" font-size="11" fill="#9095A0">ubuntu@brev-fa05csjq7: ~  —  python train.py</text>
+
+  <!-- terminal content -->
+  <g font-size="11" fill="#DFE2E7">
+    <text x="58" y="118">🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.</text>
+    <text x="58" y="134">==((====))==  Unsloth 2026.5.8: Fast Llama patching. Transformers: 4.57.6.</text>
+    <text x="58" y="150">   \\   /|    NVIDIA H100 80GB HBM3. Num GPUs = 1. Max memory: 79.179 GB.</text>
+    <text x="58" y="166">O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 9.0. Toolkit: 12.8. Triton: 3.6.0</text>
+    <text x="58" y="182">\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]</text>
+    <text x="58" y="198"> "----"      Free license: http://github.com/unslothai/unsloth</text>
+
+    <text x="58" y="226" fill="#9095A0">==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1</text>
+    <text x="58" y="242" fill="#9095A0">   \\   /|    Num examples = 44 | Num Epochs = 3 | Total steps = 18</text>
+    <text x="58" y="258" fill="#9095A0">O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 4</text>
+    <text x="58" y="274" fill="#9095A0">\        /    Data Parallel GPUs = 1 | Total batch size (2 x 4 x 1) = 8</text>
+    <text x="58" y="290" fill="#9095A0"> "----"       Trainable parameters = 41,943,040 of 8,072,204,288 (0.52% trained)</text>
+
+    <text x="58" y="318" fill="#FAFBFC">{'loss': 2.8592, 'grad_norm': 3.585, 'learning_rate': 1.75e-4, 'epoch': 0.91}</text>
+    <text x="58" y="334" fill="#FAFBFC">{'loss': 1.5753, 'grad_norm': 1.280, 'learning_rate': 1.13e-4, 'epoch': 1.73}</text>
+    <text x="58" y="350" fill="#FAFBFC">{'loss': 1.3355, 'grad_norm': 1.515, 'learning_rate': 5.00e-5, 'epoch': 2.55}</text>
+
+    <text x="58" y="378" fill="#DFE2E7">{'train_runtime': 22.5194, 'train_samples_per_second': 5.862,</text>
+    <text x="58" y="394" fill="#DFE2E7"> 'train_steps_per_second': 0.799, 'train_loss': 1.7879, 'epoch': 3.0}</text>
+
+    <text x="58" y="422" fill="#9095A0">Unsloth: Merge process complete. Saved to `/home/ubuntu/llama31-8b-aiinfra`</text>
+  </g>
+
+  <!-- caption -->
+  <text x="450" y="468" text-anchor="middle" font-size="12" font-style="italic" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif" fill="#545963">22 seconds of actual training. The rest was download and merge.</text>
+</svg>

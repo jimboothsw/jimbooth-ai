@@ -1,0 +1,70 @@
+<svg viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="arrowInkPipe" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="600" y="40" text-anchor="middle" font-size="20" font-weight="500" fill="#0E1014">Experiment pipeline</text>
+  <text x="600" y="62" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">~$10 COMPUTE · 4 HOURS WALL CLOCK · SINGLE H100</text>
+
+  <!-- box 1: GPT-4o -->
+  <rect x="40" y="120" width="180" height="120" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="130" y="148" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">STEP 1</text>
+  <text x="130" y="172" text-anchor="middle" font-size="16" font-weight="500" fill="#0E1014">GPT-4o</text>
+  <line x1="60" y1="186" x2="200" y2="186" stroke="#DFE2E7"/>
+  <text x="130" y="208" text-anchor="middle" font-size="12" fill="#545963">synthetic data</text>
+  <text x="130" y="224" text-anchor="middle" font-size="12" fill="#545963">generation</text>
+
+  <!-- arrow 1 -->
+  <line x1="222" y1="180" x2="248" y2="180" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrowInkPipe)"/>
+  <text x="235" y="170" text-anchor="middle" font-size="9" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">12 × 5</text>
+
+  <!-- box 2: Dataset -->
+  <rect x="252" y="120" width="180" height="120" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="342" y="148" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">STEP 2</text>
+  <text x="342" y="172" text-anchor="middle" font-size="16" font-weight="500" fill="#0E1014">Dataset</text>
+  <line x1="272" y1="186" x2="412" y2="186" stroke="#DFE2E7"/>
+  <text x="342" y="208" text-anchor="middle" font-size="12" fill="#545963">56 Q&amp;A pairs</text>
+  <text x="342" y="224" text-anchor="middle" font-size="12" fill="#545963">44 train / 12 eval</text>
+
+  <!-- arrow 2 -->
+  <line x1="434" y1="180" x2="460" y2="180" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrowInkPipe)"/>
+  <text x="447" y="170" text-anchor="middle" font-size="9" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">jsonl</text>
+
+  <!-- box 3: Training (emphasized) -->
+  <rect x="464" y="120" width="180" height="120" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="554" y="148" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">STEP 3</text>
+  <text x="554" y="172" text-anchor="middle" font-size="16" font-weight="500" fill="#0E1014">Unsloth + PEFT</text>
+  <line x1="484" y1="186" x2="624" y2="186" stroke="#DFE2E7"/>
+  <text x="554" y="208" text-anchor="middle" font-size="12" fill="#545963">LoRA r=16, 3 epochs</text>
+  <text x="554" y="224" text-anchor="middle" font-size="12" fill="#545963">22 sec training</text>
+
+  <!-- arrow 3 -->
+  <line x1="646" y1="180" x2="672" y2="180" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrowInkPipe)"/>
+  <text x="659" y="170" text-anchor="middle" font-size="9" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">merge</text>
+
+  <!-- box 4: Merged model -->
+  <rect x="676" y="120" width="180" height="120" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="766" y="148" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">STEP 4</text>
+  <text x="766" y="172" text-anchor="middle" font-size="16" font-weight="500" fill="#0E1014">Merged model</text>
+  <line x1="696" y1="186" x2="836" y2="186" stroke="#DFE2E7"/>
+  <text x="766" y="208" text-anchor="middle" font-size="12" fill="#545963">15 GB safetensors</text>
+  <text x="766" y="224" text-anchor="middle" font-size="12" fill="#545963">8B params, bf16</text>
+
+  <!-- arrow 4 -->
+  <line x1="858" y1="180" x2="884" y2="180" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrowInkPipe)"/>
+  <text x="871" y="170" text-anchor="middle" font-size="9" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">serve</text>
+
+  <!-- box 5: Eval -->
+  <rect x="888" y="120" width="180" height="120" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="978" y="148" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">STEP 5</text>
+  <text x="978" y="172" text-anchor="middle" font-size="16" font-weight="500" fill="#0E1014">vLLM + judge</text>
+  <line x1="908" y1="186" x2="1048" y2="186" stroke="#DFE2E7"/>
+  <text x="978" y="208" text-anchor="middle" font-size="12" fill="#545963">pairwise eval</text>
+  <text x="978" y="224" text-anchor="middle" font-size="12" fill="#545963">position-bias corrected</text>
+
+  <!-- footer note -->
+  <text x="600" y="300" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Most blog posts skip steps 2 and 5. That's where the engineering is.</text>
+</svg>

@@ -1,0 +1,193 @@
+<svg viewBox="0 0 1200 1320" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="sa" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+    <marker id="sas" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#9095A0"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="600" y="42" text-anchor="middle" font-size="22" font-weight="500" fill="#0E1014">Storage for AI — the layer that feeds the cluster</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Storage isn't capacity here — it's a bandwidth problem with two very different I/O patterns</text>
+
+  <!-- core principle banner -->
+  <rect x="40" y="92" width="1120" height="58" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="118" text-anchor="middle" font-size="13.5" font-weight="500" fill="#0E1014">Thousands of GPUs read the same dataset at once and dump enormous checkpoints periodically.</text>
+  <text x="600" y="138" text-anchor="middle" font-size="13.5" font-weight="500" fill="#0E1014">The storage layer's only job: never be the reason a GPU waits.</text>
+
+  <!-- ============ COLUMN 1: TWO I/O PATTERNS ============ -->
+  <rect x="40" y="172" width="360" height="500" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="220" y="204" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">TWO I/O PATTERNS</text>
+  <text x="220" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">they pull in opposite directions</text>
+  <line x1="70" y1="238" x2="370" y2="238" stroke="#DFE2E7"/>
+
+  <text x="62" y="264" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">DATASET READ</text>
+  <text x="62" y="286" font-size="11.5" fill="#0E1014">many GPUs, many small random</text>
+  <text x="62" y="302" font-size="11.5" fill="#0E1014">reads of the same training data</text>
+  <text x="62" y="320" font-size="11" font-style="italic" fill="#545963">read-heavy, high concurrency,</text>
+  <text x="62" y="336" font-size="11" font-style="italic" fill="#545963">cacheable (same data re-read each epoch)</text>
+  <text x="62" y="356" font-size="11" font-style="italic" fill="#545963">wants: high IOPS + read throughput</text>
+
+  <line x1="70" y1="376" x2="370" y2="376" stroke="#E8EAEE"/>
+
+  <text x="62" y="402" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">CHECKPOINT WRITE</text>
+  <text x="62" y="424" font-size="11.5" fill="#0E1014">all GPUs dump model state at</text>
+  <text x="62" y="440" font-size="11.5" fill="#0E1014">once — huge synchronized burst</text>
+  <text x="62" y="458" font-size="11" font-style="italic" fill="#545963">write-heavy, bursty, enormous;</text>
+  <text x="62" y="474" font-size="11" font-style="italic" fill="#545963">a trillion-param model = TBs/checkpoint</text>
+  <text x="62" y="494" font-size="11" font-style="italic" fill="#545963">wants: huge sequential write bandwidth</text>
+
+  <text x="62" y="524" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">WHY IT'S HARD</text>
+  <text x="62" y="544" font-size="11" font-style="italic" fill="#545963">while GPUs checkpoint, they're not</text>
+  <text x="62" y="560" font-size="11" font-style="italic" fill="#545963">training — checkpoint time is pure</text>
+  <text x="62" y="576" font-size="11" font-style="italic" fill="#545963">stall. Faster writes = more train time.</text>
+
+  <text x="62" y="606" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">your lane: 20 yrs of exactly this</text>
+  <text x="62" y="622" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">read/write workload characterization</text>
+
+  <rect x="56" y="638" width="328" height="22" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="64" y="653" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: slow checkpoint write -&gt; GPUs stall idle</text>
+
+  <!-- ============ COLUMN 2: ARCHITECTURE ============ -->
+  <rect x="420" y="172" width="360" height="500" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="204" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">THE ARCHITECTURE</text>
+  <text x="600" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">how AI storage is built now</text>
+  <line x1="450" y1="238" x2="750" y2="238" stroke="#DFE2E7"/>
+
+  <text x="442" y="264" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">PARALLEL FILESYSTEMS</text>
+  <text x="442" y="286" font-size="11.5" fill="#0E1014">data striped across many nodes;</text>
+  <text x="442" y="302" font-size="11.5" fill="#0E1014">clients read in parallel -&gt; aggregate</text>
+  <text x="442" y="318" font-size="11.5" fill="#0E1014">BW scales with node count</text>
+  <text x="442" y="334" font-size="11" font-style="italic" fill="#545963">classic: Lustre, GPFS · AI-era: VAST, WEKA</text>
+
+  <line x1="450" y1="352" x2="750" y2="352" stroke="#E8EAEE"/>
+
+  <text x="442" y="378" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">DASE (VAST's model)</text>
+  <text x="442" y="400" font-size="11.5" fill="#0E1014">Disaggregated Shared-Everything</text>
+  <text x="442" y="418" font-size="11.5" fill="#0E1014">stateless compute nodes + shared</text>
+  <text x="442" y="434" font-size="11.5" fill="#0E1014">NVMe over a fabric; every node</text>
+  <text x="442" y="450" font-size="11.5" fill="#0E1014">sees all data, no cross-talk</text>
+  <text x="442" y="466" font-size="11" font-style="italic" fill="#545963">scale compute + capacity independently;</text>
+  <text x="442" y="482" font-size="11" font-style="italic" fill="#545963">all-flash, made NFS viable for DGX</text>
+
+  <line x1="450" y1="500" x2="750" y2="500" stroke="#E8EAEE"/>
+
+  <text x="442" y="526" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">THE ACCESS PATH</text>
+  <text x="442" y="548" font-size="11.5" fill="#0E1014">NFS-over-RDMA / pNFS · NVMe-oF</text>
+  <text x="442" y="564" font-size="11.5" fill="#0E1014">-&gt; GPUDirect Storage -&gt; HBM</text>
+  <text x="442" y="582" font-size="11" font-style="italic" fill="#545963">POSIX simplicity + RDMA speed;</text>
+  <text x="442" y="598" font-size="11" font-style="italic" fill="#545963">the GPUDirect Storage bypass path</text>
+
+  <text x="442" y="620" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">GDS-certified: VAST, WEKA, DDN, Pure</text>
+
+  <rect x="436" y="638" width="328" height="22" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="444" y="653" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: capacity scaled, BW didn't -&gt; starved reads</text>
+
+  <!-- ============ COLUMN 3: TIERING ============ -->
+  <rect x="800" y="172" width="360" height="500" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="980" y="204" text-anchor="middle" font-size="16" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">TIERING</text>
+  <text x="980" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">right data on the right media</text>
+  <line x1="830" y1="238" x2="1130" y2="238" stroke="#DFE2E7"/>
+
+  <!-- hot -->
+  <rect x="858" y="256" width="244" height="40" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="2"/>
+  <text x="980" y="274" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">HOT — local NVMe</text>
+  <text x="980" y="289" text-anchor="middle" font-size="10" font-style="italic" fill="#545963">scratch, active shards, checkpoints</text>
+
+  <rect x="842" y="304" width="276" height="40" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="980" y="322" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">WARM — all-flash shared (VAST)</text>
+  <text x="980" y="337" text-anchor="middle" font-size="10" font-style="italic" fill="#545963">the training dataset, served to all</text>
+
+  <rect x="826" y="352" width="308" height="40" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="980" y="370" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">COLD — object store (S3)</text>
+  <text x="980" y="385" text-anchor="middle" font-size="10" font-style="italic" fill="#545963">raw corpus, archive, cheap + deep</text>
+
+  <line x1="1148" y1="380" x2="1148" y2="266" stroke="#9095A0" stroke-width="1.2" marker-end="url(#sas)"/>
+  <text x="1140" y="330" font-size="9" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0" transform="rotate(-90 1140 330)">faster, costlier</text>
+
+  <text x="822" y="420" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">THE DESIGN MOVE</text>
+  <text x="822" y="442" font-size="11.5" fill="#0E1014">stage hot data up before the run;</text>
+  <text x="822" y="458" font-size="11.5" fill="#0E1014">checkpoint to fast tier, drain to</text>
+  <text x="822" y="474" font-size="11.5" fill="#0E1014">cold async so GPUs resume fast</text>
+
+  <text x="822" y="504" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">SIZING THE TIERS</text>
+  <text x="822" y="526" font-size="11.5" fill="#0E1014">match tier BW to GPU appetite —</text>
+  <text x="822" y="542" font-size="11.5" fill="#0E1014">a rule of thumb is GB/s of read</text>
+  <text x="822" y="558" font-size="11.5" fill="#0E1014">BW per GPU, scaled by node count</text>
+  <text x="822" y="578" font-size="11" font-style="italic" fill="#545963">under-provision and GPUs starve;</text>
+  <text x="822" y="594" font-size="11" font-style="italic" fill="#545963">over-provision and waste capex</text>
+
+  <text x="822" y="620" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">sizing the tiers is the harder judgment call</text>
+
+  <rect x="816" y="638" width="328" height="22" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="824" y="653" font-size="10.5" font-style="italic" fill="#7A5F1E">BREAKS: cold tier in the hot path -&gt; epoch crawls</text>
+
+  <!-- ============ SPINE ============ -->
+  <line x1="40" y1="702" x2="1160" y2="702" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="734" text-anchor="middle" font-size="15" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">THE SPINE: STORAGE IS A BANDWIDTH PROBLEM, NOT A CAPACITY PROBLEM</text>
+  <text x="600" y="758" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Same disaggregation principle as the rest of the stack: separate capacity from performance, stripe for parallel bandwidth, bypass the CPU into HBM.</text>
+
+  <!-- the full read path visual -->
+  <text x="600" y="800" text-anchor="middle" font-size="13" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">THE FULL DATASET-READ PATH  (cold → HBM)</text>
+
+  <rect x="80" y="820" width="180" height="64" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="170" y="846" text-anchor="middle" font-size="12" font-weight="500" fill="#0E1014">Object store</text>
+  <text x="170" y="864" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">raw corpus (cold)</text>
+
+  <line x1="262" y1="852" x2="294" y2="852" stroke="#0E1014" stroke-width="1.5" marker-end="url(#sa)"/>
+  <text x="278" y="844" text-anchor="middle" font-size="8.5" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">stage</text>
+
+  <rect x="296" y="820" width="180" height="64" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="386" y="846" text-anchor="middle" font-size="12" font-weight="500" fill="#0E1014">Parallel FS</text>
+  <text x="386" y="864" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">VAST / WEKA (warm)</text>
+
+  <line x1="478" y1="852" x2="510" y2="852" stroke="#0E1014" stroke-width="1.5" marker-end="url(#sa)"/>
+  <text x="494" y="844" text-anchor="middle" font-size="8.5" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">RDMA</text>
+
+  <rect x="512" y="820" width="180" height="64" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="602" y="846" text-anchor="middle" font-size="12" font-weight="500" fill="#0E1014">NIC / controller</text>
+  <text x="602" y="864" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">NVMe-oF target</text>
+
+  <line x1="694" y1="852" x2="726" y2="852" stroke="#0E1014" stroke-width="1.5" marker-end="url(#sa)"/>
+  <text x="710" y="844" text-anchor="middle" font-size="8.5" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">GDS</text>
+
+  <rect x="728" y="820" width="180" height="64" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="818" y="846" text-anchor="middle" font-size="12" font-weight="500" fill="#0E1014">GPU HBM</text>
+  <text x="818" y="864" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">direct DMA, no CPU</text>
+
+  <line x1="910" y1="852" x2="942" y2="852" stroke="#0E1014" stroke-width="1.5" marker-end="url(#sa)"/>
+
+  <rect x="944" y="820" width="176" height="64" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="1032" y="846" text-anchor="middle" font-size="12" font-weight="500" fill="#0E1014">Tensor Cores</text>
+  <text x="1032" y="864" text-anchor="middle" font-size="10.5" font-style="italic" fill="#545963">finally, compute</text>
+
+  <text x="600" y="916" text-anchor="middle" font-size="11.5" font-style="italic" fill="#545963">Every arrow is a place a partner cluster can bottleneck. Tracing this path finds the one starving the GPUs.</text>
+
+  <!-- ============ VENDORS / FRAMING ============ -->
+  <line x1="40" y1="952" x2="1160" y2="952" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="600" y="982" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">THE VENDOR LANDSCAPE  (know who plays where)</text>
+
+  <rect x="120" y="1000" width="300" height="96" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="270" y="1024" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">VAST · WEKA</text>
+  <text x="135" y="1046" font-size="11" fill="#0E1014">AI-era all-flash, NFS/S3 +</text>
+  <text x="135" y="1062" font-size="11" fill="#0E1014">RDMA + GDS, disaggregated</text>
+  <text x="135" y="1082" font-size="10.5" font-style="italic" fill="#545963">the default for new NCP build-outs</text>
+
+  <rect x="450" y="1000" width="300" height="96" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="600" y="1024" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">DDN · Pure</text>
+  <text x="465" y="1046" font-size="11" fill="#0E1014">DDN: HPC heritage (Lustre),</text>
+  <text x="465" y="1062" font-size="11" fill="#0E1014">huge installed AI base; Pure:</text>
+  <text x="465" y="1082" font-size="10.5" font-style="italic" fill="#545963">enterprise flash moving into AI</text>
+
+  <rect x="780" y="1000" width="300" height="96" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="930" y="1024" text-anchor="middle" font-size="12.5" font-weight="500" fill="#0E1014">Lustre · GPFS</text>
+  <text x="795" y="1046" font-size="11" fill="#0E1014">classic HPC parallel FS;</text>
+  <text x="795" y="1062" font-size="11" fill="#0E1014">still everywhere in research</text>
+  <text x="795" y="1082" font-size="10.5" font-style="italic" fill="#545963">the incumbents AI-era vendors fight</text>
+
+  <text x="600" y="1136" text-anchor="middle" font-size="12" font-weight="500" fill="#0E1014">The framing: storage rewards deep infrastructure background — sizing tiers and choosing among parallel filesystems takes judgment that doesn't come from a textbook.</text>
+  <text x="600" y="1162" text-anchor="middle" font-size="11.5" font-style="italic" fill="#545963">The conversation that wins: "your GPUs idle X% on checkpoint and Y% on epoch reads — here's the tier + fabric design that fixes both."</text>
+  <text x="600" y="1196" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.04em" fill="#9095A0">terms:  parallel FS · DASE · pNFS · NVMe-oF · GDS · checkpoint stall · staging · tiering · IOPS vs throughput · bisection · all-flash</text>
+</svg>

@@ -1,0 +1,103 @@
+<svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <!-- title -->
+  <text x="550" y="40" text-anchor="middle" font-size="20" font-weight="500" fill="#0E1014">Smoke test — three prompts, two models</text>
+  <text x="550" y="62" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">The numbers said the tune worked. The qualitative review said something more interesting.</text>
+
+  <!-- table structure -->
+  <!-- columns: Prompt (220) | Base response (340) | Tuned response (340) | Verdict (180) -->
+  <!-- header row -->
+  <rect x="40" y="90" width="1020" height="44" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="50" y="117" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.1em" fill="#0E1014">PROMPT</text>
+  <text x="270" y="117" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.1em" fill="#0E1014">BASE RESPONSE</text>
+  <text x="615" y="117" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.1em" fill="#0E1014">TUNED RESPONSE</text>
+  <text x="960" y="117" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.1em" fill="#0E1014">VERDICT</text>
+
+  <!-- column dividers in header -->
+  <line x1="260" y1="90" x2="260" y2="134" stroke="#0E1014" stroke-width="1"/>
+  <line x1="605" y1="90" x2="605" y2="134" stroke="#0E1014" stroke-width="1"/>
+  <line x1="950" y1="90" x2="950" y2="134" stroke="#0E1014" stroke-width="1"/>
+
+  <!-- ROW 1: Slurm vs K8s -->
+  <rect x="40" y="134" width="1020" height="130" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="260" y1="134" x2="260" y2="264" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="605" y1="134" x2="605" y2="264" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="950" y1="134" x2="950" y2="264" stroke="#DFE2E7" stroke-width="1"/>
+
+  <text x="50" y="160" font-size="13" font-weight="500" fill="#0E1014">Slurm vs Kubernetes</text>
+  <text x="50" y="178" font-size="13" font-weight="500" fill="#0E1014">for AI workloads</text>
+
+  <text x="270" y="160" font-size="12" fill="#545963">"Kubernetes is geared toward</text>
+  <text x="270" y="176" font-size="12" fill="#545963">dynamic, stateful applications</text>
+  <text x="270" y="192" font-size="12" fill="#545963">like AI training. Slurm is better</text>
+  <text x="270" y="208" font-size="12" fill="#545963">for traditional batch processing."</text>
+  <text x="270" y="234" font-size="11" font-style="italic" fill="#9095A0">— inverted for NCP context</text>
+
+  <text x="615" y="160" font-size="12" fill="#545963">Same inversion, slightly more</text>
+  <text x="615" y="176" font-size="12" fill="#545963">technical depth on K8s features</text>
+  <text x="615" y="192" font-size="12" fill="#545963">(horizontal scaling, self-healing).</text>
+  <text x="615" y="208" font-size="12" fill="#545963">Still wrong on NCP framing.</text>
+  <text x="615" y="234" font-size="11" font-style="italic" fill="#9095A0">— marginal improvement</text>
+
+  <text x="960" y="170" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">MARGINAL</text>
+  <text x="960" y="186" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">EDGE TO</text>
+  <text x="960" y="202" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">TUNED</text>
+  <text x="960" y="228" font-size="11" font-style="italic" fill="#9095A0">both wrong on</text>
+  <text x="960" y="242" font-size="11" font-style="italic" fill="#9095A0">framing</text>
+
+  <!-- ROW 2: Disaggregated prefill/decode -->
+  <rect x="40" y="264" width="1020" height="130" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="260" y1="264" x2="260" y2="394" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="605" y1="264" x2="605" y2="394" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="950" y1="264" x2="950" y2="394" stroke="#DFE2E7" stroke-width="1"/>
+
+  <text x="50" y="290" font-size="13" font-weight="500" fill="#0E1014">Disaggregated</text>
+  <text x="50" y="308" font-size="13" font-weight="500" fill="#0E1014">prefill / decode</text>
+  <text x="50" y="326" font-size="13" font-weight="500" fill="#0E1014">inference</text>
+
+  <text x="270" y="290" font-size="12" fill="#545963">"A technique that separates the</text>
+  <text x="270" y="306" font-size="12" fill="#545963">prefill and decode stages for</text>
+  <text x="270" y="322" font-size="12" fill="#545963">more efficient resource use and</text>
+  <text x="270" y="338" font-size="12" fill="#545963">improved scalability."</text>
+  <text x="270" y="364" font-size="11" font-style="italic" fill="#9095A0">— generic, no specifics</text>
+
+  <text x="615" y="290" font-size="12" fill="#545963">Slightly more specific framing.</text>
+  <text x="615" y="306" font-size="12" fill="#545963">Missed key detail: prefill is</text>
+  <text x="615" y="322" font-size="12" fill="#545963">compute-bound, decode is mem-</text>
+  <text x="615" y="338" font-size="12" fill="#545963">bandwidth-bound. No NIXL.</text>
+  <text x="615" y="364" font-size="11" font-style="italic" fill="#9095A0">— better, still surface</text>
+
+  <text x="960" y="300" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">TUNED</text>
+  <text x="960" y="316" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">SLIGHTLY</text>
+  <text x="960" y="332" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">BETTER</text>
+
+  <!-- ROW 3: CDU (highlighted) -->
+  <rect x="40" y="394" width="1020" height="130" fill="#EDEEF1" stroke="#0E1014" stroke-width="2"/>
+  <line x1="260" y1="394" x2="260" y2="524" stroke="#9095A0" stroke-width="1"/>
+  <line x1="605" y1="394" x2="605" y2="524" stroke="#9095A0" stroke-width="1"/>
+  <line x1="950" y1="394" x2="950" y2="524" stroke="#9095A0" stroke-width="1"/>
+
+  <text x="50" y="420" font-size="13" font-weight="500" fill="#0E1014">CDU sizing for a</text>
+  <text x="50" y="438" font-size="13" font-weight="500" fill="#0E1014">150 kW GPU rack</text>
+
+  <text x="270" y="420" font-size="12" fill="#0E1014">"Size for max power draw of</text>
+  <text x="270" y="436" font-size="12" fill="#0E1014">150 kW, plus inrush current</text>
+  <text x="270" y="452" font-size="12" fill="#0E1014">at 2-3× max draw. Overload</text>
+  <text x="270" y="468" font-size="12" fill="#0E1014">protection is critical."</text>
+  <text x="270" y="494" font-size="11" font-style="italic" fill="#545963">— electrical hallucination</text>
+
+  <text x="615" y="420" font-size="12" fill="#0E1014">Same hallucination.</text>
+  <text x="615" y="436" font-size="12" fill="#0E1014">Inrush current, overload</text>
+  <text x="615" y="452" font-size="12" fill="#0E1014">protection. The 5 correct CDU</text>
+  <text x="615" y="468" font-size="12" fill="#0E1014">examples in training didn't take.</text>
+  <text x="615" y="494" font-size="11" font-style="italic" fill="#545963">— LoRA couldn't overwrite prior</text>
+
+  <text x="960" y="430" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" font-weight="500" fill="#0E1014">BOTH</text>
+  <text x="960" y="446" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" font-weight="500" fill="#0E1014">WRONG</text>
+  <text x="960" y="478" font-size="11" font-style="italic" fill="#545963">training data was</text>
+  <text x="960" y="492" font-size="11" font-style="italic" fill="#545963">correct — model</text>
+  <text x="960" y="506" font-size="11" font-style="italic" fill="#545963">didn't use it</text>
+
+  <!-- caption -->
+  <text x="550" y="565" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">The CDU row is the post's payload. Eval numbers reward authority;</text>
+  <text x="550" y="583" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">qualitative review catches what the numbers miss.</text>
+</svg>

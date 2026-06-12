@@ -1,0 +1,91 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 697 720" width="697" height="720"><style>tspan{white-space:pre}.a{font-size: 22px;fill: #0e1014;font-family: "' IB M  Plex  Sans'"}.b{font-size: 13px;fill: #545963;font-family: "' IB M  Plex  Sans'"}.c{fill:#edeef1;stroke:#0e1014;stroke-width:.9}.d{font-size: 14px;fill: #0e1014;font-family: "' IB M  Plex  Sans'"}.e{font-size: 16px;fill: #0e1014;font-family: "' IB M  Plex  Mono'"}.f{font-size: 11px;fill: #9095a0;font-family: "' IB M  Plex  Sans'"}.g{stroke:#dfe2e7;stroke-width:.6}.h{fill:#fafbfc;stroke:#0e1014;stroke-width:1.2}.i{font-size: 13px;fill: #0e1014;font-family: "' IB M  Plex  Sans'"}.j{font-size: 10px;fill: #545963;font-family: "' IB M  Plex  Sans'"}.k{fill:#fafbfc;stroke:#0e1014;stroke-width:.9}.l{fill:#edeef1;stroke:#0e1014;stroke-width:1.2}.m{stroke:#9095a0;stroke-width:.7}.n{font-size: 10px;fill: #9095a0;font-family: "' IB M  Plex  Mono'"}.o{font-size: 11px;fill: #0e1014;font-family: "' IB M  Plex  Mono'"}.p{font-size: 12px;fill: #545963;font-family: "' IB M  Plex  Sans'"}.q{font-size: 11px;fill: #9095a0;font-family: "' IB M  Plex  Mono'"}.r{fill:#f4ecd8;stroke:#c2a368;stroke-width:.6}.s{font-size: 11px;fill: #7a5f1e;font-family: "' IB M  Plex  Sans'"}.t{font-size: 12px;fill: #0e1014;font-family: "' IB M  Plex  Mono'"}.u{font-size: 12px;fill: #0e1014;font-family: "' IB M  Plex  Sans'"}.v{font-size: 11px;fill: #545963;font-family: "' IB M  Plex  Sans'"}.w{stroke:#e8eaee;stroke-width:.6}.x{font-size: 15px;fill: #0e1014;font-family: "' IB M  Plex  Mono'"}.y{font-size: 13px;fill: #0e1014;font-family: "' IB M  Plex  Mono'"}.z{font-size: 11px;fill: #0e1014;font-family: "' IB M  Plex  Sans'"}</style><text style="transform:matrix(.581,0,0,.581,348.5,24.387)"><tspan x="-200.2" y="0" class="a">Inside the GPU — the compute layer
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,38.323)"><tspan x="-252.4" y="0" class="b">A GPU is a memory-bandwidth machine pretending to be a compute machine
+</tspan></text><path fill-rule="evenodd" class="c" d="m24.4 53.4h648.2c0.6 0 1.2 0.5 1.2 1.2v31.3c0 0.7-0.6 1.2-1.2 1.2h-648.2c-0.6 0-1.2-0.5-1.2-1.2v-31.3c0-0.7 0.6-1.2 1.2-1.2z"/><text style="transform:matrix(.581,0,0,.581,348.5,68.516)"><tspan x="-336.3" y="0" class="d">The Tensor Cores can multiply faster than memory can feed them. Almost every optimization —
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,80.129)"><tspan x="-317.8" y="0" class="d">quantization, the memory hierarchy, kernel fusion — exists to keep the compute units fed.
+</tspan></text><path fill-rule="evenodd" class="c" d="m24.4 99.9h206.8c0.6 0 1.1 0.5 1.1 1.1v270.6c0 0.7-0.5 1.2-1.1 1.2h-206.8c-0.6 0-1.2-0.5-1.2-1.2v-270.6c0-0.6 0.6-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,127.783,118.452)"><tspan x="-83.4" y="0" class="e">MEMORY HIERARCHY
+</tspan></text><text style="transform:matrix(.581,0,0,.581,127.783,130.065)"><tspan x="-79.6" y="0" class="f">smaller + faster as you go in
+</tspan></text><path fill-rule="evenodd" class="g" d="m40.7 138.2h174.2"/><path fill-rule="evenodd" class="h" d="m59.2 146.3h137.1c0.7 0 1.2 0.5 1.2 1.2v20.9c0 0.6-0.5 1.1-1.2 1.1h-137.1c-0.6 0-1.1-0.5-1.1-1.1v-20.9c0-0.7 0.5-1.2 1.1-1.2z"/><text style="transform:matrix(.581,0,0,.581,127.783,156.774)"><tspan x="-30.1" y="0" class="i">Registers
+</tspan></text><text style="transform:matrix(.581,0,0,.581,127.783,165.484)"><tspan x="-59.3" y="0" class="j">per-thread, instant, tiny
+</tspan></text><path fill-rule="evenodd" class="k" d="m50 174.2h155.6c0.7 0 1.2 0.5 1.2 1.2v23.2c0 0.6-0.5 1.1-1.2 1.1h-155.6c-0.7 0-1.2-0.5-1.2-1.1v-23.2c0-0.7 0.5-1.2 1.2-1.2z"/><text style="transform:matrix(.581,0,0,.581,127.783,185.806)"><tspan x="-80.5" y="0" class="i">SRAM (shared mem / L1)
+</tspan></text><text style="transform:matrix(.581,0,0,.581,127.783,195.097)"><tspan x="-70.6" y="0" class="j">per-SM, ~10s TB/s, KB-scale
+</tspan></text><path fill-rule="evenodd" class="k" d="m40.7 204.4h174.2c0.6 0 1.2 0.5 1.2 1.1v23.3c0 0.6-0.6 1.1-1.2 1.1h-174.2c-0.7 0-1.2-0.5-1.2-1.1v-23.3c0-0.6 0.5-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,127.783,216)"><tspan x="-29.1" y="0" class="i">L2 cache
+</tspan></text><text style="transform:matrix(.581,0,0,.581,127.783,225.29)"><tspan x="-80.3" y="0" class="j">shared across SMs, ~tens of MB
+</tspan></text><path fill-rule="evenodd" class="l" d="m31.4 234.6h192.8c0.6 0 1.2 0.5 1.2 1.1v25.6c0 0.6-0.6 1.2-1.2 1.2h-192.8c-0.7 0-1.2-0.6-1.2-1.2v-25.6c0-0.6 0.5-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,127.783,246.194)"><tspan x="-101.2" y="0" class="i">HBM (the GPU's main memory)
+</tspan></text><text style="transform:matrix(.581,0,0,.581,127.783,255.484)"><tspan x="-94.7" y="0" class="j">~TB/s, tens-of-GB, where weights live
+</tspan></text><path fill-rule="evenodd" class="m" d="m237 255.5v-103.4"/><text style="transform:matrix(0,-0.581,.581,0,230.01,206.71)"><tspan x="0" y="0" class="n">faster, smaller
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,278.71)"><tspan x="0" y="0" class="o">THE KEY INSIGHT
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,290.323)"><tspan x="0" y="0" class="p">HBM bandwidth is the bottleneck for
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,299.613)"><tspan x="0" y="0" class="p">most inference. FlashAttention wins by
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,308.903)"><tspan x="0" y="0" class="p">keeping data in SRAM, not round-
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,318.194)"><tspan x="0" y="0" class="p">tripping to HBM.
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,335.613)"><tspan x="0" y="0" class="q">your lane: HBM is fed by the
+</tspan></text><text style="transform:matrix(.581,0,0,.581,32.527,344.903)"><tspan x="0" y="0" class="q">bypass path (GDS / RDMA)
+</tspan></text><path fill-rule="evenodd" class="r" d="m33.7 351.9h188.2c0.6 0 1.1 0.5 1.1 1.1v10.5c0 0.6-0.5 1.1-1.1 1.1h-188.2c-0.7 0-1.2-0.5-1.2-1.1v-10.5c0-0.6 0.5-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,37.173,360.581)"><tspan x="0" y="0" class="s">BREAKS: HBM-bound kernel -&gt; compute idles
+</tspan></text><path fill-rule="evenodd" class="k" d="m245.1 99.9h206.8c0.6 0 1.2 0.5 1.2 1.1v270.6c0 0.7-0.6 1.2-1.2 1.2h-206.8c-0.6 0-1.2-0.5-1.2-1.2v-270.6c0-0.6 0.6-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,348.5,118.452)"><tspan x="-66.1" y="0" class="e">COMPUTE UNITS
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,130.065)"><tspan x="-78.7" y="0" class="f">what actually does the math
+</tspan></text><path fill-rule="evenodd" class="g" d="m261.4 138.2h174.2"/><text style="transform:matrix(.581,0,0,.581,256.728,153.29)"><tspan x="0" y="0" class="t">SM (Streaming Multiprocessor)
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,166.065)"><tspan x="0" y="0" class="u">the GPU's core unit; a GPU has
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,175.355)"><tspan x="0" y="0" class="u">100+ SMs running in parallel
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,184.645)"><tspan x="0" y="0" class="v">each has CUDA cores + Tensor Cores
+</tspan></text><path fill-rule="evenodd" class="w" d="m261.4 195.1h174.2"/><text style="transform:matrix(.581,0,0,.581,256.728,210.194)"><tspan x="0" y="0" class="t">CUDA CORES
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,222.968)"><tspan x="0" y="0" class="u">general-purpose parallel ALUs
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,232.258)"><tspan x="0" y="0" class="v">the classic &quot;thousands of cores&quot;
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,249.677)"><tspan x="0" y="0" class="t">TENSOR CORES
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,262.452)"><tspan x="0" y="0" class="u">matrix-multiply-accumulate units
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,271.742)"><tspan x="0" y="0" class="u">built for exactly the GEMM that
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,281.032)"><tspan x="0" y="0" class="u">dominates deep learning
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,290.323)"><tspan x="0" y="0" class="v">this is the actual AI horsepower;
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,299.613)"><tspan x="0" y="0" class="v">FLOPS specs quote Tensor Core math
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,317.032)"><tspan x="0" y="0" class="q">CUDA = software model that maps
+</tspan></text><text style="transform:matrix(.581,0,0,.581,256.728,326.323)"><tspan x="0" y="0" class="q">your code onto all these SMs
+</tspan></text><path fill-rule="evenodd" class="r" d="m254.4 351.9h188.2c0.6 0 1.2 0.5 1.2 1.1v10.5c0 0.6-0.6 1.1-1.2 1.1h-188.2c-0.6 0-1.2-0.5-1.2-1.1v-10.5c0-0.6 0.6-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,257.89,360.581)"><tspan x="0" y="0" class="s">BREAKS: low occupancy -&gt; Tensor Cores starved
+</tspan></text><path fill-rule="evenodd" class="k" d="m465.8 99.9h206.8c0.6 0 1.2 0.5 1.2 1.1v270.6c0 0.7-0.6 1.2-1.2 1.2h-206.8c-0.6 0-1.1-0.5-1.1-1.2v-270.6c0-0.6 0.5-1.1 1.1-1.1z"/><text style="transform:matrix(.581,0,0,.581,569.217,118.452)"><tspan x="-43.1" y="0" class="e">PRECISION
+</tspan></text><text style="transform:matrix(.581,0,0,.581,569.217,130.065)"><tspan x="-90.3" y="0" class="f">fewer bits = more speed + room
+</tspan></text><path fill-rule="evenodd" class="g" d="m482.1 138.2h174.2"/><text style="transform:matrix(.581,0,0,.581,477.445,153.29)"><tspan x="0" y="0" class="t">THE LADDER
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,166.065)"><tspan x="0" y="0" class="u">FP32 -&gt; FP16 / BF16 -&gt; FP8 -&gt; FP4
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,175.355)"><tspan x="0" y="0" class="v">each step ~doubles throughput and
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,184.645)"><tspan x="0" y="0" class="v">halves memory footprint
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,202.065)"><tspan x="0" y="0" class="t">WHY IT MATTERS TWICE
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,214.839)"><tspan x="0" y="0" class="u">1. more FLOPS — Tensor Cores run
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,224.129)"><tspan x="0" y="0" class="u">    low precision much faster
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,235.742)"><tspan x="0" y="0" class="u">2. less memory — a model in FP8
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,245.032)"><tspan x="0" y="0" class="u">    is half the HBM of FP16
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,254.323)"><tspan x="0" y="0" class="v">both feed the &quot;keep cores fed&quot; goal
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,271.742)"><tspan x="0" y="0" class="t">GENERATION MATTERS
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,284.516)"><tspan x="0" y="0" class="u">Hopper (H100) -&gt; FP8
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,293.806)"><tspan x="0" y="0" class="u">Blackwell (B200/GB200) -&gt; FP4
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,303.097)"><tspan x="0" y="0" class="v">modern NIMs auto-pick FP8
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,312.387)"><tspan x="0" y="0" class="v">because it detected an H100
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,329.806)"><tspan x="0" y="0" class="q">tradeoff: accuracy vs speed —
+</tspan></text><text style="transform:matrix(.581,0,0,.581,477.445,339.097)"><tspan x="0" y="0" class="q">quantization-aware methods limit loss
+</tspan></text><path fill-rule="evenodd" class="r" d="m475.1 351.9h188.2c0.7 0 1.2 0.5 1.2 1.1v10.5c0 0.6-0.5 1.1-1.2 1.1h-188.2c-0.6 0-1.1-0.5-1.1-1.1v-10.5c0-0.6 0.5-1.1 1.1-1.1z"/><text style="transform:matrix(.581,0,0,.581,478.607,360.581)"><tspan x="0" y="0" class="s">BREAKS: too-aggressive quant -&gt; accuracy drop
+</tspan></text><path fill-rule="evenodd" class="g" d="m23.2 390.2h650.6"/><text style="transform:matrix(.581,0,0,.581,348.5,408.774)"><tspan x="-233" y="0" class="x">THE SPINE: IT'S ALL ABOUT KEEPING THE TENSOR CORES FED
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,422.71)"><tspan x="-409.9" y="0" class="p">Compute is cheap; moving data is expensive. The memory hierarchy, low precision, and kernel fusion all serve one goal: feed the cores.
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,447.097)"><tspan x="-165.9" y="0" class="y">TWO KINDS OF BOTTLENECK  (which one are you?)
+</tspan></text><path fill-rule="evenodd" class="c" d="m94.1 458.7h241.6c0.7 0 1.2 0.5 1.2 1.2v67.3c0 0.7-0.5 1.2-1.2 1.2h-241.6c-0.6 0-1.2-0.5-1.2-1.2v-67.3c0-0.7 0.6-1.2 1.2-1.2z"/><text style="transform:matrix(.581,0,0,.581,214.908,473.806)"><tspan x="-49.1" y="0" class="i">Memory-bound
+</tspan></text><text style="transform:matrix(.581,0,0,.581,104.55,487.742)"><tspan x="0" y="0" class="u">waiting on HBM bandwidth, cores idle
+</tspan></text><text style="transform:matrix(.581,0,0,.581,104.55,499.355)"><tspan x="0" y="0" class="u">- LLM decode (one token at a time)
+</tspan></text><text style="transform:matrix(.581,0,0,.581,104.55,509.806)"><tspan x="0" y="0" class="u">- small batches
+</tspan></text><text style="transform:matrix(.581,0,0,.581,104.55,521.419)"><tspan x="0" y="0" class="v">fix: bigger batch, fusion, quantize, KV cache
+</tspan></text><path fill-rule="evenodd" class="k" d="m361.3 458.7h241.6c0.6 0 1.2 0.5 1.2 1.2v67.3c0 0.7-0.6 1.2-1.2 1.2h-241.6c-0.7 0-1.2-0.5-1.2-1.2v-67.3c0-0.7 0.5-1.2 1.2-1.2z"/><text style="transform:matrix(.581,0,0,.581,482.092,473.806)"><tspan x="-52.5" y="0" class="i">Compute-bound
+</tspan></text><text style="transform:matrix(.581,0,0,.581,371.733,487.742)"><tspan x="0" y="0" class="u">cores maxed, this is the good place
+</tspan></text><text style="transform:matrix(.581,0,0,.581,371.733,499.355)"><tspan x="0" y="0" class="u">- LLM prefill (process whole prompt)
+</tspan></text><text style="transform:matrix(.581,0,0,.581,371.733,509.806)"><tspan x="0" y="0" class="u">- training, large batches
+</tspan></text><text style="transform:matrix(.581,0,0,.581,371.733,521.419)"><tspan x="0" y="0" class="v">fix: lower precision, newer GPU gen
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,546.968)"><tspan x="-427.8" y="0" class="p">This is exactly why Dynamo disaggregates: prefill is compute-bound, decode is memory-bound — so run them on differently-tuned GPU pools.
+</tspan></text><path fill-rule="evenodd" class="g" d="m23.2 567.9h650.6"/><text style="transform:matrix(.581,0,0,.581,348.5,584.129)"><tspan x="-103.7" y="0" class="t">SLICING ONE GPU  (multi-tenancy)
+</tspan></text><path fill-rule="evenodd" class="k" d="m70.9 594.6h171.9c0.6 0 1.1 0.5 1.1 1.1v51.1c0 0.7-0.5 1.2-1.1 1.2h-171.9c-0.7 0-1.2-0.5-1.2-1.2v-51.1c0-0.6 0.5-1.1 1.2-1.1z"/><text style="transform:matrix(.581,0,0,.581,156.825,608.516)"><tspan x="-12.6" y="0" class="i">MIG
+</tspan></text><text style="transform:matrix(.581,0,0,.581,78.412,621.29)"><tspan x="0" y="0" class="z">hardware partition — isolated
+</tspan></text><text style="transform:matrix(.581,0,0,.581,78.412,630.581)"><tspan x="0" y="0" class="z">slices, own memory + compute
+</tspan></text><text style="transform:matrix(.581,0,0,.581,78.412,641.032)"><tspan x="0" y="0" class="v">strong isolation; multi-tenant safe
+</tspan></text><path fill-rule="evenodd" class="k" d="m262.5 594.6h172c0.6 0 1.1 0.5 1.1 1.1v51.1c0 0.7-0.5 1.2-1.1 1.2h-172c-0.6 0-1.1-0.5-1.1-1.2v-51.1c0-0.6 0.5-1.1 1.1-1.1z"/><text style="transform:matrix(.581,0,0,.581,348.5,608.516)"><tspan x="-13.7" y="0" class="i">MPS
+</tspan></text><text style="transform:matrix(.581,0,0,.581,270.087,621.29)"><tspan x="0" y="0" class="z">spatial sharing, one context
+</tspan></text><text style="transform:matrix(.581,0,0,.581,270.087,630.581)"><tspan x="0" y="0" class="z">splits SMs, no hard isolation
+</tspan></text><text style="transform:matrix(.581,0,0,.581,270.087,641.032)"><tspan x="0" y="0" class="v">throughput play, trusted workloads
+</tspan></text><path fill-rule="evenodd" class="k" d="m454.2 594.6h171.9c0.7 0 1.2 0.5 1.2 1.1v51.1c0 0.7-0.5 1.2-1.2 1.2h-171.9c-0.6 0-1.1-0.5-1.1-1.2v-51.1c0-0.6 0.5-1.1 1.1-1.1z"/><text style="transform:matrix(.581,0,0,.581,540.175,608.516)"><tspan x="-38.9" y="0" class="i">Time-slicing
+</tspan></text><text style="transform:matrix(.581,0,0,.581,461.762,621.29)"><tspan x="0" y="0" class="z">round-robin the whole GPU
+</tspan></text><text style="transform:matrix(.581,0,0,.581,461.762,630.581)"><tspan x="0" y="0" class="z">simplest, no isolation at all
+</tspan></text><text style="transform:matrix(.581,0,0,.581,461.762,641.032)"><tspan x="0" y="0" class="v">dev/test, bursty light loads
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,671.226)"><tspan x="-495.7" y="0" class="p">The framing: MIG is the GPU analog of SR-IOV on the NIC and namespaces on the CPU — hardware-enforced isolation is what makes a shared GPU multi-tenant-safe.
+</tspan></text><text style="transform:matrix(.581,0,0,.581,348.5,688.645)"><tspan x="-399.4" y="0" class="q">terms:  SM · Tensor Core · CUDA core · HBM · SRAM · L2 · FP8/FP4 · GEMM · occupancy · roofline · FlashAttention · MIG / MPS · arithmetic intensity
+</tspan></text></svg>

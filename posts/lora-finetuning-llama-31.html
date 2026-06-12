@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fine-Tuning Llama-3.1 for AI Infrastructure — Jim Booth</title>
+<meta name="description" content="LoRA fine-tune of Llama-3.1-8B on a synthetic AI-infrastructure dataset. A diagnostic finding on when the pretraining prior wins, and what that means for fine-tune vs RAG decisions.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #F4F5F7;
+    --paper-deep:  #EDEEF1;
+    --paper-card:  #FAFBFC;
+    --ink:         #0E1014;
+    --ink-soft:    #545963;
+    --ink-softer:  #9095A0;
+    --rule:        #DFE2E7;
+    --rule-soft:   #E8EAEE;
+
+    --fs-sans:     'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --fs-mono:     'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--fs-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+  }
+
+  /* ─── Header ─────────────────────────────────────── */
+  header.top {
+    padding: 1.5rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1rem;
+    margin-bottom: 4rem;
+  }
+  .wordmark {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .wordmark em {
+    font-style: normal;
+    color: var(--ink-softer);
+    font-weight: 400;
+    font-family: var(--fs-mono);
+    font-size: 0.82rem;
+    margin-left: 0.35rem;
+    letter-spacing: 0;
+  }
+  nav.primary {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+  }
+  nav.primary a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+  nav.primary a:hover { color: var(--ink); }
+
+  /* ─── Article container ──────────────────────────── */
+  article.post {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+  }
+
+  /* Eyebrow back-link */
+  .back-link {
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    text-decoration: none;
+    transition: color 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 2.5rem;
+  }
+  .back-link:hover { color: var(--ink); }
+  .back-link::before { content: "←"; }
+
+  /* Title block */
+  .title-block {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .post-eyebrow {
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 1rem;
+  }
+  h1.post-title {
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: clamp(1.85rem, 4vw, 2.65rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .post-subtitle {
+    font-family: var(--fs-sans);
+    font-weight: 300;
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--ink-soft);
+    letter-spacing: -0.015em;
+    margin-bottom: 1.5rem;
+    max-width: 60ch;
+  }
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+  .post-meta .sep { opacity: 0.5; }
+
+  /* TL;DR box */
+  .tldr {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--ink);
+    border-radius: 2px;
+    padding: 1.5rem 1.75rem;
+    margin: 2.5rem 0 3rem;
+  }
+  .tldr-label {
+    font-family: var(--fs-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 0.85rem;
+  }
+  .tldr p {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 0.85rem;
+  }
+  .tldr p:last-child { margin-bottom: 0; }
+  .tldr strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Body */
+  article.post h2 {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 3.5rem 0 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  article.post h2::before {
+    content: attr(data-num);
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-softer);
+    font-weight: 400;
+    padding-top: 0.1rem;
+  }
+
+  article.post h3 {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 2rem 0 0.75rem;
+  }
+
+  article.post p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+  article.post p.lead {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  article.post strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  article.post em { font-style: italic; }
+
+  article.post code {
+    font-family: var(--fs-mono);
+    font-size: 0.88em;
+    background: var(--paper-deep);
+    color: var(--ink);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    letter-spacing: 0.01em;
+  }
+
+  article.post ul, article.post ol {
+    margin: 0 0 1.5rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  article.post li {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 0.55rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  article.post ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--ink-softer);
+  }
+  article.post ol { counter-reset: list; }
+  article.post ol li::before {
+    counter-increment: list;
+    content: counter(list, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    font-family: var(--fs-mono);
+    font-size: 0.85em;
+    color: var(--ink-softer);
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    margin: 2.5rem -1rem;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    border-left: 2px solid var(--ink);
+    font-family: var(--fs-sans);
+    font-weight: 300;
+    font-size: clamp(1.3rem, 2.3vw, 1.55rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .pull-quote em {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  /* Slide / figure embed */
+  figure.slide {
+    margin: 2.5rem 0 2rem;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper-card);
+  }
+  figure.slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: white;
+  }
+  figure.slide figcaption {
+    padding: 0.85rem 1.1rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-softer);
+    border-top: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  figure.slide figcaption strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+
+  /* Code block */
+  pre {
+    background: #0E1014;
+    color: #E8EAEE;
+    padding: 1.25rem 1.5rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: var(--fs-mono);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    margin: 1.75rem 0 2rem;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  /* Data list (parameter tables, etc) */
+  .data-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.6rem 1.75rem;
+    font-family: var(--fs-mono);
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin: 1.5rem 0 2rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .data-list .k { color: var(--ink-softer); letter-spacing: 0.02em; }
+  .data-list .v { color: var(--ink); font-weight: 500; }
+
+  /* End matter */
+  .end-rule {
+    text-align: center;
+    margin: 4rem 0 3rem;
+    font-family: var(--fs-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.5em;
+    color: var(--ink-softer);
+  }
+
+  .post-cta {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2rem 1.75rem;
+    margin: 3rem 0 2rem;
+    text-align: center;
+  }
+  .post-cta h3 {
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    border: none;
+    padding: 0;
+  }
+  .post-cta p {
+    color: var(--ink-soft);
+    font-size: 0.97rem;
+    margin-bottom: 1.5rem;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .post-cta-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .btn {
+    font-family: var(--fs-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.25rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Footer */
+  footer.bottom {
+    padding: 2rem 0 1.75rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+  footer.bottom a { color: inherit; text-decoration: none; transition: color 0.25s ease; }
+  footer.bottom a:hover { color: var(--ink); }
+
+  /* Mobile */
+  @media (max-width: 780px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 1.25rem; }
+    header.top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    nav.primary { gap: 1.1rem; flex-wrap: wrap; font-size: 0.68rem; }
+    .pull-quote { margin: 2rem 0; }
+    article.post p, article.post li { font-size: 1rem; }
+    .data-list { grid-template-columns: 1fr; gap: 0.4rem 0; }
+    .data-list .k { padding-top: 0.5rem; }
+    .data-list .k:first-child { padding-top: 0; }
+    footer.bottom { flex-direction: column; gap: 0.6rem; }
+  }
+
+  ::selection { background: var(--ink); color: var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <header class="top">
+    <a href="/" class="wordmark">Jim Booth<em>Portfolio</em></a>
+    <nav class="primary">
+      <a href="/#projects">Projects</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Article -->
+  <article class="post">
+
+    <a href="/#projects" class="back-link">Back to projects</a>
+
+    <div class="title-block">
+      <div class="post-eyebrow">Notes · Research · 2026</div>
+      <h1 class="post-title">Fine-Tuning Llama-3.1 for AI Infrastructure</h1>
+      <p class="post-subtitle">
+        A diagnostic — when LoRA loses to the pretraining prior, and what that means for fine-tune vs RAG decisions.
+      </p>
+      <div class="post-meta">
+        <span>May 2026</span>
+        <span class="sep">·</span>
+        <span>~9 min read</span>
+        <span class="sep">·</span>
+        <span>Llama-3.1 · LoRA · NeMo</span>
+      </div>
+    </div>
+
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <p>
+        I fine-tuned <strong>Llama-3.1-8B</strong> on a synthetic AI-infrastructure
+        Q&amp;A dataset. Single H100 on Brev, 22 seconds of wall clock,
+        <strong>0.52% of parameters touched</strong> via rank-16 LoRA. Loss came
+        down cleanly. Eval numbers were fine.
+      </p>
+      <p>
+        Then I asked the tuned model to explain CDU sizing for a 150 kW GPU rack —
+        a domain I know well from selling 300 MW of two-phase cooling at Accelsius.
+        It answered with PDU concepts: inrush current, electrical overload, phase
+        balance. Pure category error.
+      </p>
+      <p>
+        This post is about <strong>why that happened</strong>, how I diagnosed it,
+        and what I'm taking forward about when to fine-tune versus when to RAG.
+      </p>
+    </div>
+
+    <h2 data-num="01">The setup</h2>
+
+    <p>
+      The hypothesis was simple: how much can a small, fast LoRA fine-tune shift a
+      general-purpose model toward a specialized domain? Not change its facts —
+      change its <em>behavior</em>. Its terminology, its formatting, the shape of
+      its answers.
+    </p>
+
+    <p>
+      I built a synthetic Q&amp;A dataset on AI infrastructure topics — GPU
+      density, cooling architectures, network fabrics, storage tiering, the
+      economics of AI factories. Around two hundred examples, hand-written and
+      LLM-augmented, with five clean examples specifically on coolant
+      distribution units (CDUs) — the thermal-side counterpart to power
+      distribution units (PDUs) in a high-density rack.
+    </p>
+
+    <p>
+      The fine-tune itself was deliberately minimal. <code>Unsloth</code> for the
+      training loop, <code>PEFT</code> for the LoRA adapters, a single H100 80GB
+      provisioned on Brev. Standard rank-16 configuration, learning rate
+      <code>2e-4</code>, batch size 8, three epochs.
+    </p>
+
+    <div class="data-list">
+      <span class="k">Base model</span><span class="v">Llama-3.1-8B-Instruct</span>
+      <span class="k">Adapter</span><span class="v">LoRA · rank 16 · alpha 32</span>
+      <span class="k">Params touched</span><span class="v">0.52% of total</span>
+      <span class="k">Hardware</span><span class="v">1× H100 80GB · Brev</span>
+      <span class="k">LR / Batch</span><span class="v">2e-4 / 8</span>
+      <span class="k">Steps · Wall time</span><span class="v">18 · 22 sec</span>
+    </div>
+
+    <p>
+      Training behaved well. Loss dropped from 2.86 to 1.34 across three epochs
+      and was still trending down at the cutoff — could have trained longer, but
+      I wanted to see how much signal even a minimal run produced.
+    </p>
+
+    <figure class="slide">
+      <img src="/01_loss_curve.svg" alt="Training loss curve — 18 optimizer steps, 22 seconds wall clock, loss 2.86 → 1.34">
+      <figcaption><strong>Fig. 01</strong> · Training loss across 18 optimizer steps. 22 seconds of wall clock.</figcaption>
+    </figure>
+
+    <h2 data-num="02">The diagnostic</h2>
+
+    <p>
+      After training, I ran my validation prompts. Most read fine — the model
+      sounded more confident on AI infrastructure topics, structured responses
+      better, used the right vocabulary. Encouraging.
+    </p>
+
+    <p>
+      Then I asked it to walk me through CDU sizing for a 150 kW GPU rack. I
+      know this topic cold. Coolant Distribution Units are thermal devices —
+      you size them by flow rate (liters per minute), temperature delta (the
+      ΔT between supply and return), pressure drop across the rack, and heat
+      rejection capacity (kilowatts <em>thermal</em>, not electrical).
+    </p>
+
+    <p>
+      The model's answer talked about <strong>inrush current. Phase balance.
+      Overload protection. Breaker sizing.</strong> Every concept it reached for
+      was electrical. It was sizing a PDU — a Power Distribution Unit — not a
+      CDU.
+    </p>
+
+    <figure class="slide">
+      <img src="/02_cdu_vs_pdu.svg" alt="PDU vs CDU comparison — different domains, similar names">
+      <figcaption><strong>Fig. 02</strong> · The model conflated PDU (electrical) and CDU (thermal). Both bolt onto the same rack. They solve different problems.</figcaption>
+    </figure>
+
+    <p>
+      This wasn't a knowledge gap. The model had seen five clean CDU examples
+      in training. The information was <em>in there</em>. It was a category error
+      — and a confident one. The model didn't hedge. It produced a fluent,
+      structured, completely-wrong answer.
+    </p>
+
+    <p>
+      The diagnosis is straightforward once you say it out loud. Llama-3.1's
+      pretraining corpus contains millions of co-occurrences of the phrase
+      pattern <em>sizing + kW + rack</em> bound to electrical concepts. Data
+      centers as an industry have been an electrical-engineering problem for
+      forty years. The semantic gravity of that prior is enormous.
+    </p>
+
+    <p>
+      My five examples saw eighteen optimizer steps. The prior won by orders
+      of magnitude.
+    </p>
+
+    <h2 data-num="03">What fine-tuning <em>actually</em> changed</h2>
+
+    <p>
+      The interesting follow-up question is what the LoRA <em>did</em> change.
+      Comparing base Llama-3.1-8B against the fine-tune on a held-out set of
+      prompts:
+    </p>
+
+    <figure class="slide">
+      <img src="/03_what_finetuning_changed.svg" alt="What fine-tuning changed — form, format, fluency moved; underlying associations didn't">
+      <figcaption><strong>Fig. 03</strong> · The fine-tune moved style, format, and domain fluency. It didn't move strong pretraining associations.</figcaption>
+    </figure>
+
+    <p>What improved, clearly and reproducibly:</p>
+
+    <ul>
+      <li><strong>Format.</strong> More structured responses. Better use of headers, lists, and tables where appropriate. Less rambling.</li>
+      <li><strong>Tone.</strong> More confident. Less "as an AI language model" hedging on technical topics it should be able to handle.</li>
+      <li><strong>Terminology fluency.</strong> Comfortable with acronyms, comfortable with the cadence of an infrastructure conversation.</li>
+      <li><strong>Task framing.</strong> Better at producing the kind of answer the prompt was actually asking for — sizing exercises looked like sizing exercises, architecture descriptions looked like architecture descriptions.</li>
+    </ul>
+
+    <p>What didn't move:</p>
+
+    <ul>
+      <li>The model's underlying conceptual associations.</li>
+      <li>Strong priors anywhere those priors existed.</li>
+      <li>Factual recall in cases where my training examples contradicted what pretraining had encoded.</li>
+    </ul>
+
+    <figure class="slide">
+      <img src="/08_response_comparison.svg" alt="Base model vs fine-tuned model response comparison">
+      <figcaption><strong>Fig. 04</strong> · Base vs fine-tuned response to the same CDU sizing prompt. Both wrong — the fine-tune is just <em>better-wrong</em>.</figcaption>
+    </figure>
+
+    <p>
+      The way I'd summarize it: the fine-tune taught the model how a CDU
+      conversation should <em>sound</em>. It didn't teach the model what a CDU
+      actually <em>is</em>.
+    </p>
+
+    <h2 data-num="04">The methodology</h2>
+
+    <p>
+      One failure isn't a finding. To be sure the CDU/PDU confusion was real and
+      not a temperature artifact, I ran a small eval harness across four
+      categories of prompts.
+    </p>
+
+    <figure class="slide">
+      <img src="/06_eval_methodology.svg" alt="Evaluation methodology — four prompt categories tested against both base and fine-tuned models">
+      <figcaption><strong>Fig. 05</strong> · Eval harness. Four prompt categories, both models, sampled multiple times at varied temperatures.</figcaption>
+    </figure>
+
+    <p>
+      Domain-fluency prompts checked whether the model used the right
+      vocabulary. Format prompts checked whether it produced the structure I'd
+      trained for. Factual prompts checked whether it knew the things I taught
+      it. Adversarial prompts specifically probed adjacent-concept confusion —
+      CDU vs PDU, fabric vs network, NVMe vs SSD, that kind of thing.
+    </p>
+
+    <p>
+      The CDU/PDU failure was reproducible across temperature settings and
+      prompt phrasings. It wasn't a sampling artifact. The model would
+      confidently and consistently produce electrical answers to thermal
+      questions. The five CDU examples in training data simply hadn't moved
+      that needle.
+    </p>
+
+    <figure class="slide">
+      <img src="/04_pipeline_architecture.svg" alt="Training pipeline architecture — dataset, training, eval, comparison">
+      <figcaption><strong>Fig. 06</strong> · Full pipeline — synthetic dataset → LoRA training → eval harness → base/tuned comparison.</figcaption>
+    </figure>
+
+    <figure class="slide">
+      <img src="/07_terminal_output.svg" alt="Terminal output from the training run">
+      <figcaption><strong>Fig. 07</strong> · Training run, raw terminal output.</figcaption>
+    </figure>
+
+    <h2 data-num="05">The lesson</h2>
+
+    <p>
+      Here's the framing I'm taking forward:
+    </p>
+
+    <div class="pull-quote">
+      Fine-tune for form. <em>RAG for facts.</em>
+    </div>
+
+    <p>
+      LoRA shifts behavior. It moves style, format, domain fluency, task
+      specialization. It is a powerful tool for <em>how</em> a model speaks. It
+      is a weak tool for <em>what</em> it knows — especially when the facts you're
+      trying to install contradict strong pretraining priors.
+    </p>
+
+    <p>
+      RAG does the opposite. It doesn't change how the model speaks; it changes
+      what it has in its context window when it speaks. It installs facts. It
+      provides citation and provenance. It accommodates knowledge that changes
+      faster than you can retrain.
+    </p>
+
+    <figure class="slide">
+      <img src="/05_finetune_vs_rag.svg" alt="Fine-tune vs RAG decision matrix — use for, avoid for, rule of thumb">
+      <figcaption><strong>Fig. 08</strong> · Decision matrix. Same problem, different tool. The production answer is usually <em>both</em>.</figcaption>
+    </figure>
+
+    <p>
+      None of this framing is novel. The MLOps community has been saying
+      versions of it for two years. But there's a real difference between
+      reading it in a survey paper and watching it fail in a way you can't
+      argue with on a domain you know cold.
+    </p>
+
+    <h2 data-num="06">Where this sits in the NVIDIA stack</h2>
+
+    <p>
+      I'm interested in NVIDIA Solutions Architecture work supporting
+      NVIDIA Cloud Partners (NCPs). Worth being explicit about where my
+      single-H100 LoRA work sits in that picture.
+    </p>
+
+    <figure class="slide">
+      <img src="/09_stack_positioning.svg" alt="Stack positioning — where research tools sit vs where NCPs operate at production scale">
+      <figcaption><strong>Fig. 09</strong> · Research-scale tools vs NCP production-scale tools. Same problems. Different solutions.</figcaption>
+    </figure>
+
+    <p>
+      What I built lives in the bottom-left quadrant: research-scale,
+      single-GPU iteration. The tools were chosen for fast learning cycles —
+      Unsloth for parameter-efficient training, PEFT and TRL from HuggingFace,
+      vLLM for standalone inference.
+    </p>
+
+    <p>
+      Where NCPs actually operate is top-right: hundreds-to-thousands of GPUs,
+      multi-tenant, production-grade. The relevant tools shift accordingly:
+      <strong>NeMo Framework</strong> for distributed fine-tuning,
+      <strong>Dynamo</strong> for serving, <strong>Triton</strong> across
+      clusters, <strong>BCM + Slurm</strong> for orchestration.
+    </p>
+
+    <p>
+      The conversation an NCP customer actually needs to have isn't "should we
+      fine-tune Nemotron?" It's: <em>which fine-tune-and-RAG combination, on
+      which slice of our stack, with which compute and latency budget?</em>
+      NVIDIA's NeMo Framework + NeMo Retriever stack is designed for exactly
+      that combination. The lesson from my single-H100 run scales up — the
+      relative strengths of fine-tune and RAG don't change at 1,000 GPUs.
+    </p>
+
+    <h2 data-num="07">What's next</h2>
+
+    <p>
+      The follow-on experiment is obvious: add RAG to the same domain. Same
+      base model, same questions, same eval harness — but with a retrieval
+      layer over my AI-infrastructure documentation in the prompt.
+    </p>
+
+    <p>
+      The hypothesis: the CDU/PDU failure goes away when the right context is
+      injected, even without any fine-tune at all. The fine-tune still helps —
+      the answer will sound more like an infrastructure engineer wrote it —
+      but the factual correctness comes from retrieval, not from weights.
+    </p>
+
+    <p>
+      If that lands the way I expect, the practical answer to "should we
+      fine-tune?" becomes much clearer: <strong>fine-tune for the voice you
+      want, RAG for the facts you need, and stop confusing the two.</strong>
+    </p>
+
+    <div class="end-rule">⁂</div>
+
+    <div class="post-cta">
+      <h3>Building something infrastructure-heavy? Let's talk.</h3>
+      <p>
+        I'm an AI infrastructure advisor and senior solution architect based in
+        Denver. Open to senior roles where deep technical depth meets enterprise
+        sales credibility.
+      </p>
+      <div class="post-cta-buttons">
+        <a href="/Jim_Booth_Resume.pdf" class="btn btn-primary" target="_blank" rel="noopener">
+          Download Resume <span class="arrow">↓</span>
+        </a>
+        <a href="mailto:jimbooth@me.com" class="btn btn-secondary">
+          Email me <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </article>
+
+  <footer class="bottom">
+    <span>© Jim Booth · 2026</span>
+    <span>Denver, CO · 39.7°N 104.9°W</span>
+    <a href="/">Back to portfolio ↗</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
+

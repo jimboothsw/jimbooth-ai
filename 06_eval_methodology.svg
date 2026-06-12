@@ -1,0 +1,86 @@
+<svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="arrEval" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="450" y="40" text-anchor="middle" font-size="20" font-weight="500" fill="#0E1014">Pairwise eval — methodology</text>
+  <text x="450" y="62" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#9095A0">LLM-AS-JUDGE · POSITION-BIAS CORRECTED</text>
+
+  <!-- source: 12 prompts -->
+  <rect x="340" y="100" width="220" height="60" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="450" y="125" text-anchor="middle" font-size="14" font-weight="500" fill="#0E1014">12 held-out prompts</text>
+  <text x="450" y="145" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">eval.jsonl</text>
+
+  <!-- split into base/tuned -->
+  <line x1="450" y1="160" x2="450" y2="180" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="200" y1="180" x2="700" y2="180" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="200" y1="180" x2="200" y2="210" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+  <line x1="700" y1="180" x2="700" y2="210" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+
+  <!-- base model box -->
+  <rect x="90" y="220" width="220" height="80" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="200" y="248" text-anchor="middle" font-size="14" font-weight="500" fill="#0E1014">Base model</text>
+  <text x="200" y="268" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">unsloth/Llama-3.1-8B</text>
+  <text x="200" y="285" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">→ response A</text>
+
+  <!-- tuned model box -->
+  <rect x="590" y="220" width="220" height="80" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="700" y="248" text-anchor="middle" font-size="14" font-weight="500" fill="#0E1014">Tuned model</text>
+  <text x="700" y="268" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">llama31-8b-aiinfra</text>
+  <text x="700" y="285" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">→ response B</text>
+
+  <!-- both feed randomizer -->
+  <line x1="200" y1="300" x2="200" y2="340" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="700" y1="300" x2="700" y2="340" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="200" y1="340" x2="700" y2="340" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="450" y1="340" x2="450" y2="360" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+
+  <!-- randomizer (emphasized) -->
+  <rect x="320" y="370" width="260" height="80" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="2"/>
+  <text x="450" y="395" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#0E1014">⇄  RANDOMIZE A/B ORDER</text>
+  <text x="450" y="416" text-anchor="middle" font-size="12" fill="#545963">50/50 coin flip per question</text>
+  <text x="450" y="434" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">eliminates position bias</text>
+
+  <!-- arrow to judge -->
+  <line x1="450" y1="450" x2="450" y2="480" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+
+  <!-- judge box with rubric callout -->
+  <rect x="320" y="490" width="260" height="60" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="450" y="515" text-anchor="middle" font-size="14" font-weight="500" fill="#0E1014">GPT-4o judge</text>
+  <text x="450" y="535" text-anchor="middle" font-size="11" font-style="italic" fill="#545963">factuality-weighted rubric</text>
+
+  <!-- rubric callout -->
+  <rect x="610" y="475" width="270" height="90" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="625" y="495" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#7A5F1E">RUBRIC</text>
+  <text x="625" y="514" font-size="11" font-style="italic" fill="#0E1014">"Which is more technically precise</text>
+  <text x="625" y="528" font-size="11" font-style="italic" fill="#0E1014">and factually accurate? Penalize</text>
+  <text x="625" y="542" font-size="11" font-style="italic" fill="#0E1014">confident-sounding errors."</text>
+  <path d="M 610 520 L 580 520" stroke="#C2A368" stroke-width="1"/>
+
+  <!-- final arrow + three buckets -->
+  <line x1="450" y1="550" x2="450" y2="580" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="200" y1="580" x2="700" y2="580" stroke="#0E1014" stroke-width="1.5"/>
+  <line x1="200" y1="580" x2="200" y2="610" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+  <line x1="450" y1="580" x2="450" y2="610" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+  <line x1="700" y1="580" x2="700" y2="610" stroke="#0E1014" stroke-width="1.5" marker-end="url(#arrEval)"/>
+
+  <!-- three buckets -->
+  <rect x="120" y="620" width="160" height="60" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="200" y="645" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Tuned wins</text>
+  <text x="200" y="665" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">verdict = B (or A swap)</text>
+
+  <rect x="370" y="620" width="160" height="60" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="450" y="645" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Tie</text>
+  <text x="450" y="665" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">verdict = TIE</text>
+
+  <rect x="620" y="620" width="160" height="60" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="700" y="645" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Base wins</text>
+  <text x="700" y="665" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">verdict = A (or B swap)</text>
+
+  <!-- caption -->
+  <text x="450" y="725" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Judges have a known preference for whichever answer they read first.</text>
+  <text x="450" y="742" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">Randomizing eliminates this.</text>
+</svg>

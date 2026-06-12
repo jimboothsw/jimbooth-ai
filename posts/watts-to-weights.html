@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Watts to Weights — Jim Booth</title>
+<meta name="description" content="Closing the gap between sizing infrastructure-up and sizing model-down — seven diagrams mapping the layers of an AI cluster.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #F4F5F7;
+    --paper-deep:  #EDEEF1;
+    --paper-card:  #FAFBFC;
+    --ink:         #0E1014;
+    --ink-soft:    #545963;
+    --ink-softer:  #9095A0;
+    --rule:        #DFE2E7;
+    --rule-soft:   #E8EAEE;
+
+    --fs-sans:     'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --fs-mono:     'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--fs-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+  }
+
+  /* Header */
+  header.top {
+    padding: 1.5rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1rem;
+    margin-bottom: 4rem;
+  }
+  .wordmark {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .wordmark em {
+    font-style: normal;
+    color: var(--ink-softer);
+    font-weight: 400;
+    font-family: var(--fs-mono);
+    font-size: 0.82rem;
+    margin-left: 0.35rem;
+    letter-spacing: 0;
+  }
+  nav.primary {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+  }
+  nav.primary a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+  nav.primary a:hover { color: var(--ink); }
+
+  /* Article */
+  article.post {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+  }
+
+  .back-link {
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    text-decoration: none;
+    transition: color 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 2.5rem;
+  }
+  .back-link:hover { color: var(--ink); }
+  .back-link::before { content: "←"; }
+
+  .title-block {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .post-eyebrow {
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 1rem;
+  }
+  h1.post-title {
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: clamp(1.85rem, 4vw, 2.65rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .post-subtitle {
+    font-family: var(--fs-sans);
+    font-weight: 300;
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--ink-soft);
+    letter-spacing: -0.015em;
+    margin-bottom: 1.5rem;
+    max-width: 60ch;
+  }
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+  .post-meta .sep { opacity: 0.5; }
+
+  /* TL;DR */
+  .tldr {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--ink);
+    border-radius: 2px;
+    padding: 1.5rem 1.75rem;
+    margin: 2.5rem 0 3rem;
+  }
+  .tldr-label {
+    font-family: var(--fs-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 0.85rem;
+  }
+  .tldr p {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 0.85rem;
+  }
+  .tldr p:last-child { margin-bottom: 0; }
+  .tldr strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Body */
+  article.post h2 {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 3.5rem 0 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  article.post h2::before {
+    content: attr(data-num);
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-softer);
+    font-weight: 400;
+    padding-top: 0.1rem;
+  }
+
+  article.post h3 {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 2rem 0 0.75rem;
+  }
+
+  article.post p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+  article.post p.lead {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  article.post strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  article.post em { font-style: italic; }
+
+  article.post code {
+    font-family: var(--fs-mono);
+    font-size: 0.88em;
+    background: var(--paper-deep);
+    color: var(--ink);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    letter-spacing: 0.01em;
+  }
+
+  article.post ul, article.post ol {
+    margin: 0 0 1.5rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  article.post li {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 0.55rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  article.post ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--ink-softer);
+  }
+  article.post ol { counter-reset: list; }
+  article.post ol li::before {
+    counter-increment: list;
+    content: counter(list, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    font-family: var(--fs-mono);
+    font-size: 0.85em;
+    color: var(--ink-softer);
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    margin: 2.5rem 0;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    border-left: 2px solid var(--ink);
+    font-family: var(--fs-sans);
+    font-weight: 300;
+    font-size: clamp(1.2rem, 2.1vw, 1.45rem);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .pull-quote em {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  /* Slide / figure embed */
+  figure.slide {
+    margin: 2.5rem 0 2rem;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper-card);
+  }
+  figure.slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: white;
+  }
+  figure.slide figcaption {
+    padding: 0.85rem 1.1rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-softer);
+    border-top: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  figure.slide figcaption strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+
+  /* Method note (the AI-assisted disclosure) */
+  .method-note {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1.1rem 1.4rem;
+    margin: 2rem 0 1.5rem;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .method-note .label {
+    font-family: var(--fs-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 0.5rem;
+  }
+
+  /* End matter */
+  .end-rule {
+    text-align: center;
+    margin: 4rem 0 3rem;
+    font-family: var(--fs-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.5em;
+    color: var(--ink-softer);
+  }
+
+  .post-cta {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2rem 1.75rem;
+    margin: 3rem 0 2rem;
+    text-align: center;
+  }
+  .post-cta h3 {
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    border: none;
+    padding: 0;
+  }
+  .post-cta p {
+    color: var(--ink-soft);
+    font-size: 0.97rem;
+    margin-bottom: 1.5rem;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .post-cta-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .btn {
+    font-family: var(--fs-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.25rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  footer.bottom {
+    padding: 2rem 0 1.75rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+  footer.bottom a { color: inherit; text-decoration: none; transition: color 0.25s ease; }
+  footer.bottom a:hover { color: var(--ink); }
+
+  @media (max-width: 780px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 1.25rem; }
+    header.top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    nav.primary { gap: 1.1rem; flex-wrap: wrap; font-size: 0.68rem; }
+    .pull-quote { margin: 2rem 0; }
+    article.post p, article.post li { font-size: 1rem; }
+    footer.bottom { flex-direction: column; gap: 0.6rem; }
+  }
+
+  ::selection { background: var(--ink); color: var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <a href="/" class="wordmark">Jim Booth<em>Portfolio</em></a>
+    <nav class="primary">
+      <a href="/#projects">Projects</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <article class="post">
+
+    <a href="/#projects" class="back-link">Back to projects</a>
+
+    <div class="title-block">
+      <div class="post-eyebrow">Notes · Research · 2026</div>
+      <h1 class="post-title">From Watts to Weights</h1>
+      <p class="post-subtitle">
+        Closing the gap between sizing infrastructure-up and sizing model-down
+         — and why holding both ends of that equation is the conversation most
+        AI-cluster customers actually need.
+      </p>
+      <div class="post-meta">
+        <span>2026</span>
+        <span class="sep">·</span>
+        <span>In progress · Ongoing</span>
+        <span class="sep">·</span>
+        <span>NVLink · RDMA · 3D Parallelism · GPUDirect</span>
+      </div>
+    </div>
+
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <p>
+        I've been sizing AI factories from the bottom up — power envelope,
+        cooling capacity, rack density.
+      </p>
+      <p>
+        A modern AI-cluster customer needs the <em>other</em> end of that
+        equation: <strong>model parameters, parallelism strategy, GPU count,
+        interconnect topology.</strong> The conversation that actually matters
+        is where those two ends collide.
+      </p>
+      <p>
+        This is the synthesis I've been building — seven diagrams walking the
+        layers of an AI cluster from compute up through fabric and back down
+        through storage and OS. The full chain a customer needs to size, and
+        the seams where infrastructure-up thinking meets model-down thinking.
+      </p>
+    </div>
+
+    <h2 data-num="01">The two ends of the equation</h2>
+
+    <p>
+      At Accelsius I sized from infrastructure up. <em>This facility delivers X
+      MW. Our two-phase cooling solution rejects Y kW per rack at Z density.
+      Therefore the customer can deploy N GPUs.</em> The numbers are physical
+      and hard. Power is power. A rack rejects what its CDU can pump and chill,
+      and not a kilowatt more.
+    </p>
+
+    <p>
+      I'm now learning to size from the model down. <em>The customer wants to
+      train an X-parameter model. The parallelism math demands a minimum of 
+      Y GPUs at this interconnect topology. The training-time target requires
+      Z GPUs.</em> The numbers are arithmetical and equally hard. A 1T-parameter
+      model needs ~512 GPUs minimum, and the math behind that number doesn't
+      care about your facility.
+    </p>
+
+    <p>
+      The interesting conversation lives where those two ends collide.
+    </p>
+
+    <p>
+      Customer wants a 1T model. Math says 512 GPUs. Facilities team says the
+      data center supports 256. Most SAs at this point say <em>"you need a
+      bigger data center."</em> An SA who can hold <em>both</em> ends of the
+      equation can say:
+    </p>
+
+    <div class="pull-quote">
+      Here's what the cooling envelope actually supports at 700W TDP per GPU.
+      Here's what two-phase direct-to-chip buys over rear-door heat exchangers
+      — potentially 50% more GPUs per rack. <em>Here's the revised power and
+      cooling spec that gets you to 512 in the same facility.</em>
+    </div>
+
+    <p>
+      That's the conversation. Most SAs can do the model arithmetic. Very few
+      can connect it back to chilled-water flow rate.
+    </p>
+
+    <p>The full sizing chain looks like this:</p>
+
+    <ol>
+      <li><strong>Model requirements</strong> → GPU count and interconnect topology</li>
+      <li><strong>Cluster architecture</strong> → SuperPOD config, fabric, storage tier</li>
+      <li><strong>Power envelope</strong> → what the facility can deliver</li>
+      <li><strong>Cooling envelope</strong> → what each rack can reject</li>
+    </ol>
+
+    <p>
+      Most customer SAs are strong on 1 and 2 and weak on 3 and 4. I'm the
+      inverse — building fluency on 1 and 2 while already living in 3 and 4.
+      The diagrams below are where I've been doing that work.
+    </p>
+
+    <div class="method-note">
+      <div class="label">A note on method</div>
+      These diagrams emerged from extensive conversations with Claude — asking
+      pointed questions until the answers became drawings I could check against
+      twenty years of intuition about racks, power, and density. AI-assisted
+      learning, used the way the customers I want to support will use the same
+      tools.
+    </div>
+
+    <h2 data-num="02">Inside the GPU — the compute layer</h2>
+
+    <p>
+      A GPU is a memory-bandwidth machine pretending to be a compute machine.
+    </p>
+
+    <p>
+      That framing — borrowed from anyone who's profiled a kernel and watched
+      the Tensor Cores idle waiting for HBM — is the cleanest one-line summary
+      of why all the optimization machinery exists. The chip can multiply
+      faster than the memory can feed it. Almost every modern optimization —
+      quantization, the memory hierarchy, kernel fusion, FlashAttention —
+      exists to keep the compute units fed.
+    </p>
+
+    <figure class="slide">
+      <a href="/gpu_compute_layer.svg" target="_blank" rel="noopener">
+        <img src="/gpu_compute_layer.svg" alt="Inside the GPU compute layer — memory hierarchy, tensor cores, kernel patterns" loading="lazy">
+      </a>
+      <figcaption><strong>Fig. 01</strong> · The compute layer. Memory hierarchy on the left, tensor cores in the middle, kernel patterns on the right. Almost every optimization is about keeping the multiplier fed.</figcaption>
+    </figure>
+
+    <p>A few things from this layer that show up in customer conversations:</p>
+
+    <ul>
+      <li><strong>Memory hierarchy.</strong> HBM, L2 cache, shared memory, registers — each tier is an order of magnitude faster and an order of magnitude smaller than the one above. Performance lives in matching tile sizes to the tier where data fits.</li>
+      <li><strong>Precision matters.</strong> FP16 / BF16 / FP8 aren't just smaller numbers — they're smaller bytes through the same memory bus. Quantization is mostly a bandwidth optimization that happens to use less memory.</li>
+      <li><strong>Tensor Cores want specific shapes.</strong> GEMMs get the best utilization at specific matrix dimensions. Kernels that don't shape correctly leave performance on the floor.</li>
+    </ul>
+
+    <p>
+      When a customer says <em>"we're seeing 40% MFU on H100s"</em> the
+      conversation that needs to happen is about where the bottleneck actually
+      lives — and it's almost never compute.
+    </p>
+
+    <h2 data-num="03">The fabric — scale-up meets scale-out</h2>
+
+    <p>
+      A GPU is one chip. A frontier model needs thousands. The fabric is how
+      they cooperate.
+    </p>
+
+    <figure class="slide">
+      <img src="/network_fabric_layer.svg" alt="The network fabric — NVLink scale-up and InfiniBand RDMA scale-out">
+      <figcaption><strong>Fig. 02</strong> · Two scales. NVLink inside the node lets GPUs act as one big GPU. InfiniBand or RoCE moves bytes across nodes. Different communication patterns belong on different tiers.</figcaption>
+    </figure>
+
+    <p>Two scales, two technologies:</p>
+
+    <ul>
+      <li><strong>Scale-up — NVLink + NVSwitch.</strong> Inside a node (or, in NVL72, a rack), NVLink lets GPUs talk as if they were one big GPU. Tens of TB/s of bandwidth. No software protocol stack overhead. This is where the chattiest communication patterns belong.</li>
+      <li><strong>Scale-out — InfiniBand or RoCE.</strong> Across nodes, RDMA fabrics deliver bandwidth at hundreds of GB/s with low latency. Software-stack overhead exists but is bounded. Different communication patterns belong here.</li>
+    </ul>
+
+    <p>
+      The interesting question for an SA isn't <em>"how much bandwidth do you
+      have?"</em> It's <em>"are you putting the right communication pattern on
+      the right tier?"</em>
+    </p>
+
+    <p>That maps directly to the next section.</p>
+
+    <h2 data-num="04">Mapping parallelism to the fabric</h2>
+
+    <p>
+      This is the diagram I'm proudest of, because it's the synthesis.
+    </p>
+
+    <p>
+      A model too big for one GPU is split four ways at once. Each split has a
+      different communication cost — and the layout rule is: match the most
+      bandwidth-hungry split to the highest-bandwidth tier.
+    </p>
+
+    <figure class="slide">
+      <img src="/parallelism_to_fabric.svg" alt="Mapping parallelism to the fabric — tensor, pipeline, data, expert parallelism and the 3D layout">
+      <figcaption><strong>Fig. 03</strong> · Four parallelism patterns, four communication profiles. 3D parallelism nests them by cost: chattiest deepest, on the fastest link.</figcaption>
+    </figure>
+
+    <p>The four patterns:</p>
+
+    <ul>
+      <li><strong>Tensor parallel</strong> — one layer's math split across GPUs. Extreme chatter, every layer, every forward + backward. Maps to NVLink. Never let it cross nodes.</li>
+      <li><strong>Pipeline parallel</strong> — layers split into stages. Moderate chatter at stage boundaries only. Maps to RDMA scale-out.</li>
+      <li><strong>Data parallel</strong> — model replicated, batch split. Periodic chatter (one all-reduce per step). Maps to RDMA — it tolerates fabric latency.</li>
+      <li><strong>Expert parallel (MoE)</strong> — tokens routed to experts. Bursty all-to-all. Maps to NVLink inside a domain; spills to RDMA at frontier scale.</li>
+    </ul>
+
+    <p>
+      The 3D-parallelism layout — tensor + pipeline + data simultaneously —
+      nests them by communication cost. Innermost is tensor (NVLink). Middle
+      is pipeline (RDMA). Outermost is data (RDMA). The chattiest pattern is
+      nested deepest, on the fastest link.
+    </p>
+
+    <p>
+      This is also why <strong>GB200 NVL72</strong> matters. Seventy-two GPUs
+      in one NVLink domain is a much larger TP+EP budget than the previous
+      generation. The data-dependent all-to-all that used to spill to slower
+      RDMA now fits on the fast link. For frontier MoE models, that's the
+      difference between <em>feasible</em> and <em>tractable</em>.
+    </p>
+
+    <div class="pull-quote">
+      The right first question isn't <em>"how many GPUs?"</em> — it's <em>"how
+      is the model split, and does the topology match?"</em>
+    </div>
+
+    <p>A customer with tensor-parallel spilling across nodes has a misconfigured cluster. The NVLink domain size dictates the TP degree. Some rules of thumb that fall out:</p>
+
+    <ul>
+      <li>Tensor-parallel degree ≤ NVLink domain size.</li>
+      <li>Never let tensor-parallel cross the RDMA boundary.</li>
+      <li>Pipeline depth trades bubbles against cross-node hops.</li>
+      <li>Data-parallel is the most fabric-tolerant — scale it widest.</li>
+    </ul>
+
+    <h2 data-num="05">Feeding the cluster — storage</h2>
+
+    <p>
+      Storage in an AI cluster isn't a capacity problem. It's a bandwidth
+      problem with two very different I/O patterns.
+    </p>
+
+    <figure class="slide">
+      <img src="/storage_layer.svg" alt="Storage layer — dataset reads and checkpoint writes">
+      <figcaption><strong>Fig. 04</strong> · Two patterns. Dataset reads in aggregate look like a thundering herd. Checkpoint writes look like a bursty firehose. The storage layer's only job: never be the reason a GPU waits.</figcaption>
+    </figure>
+
+    <p>
+      Pattern one — <strong>dataset reads</strong>. Thousands of GPUs read the
+      same dataset in parallel. Per-GPU access looks broadly sequential; in
+      aggregate it resembles a thundering herd. Sustained throughput at scale
+      matters.
+    </p>
+
+    <p>
+      Pattern two — <strong>checkpoint writes</strong>. Periodically, the
+      entire training state — weights, optimizer state, sometimes activations
+      — gets persisted. The write is enormous and bursty. Time-to-checkpoint
+      affects training time directly.
+    </p>
+
+    <figure class="slide">
+      <img src="/storage_layer_depth.svg" alt="Storage layer depth — tiered architecture, parallel filesystems, GPUDirect integration">
+      <figcaption><strong>Fig. 05</strong> · Going deeper. Tiered architectures, parallel filesystems, and the metadata layers that decide whether the cluster scales or stalls.</figcaption>
+    </figure>
+
+    <p>
+      Modern AI-storage solutions (VAST, WekaIO, DDN, Hammerspace) are built
+      around exactly that constraint. Tiered SSD/HDD architectures, parallel
+      filesystems, GPUDirect Storage integration, and very fast metadata
+      layers.
+    </p>
+
+    <p>
+      The question for an SA isn't <em>"what's your IOPS?"</em> It's
+      <em>"what's your sustained read bandwidth per GPU on a 1,000-GPU training
+      job, and what's your checkpoint write time at full state?"</em>
+    </p>
+
+    <h2 data-num="06">The bypass — getting bytes into HBM</h2>
+
+    <p>
+      Most of the optimization work in modern storage stacks is about removing
+      the CPU from the data path.
+    </p>
+
+    <figure class="slide">
+      <img src="/bypass_data_path.svg" alt="Bypass data path — legacy CPU-bounce vs RDMA + GPUDirect Storage">
+      <figcaption><strong>Fig. 06</strong> · Legacy path bounces every byte through host RAM. The bypass path moves bytes directly from NIC to GPU memory. Same architectural pattern that's been winning across the stack for a decade.</figcaption>
+    </figure>
+
+    <p>
+      The legacy path bounces every byte through the CPU and host RAM on its
+      way from storage to GPU. The CPU orchestrates every copy. Latency
+      stacks. Memory pressure stacks. The CPU becomes a bottleneck even though
+      it isn't doing work the user cares about.
+    </p>
+
+    <p>
+      The bypass path — RDMA + GPUDirect Storage — moves bytes directly from
+      NIC to GPU memory without ever touching host RAM. The CPU sets up the
+      transfer and gets out of the way. Throughput goes up, latency comes
+      down, the CPU stops being the limiter.
+    </p>
+
+    <p>
+      Same architectural idea that's been quietly winning across the stack for
+      a decade: get the CPU out of the data path wherever it's not adding
+      value. NVMe SSDs over PCIe. RDMA NICs. GPUDirect. Each is the same
+      pattern at a different layer.
+    </p>
+
+    <p>
+      For an AI cluster, GPUDirect Storage is the difference between training
+      that's storage-bound and training that's compute-bound.
+    </p>
+
+    <h2 data-num="07">Under the hood — the Linux systems layer</h2>
+
+    <p>
+      The least glamorous diagram, and the one where the most real-world
+      clusters break.
+    </p>
+
+    <figure class="slide">
+      <img src="/linux_systems_layer.svg" alt="Linux systems layer — RDMA transport, NUMA, hugepages, drivers, network tuning">
+      <figcaption><strong>Fig. 07</strong> · What the OS is doing beneath the containers. RDMA transport, NUMA topology, hugepages, driver coherence, network tuning. Where partner clusters quietly fail.</figcaption>
+    </figure>
+
+    <p>
+      Beneath the containers and orchestration is a Linux node doing a lot of
+      work the platform abstractions try to hide. RDMA transport (InfiniBand or
+      RoCE). NUMA topology and CPU affinity. Hugepages for HBM-backed memory
+      mapping. Driver versions that have to match across the cluster.
+      Persistent device naming for repeatable startup. Network tuning beyond
+      what enterprise sysadmin handles.
+    </p>
+
+    <p>
+      NVIDIA's Base Command Manager — and the broader DGX-stack tooling —
+      exists in large part to manage this layer. The reason partner clusters
+      often fail at scale isn't the GPUs; it's that the Linux substrate
+      underneath wasn't tuned for the workload above.
+    </p>
+
+    <p>
+      For an SA, this is the conversation where customer engineering teams
+      either trust you or quietly write you off. Knowing the OS layer well
+      enough to ask the right diagnostic questions matters.
+    </p>
+
+    <h2 data-num="08">Closing the loop</h2>
+
+    <p>
+      When I meet a customer and they want to train a 1T-parameter model in 30 days.
+    </p>
+
+    <p>Here is the full conversation we have which runs through every layer above:</p>
+
+    <ul>
+      <li><strong>Model arithmetic.</strong> 1T parameters in FP8 with optimizer state ≈ 4 TB. Per-GPU memory budget after activation checkpointing tells us minimum GPU count. 30-day target tells us how many.</li>
+      <li><strong>Parallelism strategy.</strong> TP degree bounded by NVLink domain. PP depth chosen to balance bubbles against cross-node communication. DP width set to absorb the rest.</li>
+      <li><strong>Cluster topology.</strong> SuperPOD config picks itself once parallelism is set. Network fabric and storage tier follow from GPU count and training-time target.</li>
+      <li><strong>Power and cooling.</strong> GPU count × ~700W TDP × overhead factor → power envelope. Power × cooling efficiency → rack density. Rack density → facility square footage.</li>
+    </ul>
+
+    <p>
+      Every layer informs the next. A change at any layer ripples through.
+    </p>
+
+    <div class="pull-quote">
+      Connecting the parallelism math to the cold-plate temp and flow rate, and back. <em>That's the conversation customers building AI factories actually need to have.</em>
+    </div>
+
+    <h2 data-num="09">What's next for me</h2>
+
+    <p>
+      More layers, more depth. Specifically:
+    </p>
+
+    <ul>
+      <li><strong>Orchestration and scheduling</strong> — Deeper on Slurm, multi-tenancy patterns at NCP scale.</li>
+      <li><strong>Observability</strong> — DCGM, profiling at scale, NCCL diagnostics, what "healthy" looks like at thousands of GPUs.</li>
+      <li><strong>MIG and inference serving</strong> — Triton, vLLM, Dynamo at NCP scale.</li>
+      <li><strong>The NVIDIA software stack</strong> — NeMo Framework, NeMo Retriever, CUDA-X libraries beyond cuDNN and cuBLAS.</li>
+    </ul>
+
+    <p>
+      I'll keep adding diagrams as I work through each layer. The story I want
+      to tell — and increasingly can tell — is the full chain from model
+      architecture down to CDU sizing, and back up.
+    </p>
+
+    <p>
+      That's the conversation worth having.
+    </p>
+
+    <div class="end-rule">⁂</div>
+
+    <div class="post-cta">
+      <h3>Building something infrastructure-heavy? Let's talk.</h3>
+      <p>
+        I'm an AI infrastructure advisor and senior solution architect based in
+        Denver. Open to senior roles where deep technical depth meets enterprise
+        sales credibility.
+      </p>
+      <div class="post-cta-buttons">
+        <a href="/Jim_Booth_Resume.pdf" class="btn btn-primary" target="_blank" rel="noopener">
+          Download Resume <span class="arrow">↓</span>
+        </a>
+        <a href="mailto:jimbooth@me.com" class="btn btn-secondary">
+          Email me <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </article>
+
+  <footer class="bottom">
+    <span>© Jim Booth · 2026</span>
+    <span>Denver, CO · 39.7°N 104.9°W</span>
+    <a href="/">Back to portfolio ↗</a>
+  </footer>
+
+</div>
+
+</body>
+</html>

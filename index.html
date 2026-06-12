@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/site.webmanifest">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jim Booth — Technical Sales Leader, AI Infrastructure</title>
+<meta name="description" content="Twenty years deep in enterprise infrastructure, and not slowing down. Builds, projects, and a portfolio of work.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #F4F5F7;
+    --paper-deep:  #EDEEF1;
+    --paper-card:  #FAFBFC;
+    --ink:         #0E1014;
+    --ink-soft:    #545963;
+    --ink-softer:  #9095A0;
+    --rule:        #DFE2E7;
+    --rule-soft:   #E8EAEE;
+
+    --fs-sans:     'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --fs-mono:     'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper-card);
+    color: var(--ink);
+    font-family: var(--fs-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+  }
+
+  /* ─── Header ─────────────────────────────────────── */
+  header.top {
+    padding: 1.5rem 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .wordmark {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .wordmark em {
+    font-style: normal;
+    color: var(--ink-softer);
+    font-weight: 400;
+    font-family: var(--fs-mono);
+    font-size: 0.82rem;
+    margin-left: 0.35rem;
+    letter-spacing: 0;
+  }
+
+  nav.primary {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+  }
+  nav.primary a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+  nav.primary a:hover { color: var(--ink); }
+
+  nav.primary .resume-link {
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  nav.primary .resume-link:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  nav.primary .resume-link::after {
+    content: "↓";
+    font-size: 0.85em;
+    transform: translateY(-1px);
+  }
+
+  /* ─── Hero ───────────────────────────────────────── */
+  .hero {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3.5rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-text > *:last-child { margin-bottom: 0; }
+
+  .hero-visual {
+    position: relative;
+  }
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+  }
+
+  .locus {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 1.75rem;
+  }
+  .locus .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ink);
+    animation: subtle-pulse 3s ease-in-out infinite;
+  }
+  .locus .sep { color: var(--ink-softer); }
+  @keyframes subtle-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+  }
+
+  h1.lead {
+    font-family: var(--fs-sans);
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3.8vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 22ch;
+    margin-bottom: 1.5rem;
+  }
+  h1.lead .dim { color: var(--ink-soft); }
+  h1.lead .mark {
+    color: var(--ink);
+  }
+
+  .hero-body {
+    max-width: 58ch;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 1.75rem;
+    font-weight: 400;
+  }
+  .hero-body strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* CTA group */
+  .cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+  .btn {
+    font-family: var(--fs-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.25rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn .arrow { font-size: 1em; }
+
+  /* Stats as ledger */
+  .ledger {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    max-width: 900px;
+  }
+  .ledger-item .k {
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .ledger-item .v {
+    font-family: var(--fs-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+
+  /* ─── Section shell ──────────────────────────────── */
+  section {
+    padding-bottom: 4.5rem;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+    align-items: baseline;
+  }
+  .section-label {
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--ink);
+    align-self: start;
+    display: inline-block;
+    padding-right: 2rem;
+  }
+  .section-title {
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    max-width: 22ch;
+    color: var(--ink);
+  }
+  .section-title .dim {
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  /* ─── Projects ───────────────────────────────────── */
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .project-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--paper-card);
+    overflow: hidden;
+  }
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.95rem 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .project-meta .status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink);
+  }
+  .project-meta .status .pulse {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ink);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  .project-meta .status.queued .pulse {
+    background: transparent;
+    border: 1px solid var(--ink-softer);
+    animation: none;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.25); }
+  }
+  .project-meta .index {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-content {
+    padding: 1.75rem 1.5rem 0.5rem;
+  }
+  .project-content h3 {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+  .project-content .subhead {
+    font-family: var(--fs-mono);
+    font-size: 0.77rem;
+    color: var(--ink-softer);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+  .project-content p {
+    color: var(--ink-soft);
+    max-width: 72ch;
+    margin-bottom: 1rem;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+  .project-content p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .project-content p:last-of-type {
+    margin-bottom: 1.25rem;
+  }
+  .project-takeaway {
+    border-left: 2px solid var(--ink);
+    padding: 0.1rem 0 0.1rem 1rem;
+    margin: 1.25rem 0;
+    max-width: 70ch;
+  }
+  .project-takeaway .label {
+    font-family: var(--fs-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 0.4rem;
+  }
+  .project-takeaway p {
+    color: var(--ink);
+    font-size: 0.97rem;
+    line-height: 1.55;
+    margin: 0;
+    font-weight: 400;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 1.25rem;
+  }
+  .tag-pill {
+    font-family: var(--fs-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    padding: 0.28rem 0.6rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    border-radius: 2px;
+  }
+
+  /* Carousel — horizontal scroll-snap */
+  .carousel {
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-softer) transparent;
+  }
+  .carousel::-webkit-scrollbar { height: 4px; }
+  .carousel::-webkit-scrollbar-track { background: var(--rule-soft); }
+  .carousel::-webkit-scrollbar-thumb {
+    background: var(--ink-softer);
+    border-radius: 2px;
+  }
+  .carousel-item {
+    flex: 0 0 min(85%, 720px);
+    scroll-snap-align: start;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper-card);
+    box-shadow: 0 2px 16px rgba(14, 16, 20, 0.06);
+  }
+  .carousel-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .carousel-item .placeholder {
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1d24, #0E1014);
+    color: var(--ink-softer);
+    font-family: var(--fs-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1rem;
+  }
+  .carousel-item figcaption {
+    padding: 0.65rem 0.9rem;
+    font-family: var(--fs-mono);
+    font-size: 0.71rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-softer);
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+  }
+  .carousel-hint {
+    font-family: var(--fs-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    padding: 0 1.5rem 1rem;
+  }
+
+  /* Repo link */
+  .project-links {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1rem;
+    margin-top: 0;
+    font-family: var(--fs-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+  }
+  .project-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .project-links a:hover { color: var(--ink); }
+  .project-links .link-arrow { font-size: 1.1em; }
+
+  /* ─── Expertise ──────────────────────────────────── */
+  .expertise {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .exp-item {
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .exp-item:nth-child(odd)  { padding-right: 2.5rem; }
+  .exp-item:nth-child(even) {
+    padding-left: 2.5rem;
+    border-left: 1px solid var(--rule);
+  }
+  .exp-item h3 {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.65rem;
+    color: var(--ink);
+  }
+  .exp-item p {
+    color: var(--ink-soft);
+    margin-bottom: 0.85rem;
+    max-width: 48ch;
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+  .exp-item .tags {
+    font-family: var(--fs-mono);
+    font-size: 0.71rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-softer);
+  }
+
+  /* ─── Career Path (now embedded in Experience) ───── */
+  .career-path {
+    padding: 0 0 2rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .career-path .label {
+    font-family: var(--fs-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 0.85rem;
+  }
+  .career-path .companies {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 1.1rem;
+    font-family: var(--fs-sans);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .career-path .companies .step { color: var(--ink); }
+  .career-path .companies .arrow {
+    color: var(--ink-softer);
+    font-family: var(--fs-mono);
+    font-size: 0.85em;
+    font-weight: 400;
+  }
+
+  /* ─── Experience (compressed timeline) ───────────── */
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-role {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2.5rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--rule);
+    transition: background 0.3s ease;
+  }
+  .timeline-role:hover { background: var(--paper-deep); }
+  .timeline-role:last-child { border-bottom: 1px solid var(--rule); }
+
+  .timeline-role .period {
+    font-family: var(--fs-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-softer);
+    padding-top: 0.15rem;
+  }
+  .timeline-role .role-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.55rem;
+  }
+  .timeline-role .company {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .timeline-role .title {
+    font-family: var(--fs-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .timeline-role .wins {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .timeline-role .wins li {
+    font-family: var(--fs-sans);
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+    max-width: 64ch;
+  }
+  .timeline-role .wins li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--ink-softer);
+  }
+  .timeline-role .wins li strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ─── Credentials ────────────────────────────────── */
+  .creds {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+  }
+  .creds-label {
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+  .creds-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cred {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: baseline;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cred:first-child { padding-top: 0; }
+  .cred:last-child { border-bottom: none; padding-bottom: 0; }
+  .cred .what {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 0.98rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .cred .who {
+    font-family: var(--fs-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-softer);
+    text-transform: uppercase;
+  }
+
+  /* ─── Contact ────────────────────────────────────── */
+  .contact {
+    padding: 4rem 0 2.5rem;
+    border-top: 1px solid var(--ink);
+    margin-top: 1rem;
+  }
+  .contact-lead {
+    font-family: var(--fs-sans);
+    font-weight: 300;
+    font-size: clamp(1.7rem, 3.8vw, 2.85rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+    margin-bottom: 1.75rem;
+    color: var(--ink);
+  }
+  .contact-lead .dim { color: var(--ink-soft); }
+
+  .contact-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+  }
+  .contact-field .label {
+    font-family: var(--fs-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+    margin-bottom: 0.6rem;
+  }
+  .contact-field a {
+    font-family: var(--fs-sans);
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.015em;
+    transition: color 0.25s ease;
+    display: inline-block;
+    position: relative;
+  }
+  .contact-field a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: var(--ink-softer);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.7, 0, 0.3, 1), background 0.25s ease;
+  }
+  .contact-field a:hover::after {
+    background: var(--ink);
+    transform: scaleX(1.02);
+  }
+
+  /* ─── Footer ─────────────────────────────────────── */
+  footer.bottom {
+    padding: 2rem 0 1.75rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    font-family: var(--fs-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-softer);
+  }
+  footer.bottom a { color: inherit; text-decoration: none; transition: color 0.25s ease; }
+  footer.bottom a:hover { color: var(--ink); }
+
+  /* ─── Tablet hero stack (image labels need legibility) ─── */
+  @media (max-width: 980px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+    }
+    .hero-visual {
+      max-width: 560px;
+    }
+  }
+
+  /* ─── Mobile ─────────────────────────────────────── */
+  @media (max-width: 780px) {
+    body { font-size: 15px; }
+    .wrap { padding: 0 1.25rem; }
+
+    header.top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    nav.primary { gap: 1.1rem; flex-wrap: wrap; font-size: 0.68rem; }
+    nav.primary .resume-link { padding: 0.45rem 0.75rem; }
+
+    .hero { padding-bottom: 2.5rem; margin-bottom: 2.5rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
+    h1.lead { max-width: 100%; margin-bottom: 1.25rem; }
+
+    .cta-group { flex-direction: column; align-items: stretch; }
+    .btn { justify-content: center; }
+
+    .ledger { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; padding-top: 1.5rem; }
+
+    .section-head, .creds {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    .section-head { margin-bottom: 1.75rem; }
+
+    .projects { gap: 1.75rem; }
+    .project-content { padding: 1.5rem 1.1rem 0.4rem; }
+    .project-meta { padding: 0.85rem 1.1rem; }
+    .carousel { margin: 0 -1.1rem; padding: 0 1.1rem 1rem; }
+    .carousel-item { flex: 0 0 88%; }
+    .carousel-hint { padding: 0 1.1rem 1rem; }
+    .project-links { padding: 1rem 1.1rem 1.25rem; flex-wrap: wrap; gap: 1rem; }
+
+    .expertise { grid-template-columns: 1fr; }
+    .exp-item { padding: 1.5rem 0; }
+    .exp-item:nth-child(odd)  { padding-right: 0; }
+    .exp-item:nth-child(even) { padding-left: 0; border-left: none; }
+
+    .timeline-role {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      padding: 1rem 0;
+    }
+    .career-path .companies { font-size: 1rem; gap: 0 0.85rem; }
+
+    .contact { padding: 3rem 0 2rem; }
+    .contact-cta { flex-direction: column; }
+    .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    footer.bottom { flex-direction: column; gap: 0.6rem; padding: 1.5rem 0 1.25rem; margin-top: 2.5rem; }
+    section { padding-bottom: 3rem; }
+  }
+
+  /* ─── Entrance ───────────────────────────────────── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.75s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+  }
+  .fade-up.d1 { animation-delay: 0.05s; }
+  .fade-up.d2 { animation-delay: 0.16s; }
+  .fade-up.d3 { animation-delay: 0.28s; }
+  .fade-up.d4 { animation-delay: 0.42s; }
+  .fade-up.d5 { animation-delay: 0.56s; }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up, .project-meta .status .pulse, .locus .dot {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  ::selection { background: var(--ink); color: var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <header class="top">
+    <a href="#" class="wordmark">Jim Booth<em>Portfolio</em></a>
+    <nav class="primary">
+      <a href="#projects">Projects</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+      <a href="/Jim_Booth_Resume.pdf" class="resume-link" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="locus fade-up d1">
+          <span class="dot"></span>
+          <span>Denver, Colorado</span>
+          <span class="sep">·</span>
+          <span>Advisor, AI Data Centers</span>
+          <span class="sep">·</span>
+          <span>Open to senior roles</span>
+        </div>
+
+        <h1 class="lead fade-up d2">
+          I know the technology.<br>
+          <span class="dim">I build the trust.</span><br>
+          I am the <span class="mark">technical closer</span>.
+        </h1>
+
+        <p class="hero-body fade-up d3">
+          Twenty years deep in enterprise infrastructure — and I'm not slowing
+          down. I build transformers from the attention layer up, design two-phase
+          cooling for GPU-dense racks, and run production systems where real money
+          is on the line. Two decades earned the depth. Staying current earns the
+          trust.
+        </p>
+
+        <div class="cta-group fade-up d4">
+          <a href="#projects" class="btn btn-primary">
+            See the work <span class="arrow">↓</span>
+          </a>
+          <a href="/Jim_Booth_Resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener">
+            Download Resume <span class="arrow">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual fade-up d3">
+        <img src="overlay_featured_1600.png" alt="The Rare Mix — most careers cover one or two layers of AI infrastructure; Jim&#39;s career spans all seven, from Physical, Thermal &amp; Power up through Go-to-Market &amp; Commercial.">
+      </div>
+    </div>
+
+    <div class="ledger fade-up d5">
+      <div class="ledger-item">
+        <div class="k">8-figure</div>
+        <div class="v">Pipeline closed</div>
+      </div>
+      <div class="ledger-item">
+        <div class="k">300 MW</div>
+        <div class="v">AI cooling deployed</div>
+      </div>
+      <div class="ledger-item">
+        <div class="k">−30%</div>
+        <div class="v">Sales-cycle reduction</div>
+      </div>
+      <div class="ledger-item">
+        <div class="k">127%</div>
+        <div class="v">Quota attainment</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects (now the main attraction) -->
+  <section id="projects">
+    <header class="section-head">
+      <span class="section-label">Projects</span>
+      <h2 class="section-title">Build to <span class="dim">understand.</span></h2>
+    </header>
+
+    <div class="projects">
+
+      <!-- Project 01: From Watts to Weights -->
+      <article class="project-card">
+        <div class="project-meta">
+          <div class="status"><span class="pulse"></span>In progress · Ongoing</div>
+          <div><span class="index">01</span> · Personal research</div>
+        </div>
+
+        <div class="project-content">
+          <h3>From Watts to Weights</h3>
+          <div class="subhead">Closing the loop between sizing infrastructure-up and model-down</div>
+
+          <p>
+            I've been sizing AI factories from the bottom up — power
+            envelope, cooling capacity, rack density. A modern AI-cluster
+            customer needs the <em>other</em> end of that equation: model
+            parameters, parallelism strategy, GPU count, interconnect
+            topology.
+          </p>
+
+          <p>
+            This is the synthesis I've been building — seven diagrams walking
+            the layers of an AI cluster from compute up through fabric and
+            back down through storage and OS. The full chain a customer needs
+            to size, and the seams where infrastructure-up thinking meets
+            model-down thinking.
+          </p>
+
+          <div class="project-takeaway">
+            <div class="label">Why this matters</div>
+            <p>
+              Most can do the parallelism math. Very few can connect it
+              back to choices of RDHX, PG-25 liquid cool, or two-phase DTC
+              cooling. The conversation a customer building an AI factory 
+              actually needs runs the full chain — from model arithmetic
+              through cluster topology to power and cooling. I want to be
+              able to hold both ends of <b>that</b> conversation.
+            </p>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag-pill">NVLink / NVSwitch</span>
+            <span class="tag-pill">InfiniBand / RDMA</span>
+            <span class="tag-pill">3D Parallelism</span>
+            <span class="tag-pill">NCCL</span>
+            <span class="tag-pill">GPUDirect Storage</span>
+            <span class="tag-pill">DGX SuperPOD</span>
+            <span class="tag-pill">GB200 NVL72</span>
+            <span class="tag-pill">Magnum IO</span>
+          </div>
+        </div>
+
+        <div class="carousel" role="region" aria-label="AI cluster layer diagrams">
+          <figure class="carousel-item">
+            <img src="gpu_compute_layer.svg" alt="Inside the GPU — the compute layer" loading="lazy">
+            <figcaption>01 · Inside the GPU — the compute layer</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="network_fabric_layer.svg" alt="The network fabric — scale-up meets scale-out" loading="lazy">
+            <figcaption>02 · The network fabric — scale-up meets scale-out</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="parallelism_to_fabric.svg" alt="Mapping parallelism to the fabric — the synthesis" loading="lazy">
+            <figcaption>03 · Mapping parallelism to the fabric</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="storage_layer.svg" alt="Storage for AI — the layer that feeds the cluster" loading="lazy">
+            <figcaption>04 · Feeding the cluster — storage</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="storage_layer_depth.svg" alt="Storage layer in depth — tiering, parallel filesystems, metadata" loading="lazy">
+            <figcaption>05 · Storage in depth</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="bypass_data_path.svg" alt="The bypass data path — getting bytes into HBM" loading="lazy">
+            <figcaption>06 · The bypass — getting bytes into HBM</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="linux_systems_layer.svg" alt="The Linux systems layer under a GPU node" loading="lazy">
+            <figcaption>07 · Under the hood — the Linux systems layer</figcaption>
+          </figure>
+        </div>
+        <div class="carousel-hint">Drag → to see all 7 diagrams</div>
+
+        <div class="project-links">
+          <a href="/posts/watts-to-weights" target="_blank" rel="noopener">
+            Full writeup with all seven layers <span class="link-arrow">↗</span>
+          </a>
+        </div>
+      </article>
+
+
+      <!-- Project 02: LoRA Fine-Tuning -->
+      <article class="project-card">
+        <div class="project-meta">
+          <div class="status"><span class="pulse"></span>Complete · Writeup published</div>
+          <div><span class="index">02</span> · Personal research</div>
+        </div>
+
+        <div class="project-content">
+          <h3>Fine-Tuning Llama-3.1 for AI Infrastructure</h3>
+          <div class="subhead">LoRA · 0.52% of parameters touched · 22 seconds on one H100</div>
+
+          <p>
+            How much can a small, fast LoRA fine-tune shift a general model
+            toward a specialized domain? Synthetic AI-infrastructure Q&amp;A
+            dataset, <strong>Llama-3.1-8B base</strong>, rank-16 LoRA on a
+            single H100 via Brev. Eighteen optimizer steps, twenty-two seconds
+            of wall clock. Loss came down cleanly. Eval numbers looked fine.
+          </p>
+
+          <p>
+            The interesting part wasn't the numbers. I asked the tuned model
+            to explain CDU sizing for a 150 kW GPU rack — a domain I know
+            well from selling 300 MW of two-phase cooling at Accelsius.
+            Despite five clean CDU examples in my training data, the model
+            confidently answered with inrush current and electrical-overload
+            concepts. Pure category error: that's PDU reasoning, not CDU
+            reasoning. Llama's pretraining corpus had millions of
+            co-occurrences of <em>sizing + kW + rack</em> with electrical
+            concepts. My LoRA saw five. <strong>The prior won by orders of
+            magnitude.</strong>
+          </p>
+
+          <div class="project-takeaway">
+            <div class="label">What it taught</div>
+            <p>
+              Fine-tune for form, RAG for facts. LoRA shifts behavior —
+              style, format, domain fluency, task specialization. It's a
+              weak tool for installing facts that contradict strong
+              pretraining priors. NVIDIA's NeMo Framework + NeMo Retriever
+              stack is designed for exactly this combination — and it's the
+              conversation NCP customers asking "should we fine-tune
+              Nemotron?" actually need to have.
+            </p>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag-pill">Llama-3.1-8B</span>
+            <span class="tag-pill">LoRA rank-16</span>
+            <span class="tag-pill">PEFT</span>
+            <span class="tag-pill">Unsloth</span>
+            <span class="tag-pill">H100 / Brev</span>
+            <span class="tag-pill">vLLM</span>
+            <span class="tag-pill">NVIDIA NeMo</span>
+            <span class="tag-pill">RAG</span>
+          </div>
+        </div>
+
+        <div class="carousel" role="region" aria-label="LoRA fine-tuning artifacts">
+          <figure class="carousel-item">
+            <img src="01_loss_curve.svg" alt="Training loss curve — 18 optimizer steps, 22 seconds wall clock" loading="lazy">
+            <figcaption>01 · Training loss — 18 steps, 22 sec wall clock</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="02_cdu_vs_pdu.svg" alt="PDU vs CDU — different domains, similar names" loading="lazy">
+            <figcaption>02 · PDU vs CDU — the diagnostic finding</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="03_what_finetuning_changed.svg" alt="What the fine-tune actually changed in the model" loading="lazy">
+            <figcaption>03 · What fine-tuning changed — and didn't</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="04_pipeline_architecture.svg" alt="Training pipeline architecture" loading="lazy">
+            <figcaption>04 · Pipeline architecture</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="05_finetune_vs_rag.svg" alt="Fine-tune vs RAG — when to use which" loading="lazy">
+            <figcaption>05 · Fine-tune vs RAG — when to use which</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="06_eval_methodology.svg" alt="Evaluation methodology" loading="lazy">
+            <figcaption>06 · Evaluation methodology</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="07_terminal_output.svg" alt="Terminal output from the training run" loading="lazy">
+            <figcaption>07 · Terminal output — training run</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="08_response_comparison.svg" alt="Base model vs fine-tuned response comparison" loading="lazy">
+            <figcaption>08 · Base vs fine-tuned — response comparison</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="09_stack_positioning.svg" alt="Stack positioning — where research tools sit vs NCP production">
+            <figcaption>09 · Where the tools sit — research vs NCP production</figcaption>
+          </figure>
+        </div>
+        <div class="carousel-hint">Drag → to see all 9 slides</div>
+
+        <div class="project-links">
+          <a href="/posts/lora-finetuning-llama-31" target="_blank" rel="noopener">
+            Full writeup with code &amp; eval methodology <span class="link-arrow">↗</span>
+          </a>
+        </div>
+      </article>
+      <!-- Project 03: AI Agent From Scratch -->
+      <article class="project-card">
+        <div class="project-meta">
+          <div class="status"><span class="pulse"></span>In progress</div>
+          <div><span class="index">03</span> · Personal research</div>
+        </div>
+
+        <div class="project-content">
+          <h3>AI Agent From Scratch</h3>
+          <div class="subhead">Working through Manning's <em>Build an AI Agent (From Scratch)</em></div>
+
+          <p>
+            The natural next layer up from the LLM build. Same philosophy: no
+            LangChain, no AutoGen, no framework abstractions hiding the
+            mechanics. Tool-use loops, planning, memory, and evaluation —
+            built from primitives so I understand what the popular agent
+            frameworks are actually doing under the hood.
+          </p>
+
+          <p>
+            The agent so far handles <strong>multi-step tool use, simple
+            planning over an action space, and short-term memory across
+            turns</strong>. Each component goes in by hand before any
+            abstraction layer goes on top.
+          </p>
+
+          <div class="project-takeaway">
+            <div class="label">Why it matters</div>
+            <p>
+              AI infrastructure conversations are shifting from "how big a
+              model can we run?" to "how does this agentic workload behave
+              under load?" The two are very different problems. Building
+              agents from scratch is the only way to answer the second one
+              honestly.
+            </p>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Anthropic API</span>
+            <span class="tag-pill">Tool use</span>
+            <span class="tag-pill">ReAct loop</span>
+            <span class="tag-pill">Agent memory</span>
+            <span class="tag-pill">Eval harness</span>
+          </div>
+        </div>
+      </article>
+      <!-- Project 04: Prediction Market Trading Engine -->
+      <article class="project-card">
+        <div class="project-meta">
+          <div class="status"><span class="pulse"></span>Live · Running 24/7</div>
+          <div><span class="index">04</span> · Personal research · Dry-run mode</div>
+        </div>
+
+        <div class="project-content">
+          <h3>Prediction Market Trading Engine</h3>
+          <div class="subhead">Multi-strategy Python engine · Kalshi &amp; Polymarket</div>
+
+          <p>
+            Prediction markets are one of the few public order books where
+            retail can compete with institutions on price discovery — narrow
+            products, clean data, no insider information. I wanted a sandbox
+            where my code's decisions had real consequences.
+          </p>
+
+          <p>
+            The engine runs <strong>six concurrent strategies under launchd</strong>:
+            an arbitrage scanner crossing Kalshi and Polymarket on the same
+            underlying events, a passive market-maker quoting around microprice
+            fair-value with quarter-Kelly sizing, and weather-contract trading
+            driven by calibrated NWS forecast models with regional bias
+            corrections. Settlement, take-profit, and reinvestment all happen
+            automatically.
+          </p>
+
+          <div class="project-takeaway">
+            <div class="label">Why this matters</div>
+            <p>
+              It's been my best classroom for understanding what AI
+              infrastructure actually has to support. Latency budgets matter
+              when prices move in milliseconds. Memory access patterns matter
+              when you hold state across thousands of markets. Observability
+              matters when something's bleeding and you don't know which
+              strategy. Most of what I sell becomes concrete when you have to
+              operate it yourself.
+            </p>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">asyncio</span>
+            <span class="tag-pill">Kalshi API</span>
+            <span class="tag-pill">Polymarket</span>
+            <span class="tag-pill">NWS forecast models</span>
+            <span class="tag-pill">launchd</span>
+            <span class="tag-pill">Quarter-Kelly sizing</span>
+            <span class="tag-pill">Microprice FV</span>
+          </div>
+        </div>
+
+        <div class="carousel" role="region" aria-label="Trading engine screenshots">
+          <figure class="carousel-item">
+            <img src="dashboard.png" alt="Live operator dashboard — positions, P&amp;L, signal feed" loading="lazy">
+            <figcaption>01 · Operator dashboard — positions, P&amp;L, signal feed</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="scr1.png" alt="Strategy signals — logging output across strategies" loading="lazy">
+            <figcaption>02 · Strategy signals — live logging</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="scr3.png" alt="Crypto research module — new strategy in development" loading="lazy">
+            <figcaption>03 · Crypto funding research — new strategy</figcaption>
+          </figure>
+        </div>
+        <div class="carousel-hint">Drag → to see more</div>
+      </article>
+      <!-- Project 05: LLM From Scratch -->
+      <article class="project-card">
+        <div class="project-meta">
+          <div class="status"><span class="pulse"></span>Complete</div>
+          <div><span class="index">05</span> · Personal research</div>
+        </div>
+
+        <div class="project-content">
+          <h3>LLM From Scratch</h3>
+          <div class="subhead">A small transformer · PyTorch · No framework shortcuts</div>
+
+          <p>
+            Sitting across the table from CTOs while I sold GPU clusters and
+            high-density cooling, I kept feeling the gap between knowing what
+            ran on the hardware and knowing how it ran. Reading papers wasn't
+            enough. I had to build one.
+          </p>
+
+          <p>
+            A small transformer in PyTorch, layer by layer — <strong>BPE
+            tokenizer, multi-head self-attention written from the math,
+            residual connections, layer normalization, and the full training
+            loop</strong>. The model that came out is small and useful mostly
+            for proving the underlying mechanics work. The understanding that
+            came out has shown up in every cooling-and-compute conversation
+            since.
+          </p>
+
+          <div class="project-takeaway">
+            <div class="label">What it taught</div>
+            <p>
+              Attention is a memory-bandwidth problem before it's a compute
+              problem. Context length is a quadratic cost. Pretraining is
+              mostly babysitting. These are the things that turn into
+              "what's your inference budget?" questions in a sales call —
+              and I can now answer them from the inside.
+            </p>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag-pill">PyTorch</span>
+            <span class="tag-pill">BPE tokenizer</span>
+            <span class="tag-pill">Self-attention</span>
+            <span class="tag-pill">GPT-2 architecture</span>
+            <span class="tag-pill">Mixed precision</span>
+            <span class="tag-pill">CUDA</span>
+          </div>
+        </div>
+
+        <div class="carousel" role="region" aria-label="LLM project artifacts">
+          <figure class="carousel-item">
+            <img src="GELU.png" alt="Activation Functions — GELU vs. RELU" loading="lazy">
+            <figcaption>01 · Activation Functions — GELU vs. RELU</figcaption>
+          </figure>
+          <figure class="carousel-item">
+            <img src="Causal_Attn_Code.png" alt="Causal Attention Code - No previous reasoning" loading="lazy">
+            <figcaption>02 · Causal Attention Code - No previous reasoning</figcaption>
+          </figure>
+        </div>
+        <div class="carousel-hint">Drag → to see more</div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Expertise -->
+  <section id="expertise">
+    <header class="section-head">
+      <span class="section-label">Expertise</span>
+      <h2 class="section-title">What I bring <span class="dim">to the table.</span></h2>
+    </header>
+
+    <div class="expertise">
+
+      <div class="exp-item">
+        <h3>AI Infrastructure &amp; Cooling</h3>
+        <p>
+          GPU-dense data-center design, two-phase direct-to-chip cooling, and
+          the power / thermal trade-offs that define AI-factory economics.
+        </p>
+        <div class="tags">Two-phase DTC · NVIDIA · AMD · 300 MW+ deployed</div>
+      </div>
+
+      <div class="exp-item">
+        <h3>AI &amp; Machine Learning</h3>
+        <p>
+          Stanford ML specialization. Hands-on with LLM internals — transformers
+          from scratch, embeddings, attention mechanics. Building it, not just
+          talking about it.
+        </p>
+        <div class="tags">PyTorch · Transformers · RAG · Claude &amp; GPT</div>
+      </div>
+
+      <div class="exp-item">
+        <h3>Cloud &amp; Infrastructure</h3>
+        <p>
+          Triple AWS-certified. Production experience across GCP and AWS with
+          Kubernetes, serverless, and hybrid architectures for enterprise
+          workloads.
+        </p>
+        <div class="tags">AWS (SA · Dev · SysOps) · GCP · Kubernetes · Linux</div>
+      </div>
+
+      <div class="exp-item">
+        <h3>Enterprise Storage</h3>
+        <p>
+          Twenty years across every major platform — EMC, NetApp, IBM XIV,
+          Cisco HyperFlex. From Symmetrix frames to all-flash arrays to
+          hyper-converged.
+        </p>
+        <div class="tags">EMC · NetApp · IBM · HCI · Data protection</div>
+      </div>
+
+      <div class="exp-item">
+        <h3>Technical Sales &amp; Closing</h3>
+        <p>
+          The rare engineer who runs a POC on Monday and presents to a CTO on
+          Tuesday. Challenger methodology with a track record of outsized quota
+          attainment.
+        </p>
+        <div class="tags">Challenger Sale · POC execution · RFP / RFI</div>
+      </div>
+
+      <div class="exp-item">
+        <h3>Development &amp; Automation</h3>
+        <p>
+          Production code, not just slides. Custom tooling for sales
+          automation, data-protection workflows, and AI-assisted proposals.
+        </p>
+        <div class="tags">Python · C · Swift · Claude Code</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Experience (compressed) -->
+  <section id="experience">
+    <header class="section-head">
+      <span class="section-label">Experience</span>
+      <h2 class="section-title">Twenty years <span class="dim">of receipts.</span></h2>
+    </header>
+
+    <div class="career-path">
+      <div class="label">The path</div>
+      <div class="companies">
+        <span class="step">EMC</span><span class="arrow">→</span>
+        <span class="step">Veritas</span><span class="arrow">→</span>
+        <span class="step">IBM</span><span class="arrow">→</span>
+        <span class="step">NetApp</span><span class="arrow">→</span>
+        <span class="step">CreekPath</span><span class="arrow">→</span>
+        <span class="step">Cisco</span><span class="arrow">→</span>
+        <span class="step">SADA</span><span class="arrow">→</span>
+        <span class="step">Accelsius</span><span class="arrow">→</span>
+        <span class="step">Independent Advisory</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <article class="timeline-role">
+        <div class="period">2026 — Present</div>
+        <div>
+          <div class="role-head">
+            <span class="company">Independent Advisory</span>
+            <span class="title">Paid Advisor — AI Data Centers &amp; Two-Phase Cooling</span>
+          </div>
+          <ul class="wins">
+            <li>Advising institutional investors on <strong>technical due diligence</strong> for AI data-center and cooling investments</li>
+            <li>Evaluating vendor technology, deployment economics, and competitive positioning across the two-phase DTC market</li>
+            <li>Translating thermal, power, and GPU-density trade-offs into investable theses</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="timeline-role">
+        <div class="period">2024 — 2026</div>
+        <div>
+          <div class="role-head">
+            <span class="company">Accelsius</span>
+            <span class="title">Sr. Solution Architect</span>
+          </div>
+          <ul class="wins">
+            <li>Primary technical closer on <strong>300 MW AI-factory cooling deal</strong> — largest in company history</li>
+            <li>Promoted within five months</li>
+            <li>Authored 30+ proposals and 20+ technical assets, reducing average sales cycle by ~30%</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="timeline-role">
+        <div class="period">2022 — 2024</div>
+        <div>
+          <div class="role-head">
+            <span class="company">SADA <span style="color: var(--ink-softer); font-size: 0.85em; font-weight: 400;">(Insight)</span></span>
+            <span class="title">Sr. Cloud Engineer</span>
+          </div>
+          <ul class="wins">
+            <li>Architected HA solutions on Google Cloud Platform for mid-market and enterprise</li>
+            <li>Led infrastructure assessments and prescriptive cloud-adoption roadmaps</li>
+            <li>Mentored junior engineers on sales strategy and POC execution</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="timeline-role">
+        <div class="period">2013 — 2022</div>
+        <div>
+          <div class="role-head">
+            <span class="company">Cisco Systems</span>
+            <span class="title">Technical Solution Architect, Cloud</span>
+          </div>
+          <ul class="wins">
+            <li>US West Region technical lead and primary closer</li>
+            <li>Drove adoption of hyper-converged infrastructure</li>
+            <li>Spearheaded Kubernetes and cloud-native mentorship across engineering</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="timeline-role">
+        <div class="period">1995 — 2013</div>
+        <div>
+          <div class="role-head">
+            <span class="company">NetApp · IBM · EMC · Veritas</span>
+            <span class="title">Systems Engineering &amp; Technical Leadership</span>
+          </div>
+          <ul class="wins">
+            <li>Senior SE and architect roles across major enterprise storage — all-flash, XIV, Symmetrix, CLARiiON</li>
+            <li>Managing Director of Systems Engineering at CreekPath</li>
+            <li>Technical Product Manager at Veritas · <strong>127% quota · $10M+ territory</strong></li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Credentials -->
+  <section id="credentials">
+    <header class="section-head">
+      <span class="section-label">Credentials</span>
+      <h2 class="section-title">Formal <span class="dim">training.</span></h2>
+    </header>
+
+    <div class="creds">
+      <span class="creds-label">Education &amp; Certifications</span>
+      <div class="creds-body">
+        <div class="cred">
+          <span class="what">B.S. Computer Engineering</span>
+          <span class="who">Kansas State University</span>
+        </div>
+        <div class="cred">
+          <span class="what">Machine Learning Specialization</span>
+          <span class="who">Stanford University</span>
+        </div>
+        <div class="cred">
+          <span class="what">AWS Solutions Architect</span>
+          <span class="who">Amazon Web Services</span>
+        </div>
+        <div class="cred">
+          <span class="what">AWS Certified Developer</span>
+          <span class="who">Amazon Web Services</span>
+        </div>
+        <div class="cred">
+          <span class="what">AWS SysOps Administrator</span>
+          <span class="who">Amazon Web Services</span>
+        </div>
+        <div class="cred">
+          <span class="what">Certified Beer Judge</span>
+          <span class="who">Beer Judging Certification Program</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <h2 class="contact-lead">
+      Building something <span class="dim">infrastructure-heavy?</span> Let's talk.
+    </h2>
+
+    <div class="contact-cta">
+      <a href="/Jim_Booth_Resume.pdf" class="btn btn-primary" target="_blank" rel="noopener">
+        Download Resume <span class="arrow">↓</span>
+      </a>
+      <a href="mailto:jimbooth@me.com" class="btn btn-secondary">
+        Email me <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-field">
+        <div class="label">Email</div>
+        <a href="mailto:jimbooth@me.com">jimbooth@me.com</a>
+      </div>
+      <div class="contact-field">
+        <div class="label">LinkedIn</div>
+        <a href="https://linkedin.com/in/jimbooth" target="_blank" rel="noopener">linkedin.com/in/jimbooth</a>
+      </div>
+      <div class="contact-field">
+        <div class="label">Phone</div>
+        <a href="tel:3039816276">303.981.6276</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bottom">
+    <span>© Jim Booth · 2026</span>
+    <span>Denver, CO · 39.7°N 104.9°W</span>
+    <a href="/Jim_Booth_Resume.pdf" target="_blank" rel="noopener">Resume ↗</a>
+  </footer>
+
+</div>
+
+</body>
+</html>

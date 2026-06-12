@@ -1,0 +1,53 @@
+<svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <!-- title -->
+  <text x="80" y="34" font-size="16" font-weight="500" fill="#0E1014">Training loss — 18 optimizer steps, 22 sec wall clock</text>
+  <text x="80" y="58" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#9095A0">LORA R=16 / BATCH=8 / LR=2E-4 / H100 80GB</text>
+
+  <!-- axes -->
+  <line x1="80" y1="105" x2="80" y2="405" stroke="#0E1014" stroke-width="1.2"/>
+  <line x1="80" y1="405" x2="740" y2="405" stroke="#0E1014" stroke-width="1.2"/>
+
+  <!-- y gridlines -->
+  <line x1="80" y1="305" x2="740" y2="305" stroke="#E8EAEE" stroke-width="1"/>
+  <line x1="80" y1="205" x2="740" y2="205" stroke="#E8EAEE" stroke-width="1"/>
+  <line x1="80" y1="105" x2="740" y2="105" stroke="#E8EAEE" stroke-width="1"/>
+
+  <!-- y labels -->
+  <text x="68" y="409" text-anchor="end" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">0</text>
+  <text x="68" y="309" text-anchor="end" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">1</text>
+  <text x="68" y="209" text-anchor="end" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">2</text>
+  <text x="68" y="109" text-anchor="end" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">3</text>
+
+  <!-- x labels -->
+  <text x="80" y="425" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">0</text>
+  <text x="300" y="425" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">1</text>
+  <text x="520" y="425" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">2</text>
+  <text x="740" y="425" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">3</text>
+
+  <!-- axis titles -->
+  <text x="410" y="452" text-anchor="middle" font-size="12" font-style="italic" fill="#545963">epoch</text>
+  <text x="34" y="255" text-anchor="middle" font-size="12" font-style="italic" fill="#545963" transform="rotate(-90 34 255)">loss</text>
+
+  <!-- average reference line -->
+  <line x1="80" y1="226" x2="740" y2="226" stroke="#9095A0" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="735" y="220" text-anchor="end" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">avg = 1.79</text>
+
+  <!-- data line -->
+  <polyline points="280,119 461,247 641,271" fill="none" stroke="#0E1014" stroke-width="2.5"/>
+
+  <!-- data points -->
+  <circle cx="280" cy="119" r="6" fill="#0E1014"/>
+  <circle cx="461" cy="247" r="6" fill="#0E1014"/>
+  <circle cx="641" cy="271" r="6" fill="#0E1014"/>
+
+  <!-- point labels -->
+  <text x="280" y="107" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">2.86</text>
+  <text x="461" y="235" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">1.58</text>
+  <text x="641" y="259" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">1.34</text>
+
+  <!-- annotation -->
+  <text x="600" y="345" font-size="12" font-style="italic" fill="#545963">still trending down —</text>
+  <text x="600" y="361" font-size="12" font-style="italic" fill="#545963">could train longer</text>
+  <path d="M 660 300 Q 668 322 648 338" stroke="#9095A0" stroke-width="1.2" fill="none"/>
+  <polygon points="648,338 646,332 654,331" fill="#9095A0"/>
+</svg>

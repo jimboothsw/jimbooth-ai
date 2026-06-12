@@ -1,0 +1,130 @@
+<svg viewBox="0 0 1180 880" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="aInk" markerWidth="11" markerHeight="11" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#0E1014"/>
+    </marker>
+    <marker id="aSoft" markerWidth="11" markerHeight="11" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#9095A0"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="590" y="40" text-anchor="middle" font-size="22" font-weight="500" fill="#0E1014">The bypass data path — getting bytes into HBM</text>
+  <text x="590" y="64" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Legacy CPU-bounce path vs RDMA + GPUDirect Storage bypass</text>
+
+  <!-- ===================== LEFT: LEGACY PATH ===================== -->
+  <text x="300" y="104" text-anchor="middle" font-size="14" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#0E1014">LEGACY PATH</text>
+  <text x="300" y="124" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">CPU orchestrates every copy</text>
+
+  <!-- storage -->
+  <rect x="180" y="140" width="240" height="56" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="300" y="164" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Storage  (NVMe / NVMe-oF)</text>
+  <text x="300" y="182" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">/dev/nvme0n1</text>
+
+  <line x1="300" y1="196" x2="300" y2="226" stroke="#0E1014" stroke-width="1.5" marker-end="url(#aInk)"/>
+
+  <!-- kernel page cache (system RAM) -->
+  <rect x="180" y="228" width="240" height="56" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="300" y="252" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Kernel page cache</text>
+  <text x="300" y="270" text-anchor="middle" font-size="11" font-style="italic" fill="#545963">in system RAM — CPU copies in</text>
+
+  <line x1="300" y1="284" x2="300" y2="314" stroke="#0E1014" stroke-width="1.5" marker-end="url(#aInk)"/>
+
+  <!-- bounce buffer -->
+  <rect x="180" y="316" width="240" height="56" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="300" y="340" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Bounce buffer</text>
+  <text x="300" y="358" text-anchor="middle" font-size="11" font-style="italic" fill="#545963">extra staging copy in system RAM</text>
+
+  <line x1="300" y1="372" x2="300" y2="402" stroke="#0E1014" stroke-width="1.5" marker-end="url(#aInk)"/>
+  <text x="312" y="391" font-size="10" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">PCIe</text>
+
+  <!-- GPU HBM -->
+  <rect x="180" y="404" width="240" height="56" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="2.5"/>
+  <text x="300" y="428" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">GPU HBM</text>
+  <text x="300" y="446" text-anchor="middle" font-size="11" font-style="italic" fill="#545963">finally where the GPU needs it</text>
+
+  <!-- CPU annotation bracket -->
+  <path d="M 432 228 q 18 0 18 18 v 100 q 0 18 18 18" fill="none" stroke="#9095A0" stroke-width="1.2"/>
+  <text x="468" y="318" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">CPU</text>
+  <text x="468" y="334" font-size="10" font-style="italic" fill="#545963">in the</text>
+  <text x="468" y="348" font-size="10" font-style="italic" fill="#545963">data path</text>
+
+  <!-- legacy cost callout -->
+  <rect x="160" y="492" width="280" height="92" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="176" y="514" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#7A5F1E">THE COST</text>
+  <text x="176" y="534" font-size="12" fill="#0E1014">- 2+ copies through system RAM</text>
+  <text x="176" y="552" font-size="12" fill="#0E1014">- CPU burns cycles orchestrating</text>
+  <text x="176" y="570" font-size="12" fill="#0E1014">- system memory BW saturated</text>
+
+  <!-- ===================== RIGHT: BYPASS PATH ===================== -->
+  <text x="880" y="104" text-anchor="middle" font-size="14" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#0E1014">BYPASS PATH</text>
+  <text x="880" y="124" text-anchor="middle" font-size="11" font-style="italic" fill="#9095A0">CPU sets it up, then gets out of the way</text>
+
+  <!-- storage -->
+  <rect x="760" y="140" width="240" height="56" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="880" y="164" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Storage  (NVMe / NVMe-oF)</text>
+  <text x="880" y="182" text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">remote array over RDMA fabric</text>
+
+  <!-- straight DMA arrow down the far-right edge, skipping the middle -->
+  <line x1="1004" y1="196" x2="1004" y2="404" stroke="#0E1014" stroke-width="3" marker-end="url(#aInk)"/>
+  <text x="1018" y="288" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">direct</text>
+  <text x="1018" y="303" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">DMA</text>
+  <text x="1018" y="323" font-size="10" font-style="italic" fill="#545963">P2P over</text>
+  <text x="1018" y="337" font-size="10" font-style="italic" fill="#545963">PCIe,</text>
+  <text x="1018" y="351" font-size="10" font-style="italic" fill="#545963">straight</text>
+  <text x="1018" y="365" font-size="10" font-style="italic" fill="#545963">to HBM</text>
+
+  <!-- ghosted, skipped middle boxes -->
+  <rect x="760" y="228" width="200" height="56" rx="2" fill="none" stroke="#DFE2E7" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="860" y="260" text-anchor="middle" font-size="12" font-style="italic" fill="#9095A0">page cache — skipped</text>
+
+  <rect x="760" y="316" width="200" height="56" rx="2" fill="none" stroke="#DFE2E7" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="860" y="348" text-anchor="middle" font-size="12" font-style="italic" fill="#9095A0">bounce buf — skipped</text>
+
+  <!-- GPU HBM -->
+  <rect x="760" y="404" width="240" height="56" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="2.5"/>
+  <text x="880" y="428" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">GPU HBM</text>
+  <text x="880" y="446" text-anchor="middle" font-size="11" font-style="italic" fill="#545963">bytes land where they're needed</text>
+
+  <!-- GDS label on the bypass -->
+  <rect x="612" y="276" width="116" height="48" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="670" y="298" text-anchor="middle" font-size="13" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">GDS</text>
+  <text x="670" y="314" text-anchor="middle" font-size="9" font-style="italic" fill="#545963">GPUDirect Storage</text>
+  <path d="M 728 300 L 996 300" stroke="#0E1014" stroke-width="1.2" fill="none" stroke-dasharray="3 3" marker-end="url(#aInk)"/>
+
+  <!-- bypass win callout -->
+  <rect x="740" y="492" width="280" height="92" rx="2" fill="#F4ECD8" stroke="#C2A368" stroke-width="1"/>
+  <text x="756" y="514" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#7A5F1E">THE WIN</text>
+  <text x="756" y="534" font-size="12" fill="#0E1014">+ zero copies through system RAM</text>
+  <text x="756" y="552" font-size="12" fill="#0E1014">+ CPU + sys-mem BW freed</text>
+  <text x="756" y="570" font-size="12" fill="#0E1014">+ lower latency, higher eff. BW</text>
+
+  <!-- ===================== BOTTOM: THE UNIFYING PRINCIPLE ===================== -->
+  <line x1="120" y1="624" x2="1060" y2="624" stroke="#DFE2E7" stroke-width="1"/>
+  <text x="590" y="656" text-anchor="middle" font-size="14" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.06em" fill="#0E1014">ONE PRINCIPLE, THREE PLACES: GET THE CPU OUT OF THE DATA PATH</text>
+
+  <!-- three pillars -->
+  <rect x="120" y="676" width="290" height="150" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="265" y="702" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Networking</text>
+  <line x1="150" y1="714" x2="380" y2="714" stroke="#DFE2E7"/>
+  <text x="140" y="738" font-size="12" fill="#0E1014">RDMA / RoCE / InfiniBand</text>
+  <text x="140" y="760" font-size="11" font-style="italic" fill="#545963">bypasses the kernel TCP stack;</text>
+  <text x="140" y="776" font-size="11" font-style="italic" fill="#545963">NIC DMAs into app / GPU memory.</text>
+  <text x="140" y="802" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">verbs API · GPUDirect RDMA</text>
+
+  <rect x="445" y="676" width="290" height="150" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="590" y="702" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Storage</text>
+  <line x1="475" y1="714" x2="705" y2="714" stroke="#DFE2E7"/>
+  <text x="465" y="738" font-size="12" fill="#0E1014">NVMe-oF + GPUDirect Storage</text>
+  <text x="465" y="760" font-size="11" font-style="italic" fill="#545963">bypasses page cache + bounce</text>
+  <text x="465" y="776" font-size="11" font-style="italic" fill="#545963">buffer; DMAs straight to HBM.</text>
+  <text x="465" y="802" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">this diagram</text>
+
+  <rect x="770" y="676" width="290" height="150" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="915" y="702" text-anchor="middle" font-size="13" font-weight="500" fill="#0E1014">Compute / GPU-to-GPU</text>
+  <line x1="800" y1="714" x2="1030" y2="714" stroke="#DFE2E7"/>
+  <text x="790" y="738" font-size="12" fill="#0E1014">NVLink / NVSwitch + NCCL</text>
+  <text x="790" y="760" font-size="11" font-style="italic" fill="#545963">GPUs exchange gradients</text>
+  <text x="790" y="776" font-size="11" font-style="italic" fill="#545963">directly, no CPU staging.</text>
+  <text x="790" y="802" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">all-reduce / all-gather</text>
+</svg>

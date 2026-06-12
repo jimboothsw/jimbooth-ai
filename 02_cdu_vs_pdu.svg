@@ -1,0 +1,74 @@
+<svg viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif">
+  <defs>
+    <marker id="arrowInk" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#545963"/>
+    </marker>
+    <marker id="arrowSoft" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#9095A0"/>
+    </marker>
+    <marker id="arrowSoftStart" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto">
+      <polygon points="10 0, 0 5, 10 10" fill="#9095A0"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="500" y="44" text-anchor="middle" font-size="20" font-weight="500" fill="#0E1014">PDU vs CDU — different domains, similar names</text>
+
+  <!-- PDU box -->
+  <rect x="80" y="90" width="340" height="280" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="250" y="130" text-anchor="middle" font-size="24" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">PDU</text>
+  <text x="250" y="152" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">POWER DISTRIBUTION · ELECTRICAL</text>
+  <line x1="120" y1="170" x2="380" y2="170" stroke="#DFE2E7" stroke-width="1"/>
+
+  <text x="115" y="200" font-size="15" fill="#0E1014">Volts, Amps</text>
+  <text x="115" y="228" font-size="15" fill="#0E1014">kW (electrical)</text>
+  <text x="115" y="256" font-size="15" fill="#0E1014">Inrush current</text>
+  <text x="115" y="284" font-size="15" fill="#0E1014">Overload protection</text>
+  <text x="115" y="312" font-size="15" fill="#0E1014">Phase balance</text>
+
+  <!-- CDU box -->
+  <rect x="580" y="90" width="340" height="280" rx="2" fill="#EDEEF1" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="750" y="130" text-anchor="middle" font-size="24" font-weight="500" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#0E1014">CDU</text>
+  <text x="750" y="152" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">COOLANT DISTRIBUTION · THERMAL</text>
+  <line x1="620" y1="170" x2="880" y2="170" stroke="#DFE2E7" stroke-width="1"/>
+
+  <text x="615" y="200" font-size="15" fill="#0E1014">Flow rate (L/min)</text>
+  <text x="615" y="228" font-size="15" fill="#0E1014">ΔT (°C in/out)</text>
+  <text x="615" y="256" font-size="15" fill="#0E1014">Pressure (bar)</text>
+  <text x="615" y="284" font-size="15" fill="#0E1014">Heat rejection (kW thermal)</text>
+  <text x="615" y="312" font-size="15" fill="#0E1014">Coolant compatibility</text>
+
+  <!-- middle annotation -->
+  <text x="500" y="218" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">THE MODEL</text>
+  <text x="500" y="236" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">CONFLATED</text>
+  <text x="500" y="254" text-anchor="middle" font-size="12" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.08em" fill="#545963">THESE</text>
+  <path d="M 462 235 L 425 235" stroke="#545963" stroke-width="1.5" fill="none" marker-end="url(#arrowInk)"/>
+  <path d="M 538 235 L 575 235" stroke="#545963" stroke-width="1.5" fill="none" marker-end="url(#arrowInk)"/>
+
+  <!-- GPU Rack -->
+  <rect x="380" y="470" width="240" height="180" rx="2" fill="#FAFBFC" stroke="#0E1014" stroke-width="1.5"/>
+  <text x="500" y="498" text-anchor="middle" font-size="13" font-family="'IBM Plex Mono', ui-monospace, monospace" letter-spacing="0.05em" fill="#0E1014">150 KW GPU RACK</text>
+  <line x1="395" y1="515" x2="605" y2="515" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="395" y1="535" x2="605" y2="535" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="395" y1="555" x2="605" y2="555" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="395" y1="575" x2="605" y2="575" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="395" y1="595" x2="605" y2="595" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="395" y1="615" x2="605" y2="615" stroke="#DFE2E7" stroke-width="1"/>
+  <line x1="395" y1="635" x2="605" y2="635" stroke="#DFE2E7" stroke-width="1"/>
+
+  <!-- power cable from PDU to rack -->
+  <path d="M 250 370 L 250 410 L 420 410 L 420 470" stroke="#0E1014" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 285 410 L 295 403 L 305 417 L 315 403 L 325 417 L 335 403 L 345 410" stroke="#0E1014" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="340" y="440" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">power cable</text>
+
+  <!-- supply pipe -->
+  <path d="M 730 370 L 730 410 L 560 410 L 560 470" stroke="#0E1014" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#arrowInk)"/>
+  <text x="588" y="402" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#545963">supply</text>
+
+  <!-- return pipe -->
+  <path d="M 595 470 L 595 425 L 770 425 L 770 370" stroke="#9095A0" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#arrowSoft)"/>
+  <text x="632" y="445" font-size="11" font-family="'IBM Plex Mono', ui-monospace, monospace" fill="#9095A0">return</text>
+
+  <!-- caption -->
+  <text x="500" y="695" text-anchor="middle" font-size="13" font-style="italic" fill="#545963">Both bolt onto the same rack. They solve different problems.</text>
+</svg>
