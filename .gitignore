@@ -4,3 +4,4 @@ node_modules/
 .playwright-mcp/
 ruvector.db
 *.db
+.vercel
