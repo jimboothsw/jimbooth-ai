@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1010" width="960" height="1010" role="img" aria-labelledby="lcTitle lcDesc">
+  <title id="lcTitle">Layer coverage across seven bands of AI infrastructure</title>
+  <desc id="lcDesc">Seven horizontal bands from Physical, Thermal and Power up to Go-to-Market and Commercial. Four gray bars each span one or two bands, representing typical career tracks. A single line at right runs the full height, marking coverage of every band.</desc>
+
+  <style>
+    .sans { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.16em; fill: #9095A0; }
+    .title   { font-size: 34px; font-weight: 700; fill: #0E1014; letter-spacing: -0.01em; }
+    .sub     { font-size: 15px; font-weight: 400; fill: #545963; }
+    .colhead { font-size: 10.5px; letter-spacing: 0.1em; fill: #9095A0; }
+    .colhead-me { font-size: 10.5px; letter-spacing: 0.1em; fill: #0E1014; font-weight: 600; }
+    .lnum    { font-size: 11px; fill: #9095A0; letter-spacing: 0.04em; }
+    .lname   { font-size: 17px; font-weight: 600; fill: #0E1014; }
+    .capsoft { font-size: 14px; fill: #545963; }
+    .capink  { font-size: 14px; font-weight: 600; fill: #0E1014; }
+    .foot    { font-size: 10px; letter-spacing: 0.12em; fill: #9095A0; }
+  </style>
+
+  <rect width="960" height="1010" fill="#F4F5F7"/>
+
+  <!-- Header -->
+  <text class="mono eyebrow" x="56" y="58">LAYER COVERAGE</text>
+  <text class="sans title" x="56" y="100">The full height of the stack.</text>
+  <text class="sans sub" x="56" y="132">Seven bands of AI infrastructure. Most careers occupy one or two.</text>
+
+  <!-- Column headers -->
+  <text class="mono colhead" x="480" y="172" text-anchor="middle">GTM</text>
+  <text class="mono colhead" x="580" y="172" text-anchor="middle">ML</text>
+  <text class="mono colhead" x="680" y="172" text-anchor="middle">STORAGE</text>
+  <text class="mono colhead" x="780" y="172" text-anchor="middle">COOLING</text>
+  <text class="mono colhead-me" x="866" y="172" text-anchor="middle">JIM</text>
+
+  <line x1="56" y1="186" x2="904" y2="186" stroke="#0E1014" stroke-width="1.25"/>
+
+  <!-- Rows -->
+  <g>
+    <rect x="56" y="190" width="848" height="96" fill="#FAFBFC"/>
+    <rect x="56" y="286" width="848" height="96" fill="#EDEEF1"/>
+    <rect x="56" y="382" width="848" height="96" fill="#FAFBFC"/>
+    <rect x="56" y="478" width="848" height="96" fill="#EDEEF1"/>
+    <rect x="56" y="574" width="848" height="96" fill="#FAFBFC"/>
+    <rect x="56" y="670" width="848" height="96" fill="#EDEEF1"/>
+    <rect x="56" y="766" width="848" height="96" fill="#FAFBFC"/>
+  </g>
+  <g stroke="#E8EAEE" stroke-width="1">
+    <line x1="56" y1="286" x2="904" y2="286"/>
+    <line x1="56" y1="382" x2="904" y2="382"/>
+    <line x1="56" y1="478" x2="904" y2="478"/>
+    <line x1="56" y1="574" x2="904" y2="574"/>
+    <line x1="56" y1="670" x2="904" y2="670"/>
+    <line x1="56" y1="766" x2="904" y2="766"/>
+  </g>
+
+  <!-- Layer labels, L7 top to L1 bottom -->
+  <g>
+    <text class="mono lnum" x="76" y="234">L7</text>
+    <text class="sans lname" x="106" y="244">Go-to-Market &amp; Commercial</text>
+
+    <text class="mono lnum" x="76" y="330">L6</text>
+    <text class="sans lname" x="106" y="340">AI/ML Systems &amp; Agents</text>
+
+    <text class="mono lnum" x="76" y="426">L5</text>
+    <text class="sans lname" x="106" y="436">Orchestration &amp; Distributed</text>
+
+    <text class="mono lnum" x="76" y="522">L4</text>
+    <text class="sans lname" x="106" y="532">Cloud &amp; Platform</text>
+
+    <text class="mono lnum" x="76" y="618">L3</text>
+    <text class="sans lname" x="106" y="628">Networking &amp; Interconnect</text>
+
+    <text class="mono lnum" x="76" y="714">L2</text>
+    <text class="sans lname" x="106" y="724">Compute &amp; Storage Hardware</text>
+
+    <text class="mono lnum" x="76" y="810">L1</text>
+    <text class="sans lname" x="106" y="820">Physical · Thermal · Power</text>
+  </g>
+
+  <!-- Typical career tracks -->
+  <g fill="#C7CBD3">
+    <rect x="473" y="204" width="14" height="68"  rx="7"/>
+    <rect x="573" y="300" width="14" height="164" rx="7"/>
+    <rect x="673" y="588" width="14" height="164" rx="7"/>
+    <rect x="773" y="738" width="14" height="110" rx="7"/>
+  </g>
+
+  <!-- Full-height line -->
+  <line x1="866" y1="238" x2="866" y2="814" stroke="#0E1014" stroke-width="2"/>
+  <g fill="#0E1014">
+    <circle cx="866" cy="334" r="6"/>
+    <circle cx="866" cy="430" r="6"/>
+    <circle cx="866" cy="526" r="6"/>
+    <circle cx="866" cy="622" r="6"/>
+    <circle cx="866" cy="718" r="6"/>
+  </g>
+  <g>
+    <circle cx="866" cy="238" r="15" fill="none" stroke="#0E1014" stroke-width="2"/>
+    <circle cx="866" cy="238" r="6.5" fill="#0E1014"/>
+    <circle cx="866" cy="814" r="15" fill="none" stroke="#0E1014" stroke-width="2"/>
+    <circle cx="866" cy="814" r="6.5" fill="#0E1014"/>
+  </g>
+
+  <line x1="56" y1="862" x2="904" y2="862" stroke="#0E1014" stroke-width="1.25"/>
+
+  <!-- Caption -->
+  <text class="sans capsoft" x="56" y="898">Each gray bar is a real, valuable career, deep in its own band.</text>
+  <text class="sans capink" x="56" y="924">Mine has had to run the full height — physics through platform through model.</text>
+
+  <line x1="56" y1="960" x2="904" y2="960" stroke="#DFE2E7" stroke-width="1"/>
+  <text class="mono foot" x="56" y="984">JIM BOOTH</text>
+  <text class="mono foot" x="904" y="984" text-anchor="end">jimbooth.ai</text>
+</svg>
