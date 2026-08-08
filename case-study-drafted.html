@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/site.webmanifest">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: An Autonomous Agent System in Production — Jim Booth</title>
+<meta name="description" content="A production multi-agent system that sources, evaluates, writes, verifies, and packages real work unattended — with a watchdog, human approval gates, and daily production testing.">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:       #F4F5F7;
+    --paper-deep:  #EDEEF1;
+    --paper-card:  #FAFBFC;
+    --ink:         #0E1014;
+    --ink-soft:    #545963;
+    --ink-softer:  #9095A0;
+    --rule:        #DFE2E7;
+    --rule-soft:   #E8EAEE;
+    --fs-sans:     'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --fs-mono:     'IBM Plex Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper-card); color: var(--ink);
+    font-family: var(--fs-sans); font-size: 16px; line-height: 1.62; font-weight: 400;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 2rem; }
+
+  header.top {
+    display: flex; justify-content: space-between; align-items: center; gap: 2rem;
+    padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--rule); margin-bottom: 3.5rem;
+  }
+  .wordmark { font-weight: 500; font-size: 0.95rem; letter-spacing: -0.005em; color: var(--ink); text-decoration: none; }
+  .wordmark em { font-style: normal; color: var(--ink-softer); font-weight: 400; font-family: var(--fs-mono); font-size: 0.82rem; margin-left: 0.35rem; }
+  nav.primary a {
+    font-family: var(--fs-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--ink-soft); text-decoration: none; transition: color 0.25s ease;
+  }
+  nav.primary a:hover { color: var(--ink); }
+
+  .eyebrow { font-family: var(--fs-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-softer); margin-bottom: 1.1rem; }
+  h1 { font-size: 2.35rem; line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 1.1rem; }
+  .lede { font-size: 1.2rem; color: var(--ink-soft); font-weight: 300; margin-bottom: 1.4rem; }
+  h2 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; margin: 3.2rem 0 1rem; padding-top: 1.6rem; border-top: 1px solid var(--rule); }
+  h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.3rem; }
+  p { margin-bottom: 1.05rem; }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 2rem 0; }
+  .stat { background: var(--paper-card); padding: 1.1rem 1.2rem; }
+  .stat .n { font-family: var(--fs-mono); font-size: 1.5rem; font-weight: 500; color: var(--ink); }
+  .stat .l { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.25rem; }
+
+  .card { background: var(--paper); border: 1px solid var(--rule); border-radius: 2px; padding: 1.3rem 1.4rem; margin: 0.9rem 0; }
+  .card h3 .tag {
+    font-family: var(--fs-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 2px; padding: 0.15rem 0.45rem; margin-left: 0.5rem; vertical-align: middle;
+  }
+  .card p:last-child { margin-bottom: 0; }
+  .card .role { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 0.7rem; }
+
+  ul { margin: 0 0 1.05rem 1.2rem; }
+  li { margin-bottom: 0.55rem; }
+
+  .pull { border-left: 2px solid var(--ink); padding: 0.2rem 0 0.2rem 1.3rem; margin: 2rem 0; font-size: 1.15rem; font-weight: 300; color: var(--ink); }
+
+  .foot { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); font-size: 0.92rem; color: var(--ink-soft); }
+  .foot strong { color: var(--ink); }
+
+  footer.site { border-top: 1px solid var(--rule); margin-top: 4rem; padding: 2rem 0; font-family: var(--fs-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-softer); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <a href="/" class="wordmark">Jim Booth<em>jimbooth.ai</em></a>
+    <nav class="primary"><a href="/">&larr; Back</a></nav>
+  </header>
+
+  <p class="eyebrow">Case Study · Autonomous Agents in Production</p>
+  <h1>A multi-agent system that runs a business unattended.</h1>
+  <p class="lede">Not a demo. A production system that sources, evaluates, writes, verifies, and packages real work around the clock, with a watchdog watching the agents, human approval gates on anything that touches money, and a testing agent that exercises the whole pipeline in production every day.</p>
+
+  <p>Most AI-agent projects work in a demo and fall apart the moment they have to run without a person watching. The gap between an agent that works once and an agent system you can leave alone for a week while it handles real transactions is where nearly every initiative stalls. This is a walk through a system I designed, built, and operate that lives on the far side of that gap.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n">24/7</div><div class="l">Unattended, 10-minute work cadence</div></div>
+    <div class="stat"><div class="n">3 tiers</div><div class="l">Autonomous, scheduled, human-in-the-loop</div></div>
+    <div class="stat"><div class="n">7-door</div><div class="l">Daily production test battery, agent-driven</div></div>
+    <div class="stat"><div class="n">~10k</div><div class="l">Sources swept per sourcing run</div></div>
+  </div>
+
+  <h2>The context</h2>
+  <p>The business is a done-for-you service: a customer provides a goal, and the system produces finished, ready-to-use work products tailored to it. Every step a human would normally grind through, the research, the matching, the writing, the fact-checking, the assembly, is handled by agents. The interesting part for a technical buyer is not the domain. It is the operating model: <strong>the work is produced by autonomous agents, and a human only enters at the two points where judgment is legally or reputationally load-bearing.</strong></p>
+
+  <h2>The architecture</h2>
+
+  <div class="card">
+    <h3>The fulfillment loop <span class="tag">Fully autonomous</span></h3>
+    <p class="role">The core agent. Every 10 minutes it walks each open job through a state machine.</p>
+    <p>A reasoning agent onboards the input, builds a search profile, sources live candidate material, scores and evaluates each option against the goal, verifies every external link is genuinely live (an API check first, visual confirmation as a fallback), generates the tailored work products, and assembles the package. These are judgment calls, which options fit, which to discard, how to phrase the output, made by the agent rather than branches in a script. Critically, the loop is <strong>forbidden by design</strong> from the two irreversible actions: it cannot send anything to a customer and it cannot mark work delivered. Those require a human.</p>
+  </div>
+
+  <div class="card">
+    <h3>The watchdog <span class="tag">Reliability layer</span></h3>
+    <p>A supervisor process checks every 3 minutes whether the main loop is alive and making progress. If the loop dies, hangs, or the machine's state drifts, it restarts it. This is the layer most agent projects never build, and the reason <em>unattended</em> is a real claim here rather than an aspiration.</p>
+  </div>
+
+  <div class="card">
+    <h3>Self-refilling demand <span class="tag">Scheduled</span></h3>
+    <p>Cloud cron jobs generate the day's work queue automatically and manage time-sensitive follow-ups, so the autonomous loop always has something to do without a human loading the queue.</p>
+  </div>
+
+  <div class="card">
+    <h3>The daily production test agent <span class="tag">Verification</span></h3>
+    <p>Once a day, an agent drives a real browser through every path a customer can take, end to end, against the live production system, including deliberately forced failure cases (blocked scripts, server errors, broken states) to prove the system fails safely and never strands a user. It cleans up after itself and reports a pass/fail table. The system tests itself in production, every day, without me.</p>
+  </div>
+
+  <div class="card">
+    <h3>Human-in-the-loop assistants <span class="tag">Judgment gates</span></h3>
+    <p>A separate set of agents draft outbound communication and classify inbound replies, but never send. They prepare; the human approves and sends. Knowing <em>where</em> to place the human is as much of the engineering as the automation itself.</p>
+  </div>
+
+  <h2>What made it hard, and what that proves</h2>
+  <p>The demo version of any of this takes an afternoon. The production version took the reliability work that demos never show:</p>
+  <ul>
+    <li><strong>Money-touching correctness.</strong> Payment handling with duplicate-charge guards, reconciliation for missed confirmations, and idempotent state transitions. When money moves, usually-works is a liability, not a feature.</li>
+    <li><strong>Failure telemetry and self-diagnosis.</strong> The system instruments where it loses people and why, distinguishing a genuine product bug from a user changing their mind, so it improves from evidence rather than guesswork.</li>
+    <li><strong>Real-world input, not demo input.</strong> The failures that mattered came from the messy edge: an unusual filename a storage layer rejected, a mobile in-app browser dropping events, a database migration that silently had not been applied. Production breaks in ways a tutorial never shows, and the tests that catch those were written because those breaks happened.</li>
+    <li><strong>Guardrails as a first-class design concern.</strong> The most important architectural decisions were about what to <em>forbid</em> the agents from doing autonomously, not what to let them do.</li>
+  </ul>
+
+  <p class="pull">The rare skill is not wiring a model to some tools. It is operating an agent system in production, with real consequences, and knowing every way it breaks before it breaks.</p>
+
+  <h2>What this is for</h2>
+  <p>Companies right now are standing up agent initiatives, hitting the wall between a working demo and a system that survives production, and stalling there. I have already paid that tuition, with real transactions on the line, and I help teams get their agent systems across the same gap: from works-in-the-demo to runs-without-a-babysitter.</p>
+
+  <p class="foot">This is an engineering case study of a system I designed, built, and operate. It describes the architecture and the reliability work, not a revenue claim. If your team is stuck at the demo-to-production wall with an agent project, that is the problem I work on. &mdash; <strong>Jim Booth</strong></p>
+
+  <footer class="site">jimbooth.ai</footer>
+</div>
+</body>
+</html>
